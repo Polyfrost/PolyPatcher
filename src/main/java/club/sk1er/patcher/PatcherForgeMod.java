@@ -23,8 +23,7 @@ public class PatcherForgeMod {
         );
 
         registerEvents(
-            Patcher.instance.getSoundHandler(), new OverlayHandler(),
-            new GlanceRenderer()
+            new OverlayHandler(), new GlanceRenderer()
         );
     }
 

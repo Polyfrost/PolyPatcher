@@ -13,5 +13,6 @@ public class PatcherFabricMod implements ClientModInitializer {
         System.out.println("Post init");
         Patcher.instance.onInit(it -> it.forEach(KeyBindingHelper::registerKeyBinding));
         Patcher.instance.onPostInit();
+        Patcher.instance.onLoadComplete();
     }
 }

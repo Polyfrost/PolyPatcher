@@ -1,6 +1,10 @@
 package club.sk1er.patcher.util.world.sound;
 
 import cc.polyfrost.oneconfig.config.elements.BasicOption;
+import cc.polyfrost.oneconfig.events.event.Stage;
+import cc.polyfrost.oneconfig.events.event.TickEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
+import cc.polyfrost.patcher.events.SoundPlayEvent;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.config.PatcherSoundConfig;
 import club.sk1er.patcher.mixins.accessors.PositionedSoundAccessor;
@@ -14,9 +18,6 @@ import net.minecraft.client.audio.SoundManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.sound.PlaySoundEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.Display;
 
 import java.util.HashMap;
@@ -31,13 +32,9 @@ public class SoundHandler implements IResourceManagerReloadListener {
 
     private final Map<ResourceLocation, BasicOption> data = new HashMap<>();
 
-    @SubscribeEvent
-    public void onSound(PlaySoundEvent event) {
-        //#if MC==10809
-        ISound soundResult = event.result;
-        //#else
-        //$$ ISound soundResult = event.getResultSound();
-        //#endif
+    @Subscribe
+    public void onSound(SoundPlayEvent event) {
+        ISound soundResult = event.sound;
         if (soundResult instanceof PositionedSoundAccessor) {
             PositionedSoundAccessor result = (PositionedSoundAccessor) soundResult;
 
@@ -48,9 +45,9 @@ public class SoundHandler implements IResourceManagerReloadListener {
     private boolean previousActive;
     private float previousVolume = -1f;
 
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.START) return;
+    @Subscribe
+    public void onTick(TickEvent event) {
+        if (event.stage != Stage.START) return;
         boolean active = Display.isActive();
         if (active != previousActive) {
             previousActive = active;

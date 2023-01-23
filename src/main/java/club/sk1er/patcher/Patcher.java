@@ -83,7 +83,6 @@ public class Patcher {
     private final Set<String> blacklistedServers = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
     private final File blacklistedServersFile = new File("./config/blacklisted_servers.txt");
 
-    private SoundHandler soundHandler;
     private final SavesWatcher savesWatcher = new SavesWatcher();
     private final AudioSwitcher audioSwitcher = new AudioSwitcher();
 
@@ -109,7 +108,7 @@ public class Patcher {
         patcherConfig = PatcherConfig.INSTANCE;
         patcherSoundConfig = new PatcherSoundConfig(null, null);
 
-        this.soundHandler = new SoundHandler();
+        SoundHandler soundHandler = new SoundHandler();
         IReloadableResourceManager resourceManager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
         resourceManager.registerReloadListener(soundHandler);
         resourceManager.registerReloadListener(new ReloadListener());
@@ -122,7 +121,7 @@ public class Patcher {
         );
 
         registerOneconfigEvents(
-            this, audioSwitcher, new EntityRendering(),
+            this, audioSwitcher, soundHandler, new EntityRendering(),
             new FovHandler(), new ChatHandler(), new EntityCulling(),
             new ArmorStatusRenderer(), new PatcherMenuEditor(),
             new ImagePreview(), new TitleFix(), new LinuxKeybindFix(),
@@ -415,10 +414,6 @@ public class Patcher {
 
     public KeyBinding getClearShaders() {
         return clearShaders;
-    }
-
-    public SoundHandler getSoundHandler() {
-        return soundHandler;
     }
 
     public AudioSwitcher getAudioSwitcher() {
