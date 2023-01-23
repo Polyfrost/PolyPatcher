@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class GuiContainerMixin_MouseBindFix extends GuiScreen {
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void patcher$checkCloseClick(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
-        if (mouseButton - 100 == mc.gameSettings.keyBindInventory.getKeyCode()) {
-            mc.thePlayer.closeScreen();
+        if (mouseButton - 100 == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
+            this.mc.thePlayer.closeScreen();
             ci.cancel();
         }
     }

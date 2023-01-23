@@ -18,7 +18,7 @@ public abstract class GuiContainerMixin_SplitRemnants extends GuiScreen {
     @Inject(method = "updateDragSplitting", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;copy()Lnet/minecraft/item/ItemStack;"), cancellable = true)
     private void patcher$fixRemnants(CallbackInfo ci) {
         if (this.dragSplittingButton == 2) {
-            this.dragSplittingRemnant = mc.thePlayer.inventory.getItemStack().getMaxStackSize();
+            this.dragSplittingRemnant = this.mc.thePlayer.inventory.getItemStack().getMaxStackSize();
             ci.cancel();
         }
     }

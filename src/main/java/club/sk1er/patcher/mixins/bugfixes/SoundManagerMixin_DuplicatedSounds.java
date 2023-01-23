@@ -29,7 +29,7 @@ public abstract class SoundManagerMixin_DuplicatedSounds {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundManager$SoundSystemStarterThread;pause(Ljava/lang/String;)V", remap = false)
     )
     private void patcher$onlyPauseSoundIfNecessary(@Coerce SoundSystem soundSystem, String sound) {
-        if (isSoundPlaying(playingSounds.get(sound))) {
+        if (isSoundPlaying(this.playingSounds.get(sound))) {
             soundSystem.pause(sound);
             patcher$pausedSounds.add(sound);
         }

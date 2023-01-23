@@ -26,11 +26,11 @@ public class ConfirmQuitScreen extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         this.drawCenteredString(
-            mc.fontRendererObj, "Would you like to close the game?",
+            this.mc.fontRendererObj, "Would you like to close the game?",
             width / 2, (height / 2) - 24, -1
         );
         this.drawCenteredString(
-            mc.fontRendererObj, ChatColor.YELLOW + "This can be disabled in Patcher's settings.",
+            this.mc.fontRendererObj, ChatColor.YELLOW + "This can be disabled in Patcher's settings.",
             width / 2, (height / 2) - 12, -1
         );
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -39,9 +39,9 @@ public class ConfirmQuitScreen extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == 0) {
-            mc.shutdown();
+            this.mc.shutdown();
         } else if (button.id == 1) {
-            mc.displayGuiScreen(this.parentScreen);
+            this.mc.displayGuiScreen(this.parentScreen);
         }
 
         super.actionPerformed(button);

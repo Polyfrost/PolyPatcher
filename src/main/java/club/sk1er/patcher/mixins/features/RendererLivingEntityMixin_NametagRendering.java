@@ -23,7 +23,7 @@ public abstract class RendererLivingEntityMixin_NametagRendering<T extends Entit
     @Inject(method = "canRenderName(Lnet/minecraft/entity/EntityLivingBase;)Z", at = @At("HEAD"), cancellable = true)
     private void handleBetterF1AndShowOwnNametag(T entity, CallbackInfoReturnable<Boolean> cir) {
         if (PatcherConfig.betterHideGui && !Minecraft.isGuiEnabled()) cir.setReturnValue(false);
-        else if (entity == renderManager.livingPlayer && !entity.isInvisible() && PatcherConfig.showOwnNametag) cir.setReturnValue(true);
+        else if (entity == this.renderManager.livingPlayer && !entity.isInvisible() && PatcherConfig.showOwnNametag) cir.setReturnValue(true);
     }
 
     //#if MC==10809

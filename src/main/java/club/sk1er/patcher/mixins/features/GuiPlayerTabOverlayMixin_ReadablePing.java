@@ -23,7 +23,7 @@ public class GuiPlayerTabOverlayMixin_ReadablePing {
     private void patcher$drawNumberPing(int offset, int xPosition, int yPosition, NetworkPlayerInfo info, CallbackInfo ci) {
         if (PatcherConfig.numberPing) {
             int ping = info.getResponseTime();
-            int x = (xPosition + offset) - (mc.fontRendererObj.getStringWidth(String.valueOf(ping)) >> 1) - 2;
+            int x = (xPosition + offset) - (this.mc.fontRendererObj.getStringWidth(String.valueOf(ping)) >> 1) - 2;
             int y = yPosition + 2;
 
             int color;
@@ -46,7 +46,7 @@ public class GuiPlayerTabOverlayMixin_ReadablePing {
 
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5f, 0.5f, 0.5f);
-            mc.fontRendererObj.drawStringWithShadow("   " + (ping == 0 ? "?" : ping), (2 * x) - 10, 2 * y, color);
+            this.mc.fontRendererObj.drawStringWithShadow("   " + (ping == 0 ? "?" : ping), (2 * x) - 10, 2 * y, color);
             GlStateManager.scale(2.0f, 2.0f, 2.0f);
             GlStateManager.popMatrix();
             ci.cancel();

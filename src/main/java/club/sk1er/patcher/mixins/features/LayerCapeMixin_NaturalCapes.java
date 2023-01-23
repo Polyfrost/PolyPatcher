@@ -113,7 +113,7 @@ public class LayerCapeMixin_NaturalCapes {
             GlStateManager.rotate(angle3, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 
-            playerRenderer.getMainModel().renderCape(0.0625F);
+            this.playerRenderer.getMainModel().renderCape(0.0625F);
             GlStateManager.popMatrix();
             ci.cancel();
         }

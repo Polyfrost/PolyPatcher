@@ -22,8 +22,8 @@ public abstract class GuiIngameForgeMixin_FixProfilerSection extends GuiIngame {
         remap = false
     )
     private void patcher$fixProfilerSectionNotEnding(int width, int height, CallbackInfo ci) {
-        if (mc.mcProfiler.getNameOfLastSection().endsWith("chat")) {
-            mc.mcProfiler.endSection();
+        if (this.mc.mcProfiler.getNameOfLastSection().endsWith("chat")) {
+            this.mc.mcProfiler.endSection();
         }
     }
 }

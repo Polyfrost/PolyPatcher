@@ -30,7 +30,7 @@ public class EntityRendererMixin_LeftHandedness {
     private void patcher$flipHandSide(CallbackInfo ci) {
         ItemRendererHook.isRenderingItemInFirstPerson = true;
         if (PatcherConfig.leftHandInFirstPerson) {
-            ItemStack itemToRender = ((ItemRendererAccessor) itemRenderer).getItemToRender();
+            ItemStack itemToRender = ((ItemRendererAccessor) this.itemRenderer).getItemToRender();
             if (itemToRender == null || !(itemToRender.getItem() instanceof ItemMap)) {
                 GlStateManager.scale(-1, 1, 1);
                 GL11.glFrontFace(GL11.GL_CW);

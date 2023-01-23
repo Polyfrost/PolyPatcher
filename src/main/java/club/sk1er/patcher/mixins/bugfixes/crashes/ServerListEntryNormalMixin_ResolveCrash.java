@@ -21,7 +21,7 @@ public abstract class ServerListEntryNormalMixin_ResolveCrash {
             prepareServerIcon();
         } catch (Exception e) {
             Patcher.instance.getLogger().error("Failed to prepare server icon, setting to default.", e);
-            server.setBase64EncodedIconData(null);
+            this.server.setBase64EncodedIconData(null);
         }
     }
 }

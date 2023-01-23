@@ -33,7 +33,7 @@ public class ScreenShotHelperMixin_ScreenshotManager {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Inject(method = "saveScreenshot(Ljava/io/File;Ljava/lang/String;IILnet/minecraft/client/shader/Framebuffer;)Lnet/minecraft/util/IChatComponent;", at = @At("HEAD"), cancellable = true)
-    private static void patcher$screenshotManager(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer, CallbackInfoReturnable<IChatComponent> cir) {
+    private static void patcher$screenshotManager(File gameDirectory, String screenshotName, int width, int height, Framebuffer framebuffer, CallbackInfoReturnable<IChatComponent> cir) {
         if (PatcherConfig.screenshotManager && (!Patcher.instance.isEssential() || EssentialAPI.getConfig().getEssentialScreenshots())) {
             File screenshotDirectory = new File(Minecraft.getMinecraft().mcDataDir, "screenshots");
             if (!screenshotDirectory.exists()) {
@@ -41,30 +41,33 @@ public class ScreenShotHelperMixin_ScreenshotManager {
             }
 
             if (OpenGlHelper.isFramebufferEnabled()) {
-                width = buffer.framebufferTextureWidth;
-                height = buffer.framebufferTextureHeight;
+                width = framebuffer.framebufferTextureWidth;
+                height = framebuffer.framebufferTextureHeight;
             }
 
             int scale = width * height;
 
-            if (pixelBuffer == null || pixelBuffer.capacity() < scale) {
-                pixelBuffer = BufferUtils.createIntBuffer(scale);
-                pixelValues = new int[scale];
+            IntBuffer buffer = ScreenShotHelperMixin_ScreenshotManager.pixelBuffer;
+            int[] values = ScreenShotHelperMixin_ScreenshotManager.pixelValues;
+
+            if (buffer == null || buffer.capacity() < scale) {
+                buffer = BufferUtils.createIntBuffer(scale);
+                values = new int[scale];
             }
 
             GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
             GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-            pixelBuffer.clear();
+            buffer.clear();
 
             if (OpenGlHelper.isFramebufferEnabled()) {
-                GlStateManager.bindTexture(buffer.framebufferTexture);
-                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+                GlStateManager.bindTexture(framebuffer.framebufferTexture);
+                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, buffer);
             } else {
-                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, buffer);
             }
 
-            pixelBuffer.get(pixelValues);
-            Multithreading.runAsync(new AsyncScreenshots(width, height, pixelValues, screenshotDirectory));
+            buffer.get(values);
+            Multithreading.runAsync(new AsyncScreenshots(width, height, values, screenshotDirectory));
 
             EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
             if (player != null && !PatcherConfig.screenshotNoFeedback) {
@@ -72,6 +75,9 @@ public class ScreenShotHelperMixin_ScreenshotManager {
             }
 
             cir.setReturnValue(new ChatComponentText(AsyncScreenshots.prefix + "Capturing screenshot."));
+
+            ScreenShotHelperMixin_ScreenshotManager.pixelBuffer = buffer;
+            ScreenShotHelperMixin_ScreenshotManager.pixelValues = values;
         }
     }
 }

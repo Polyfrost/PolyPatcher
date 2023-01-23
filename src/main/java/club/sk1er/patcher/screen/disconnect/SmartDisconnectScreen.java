@@ -27,8 +27,8 @@ public class SmartDisconnectScreen extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
-        this.drawCenteredString(mc.fontRendererObj, "Would you like to disconnect, or relog?", (width >> 1), (height >> 1) - 24, -1);
-        this.drawCenteredString(mc.fontRendererObj, ChatColor.YELLOW + "This can be disabled in Patcher's settings.", (width >> 1), (height >> 1) - 12, -1);
+        this.drawCenteredString(this.mc.fontRendererObj, "Would you like to disconnect, or relog?", (width >> 1), (height >> 1) - 24, -1);
+        this.drawCenteredString(this.mc.fontRendererObj, ChatColor.YELLOW + "This can be disabled in Patcher's settings.", (width >> 1), (height >> 1) - 12, -1);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -45,8 +45,8 @@ public class SmartDisconnectScreen extends GuiScreen {
 
             case 1:
                 // store ip to log in with
-                String ip = mc.getCurrentServerData().serverIP;
-                String name = mc.getCurrentServerData().serverName;
+                String ip = this.mc.getCurrentServerData().serverIP;
+                String name = this.mc.getCurrentServerData().serverName;
                 GuiMultiplayer multiplayer = new GuiMultiplayer(new GuiMainMenu());
 
                 // disconnect
@@ -56,7 +56,7 @@ public class SmartDisconnectScreen extends GuiScreen {
                 this.mc.displayGuiScreen(multiplayer);
 
                 // reconnect
-                multiplayer.setWorldAndResolution(mc, width, height);
+                multiplayer.setWorldAndResolution(this.mc, width, height);
                 GuiMultiplayerAccessor accessor = (GuiMultiplayerAccessor) multiplayer;
                 accessor.setDirectConnect(true);
                 accessor.setSelectedServer(new ServerData(name, ip, false));

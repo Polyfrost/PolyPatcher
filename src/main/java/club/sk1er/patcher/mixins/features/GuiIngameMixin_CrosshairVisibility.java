@@ -20,7 +20,7 @@ public class GuiIngameMixin_CrosshairVisibility {
 
     @Inject(method = "showCrosshair", at = @At("HEAD"), cancellable = true)
     private void patcher$checkStates(CallbackInfoReturnable<Boolean> cir) {
-        if ((PatcherConfig.guiCrosshair && mc.currentScreen != null) || (PatcherConfig.crosshairPerspective && mc.gameSettings.thirdPersonView != 0)) {
+        if ((PatcherConfig.guiCrosshair && this.mc.currentScreen != null) || (PatcherConfig.crosshairPerspective && this.mc.gameSettings.thirdPersonView != 0)) {
             cir.setReturnValue(false);
         }
     }
