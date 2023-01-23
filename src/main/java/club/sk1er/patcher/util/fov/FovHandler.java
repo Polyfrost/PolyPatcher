@@ -2,7 +2,7 @@ package club.sk1er.patcher.util.fov;
 
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.FovUpdateEvent;
+import cc.polyfrost.patcher.events.FovUpdateEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;

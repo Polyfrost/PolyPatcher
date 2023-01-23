@@ -1,21 +1,8 @@
 //#if FORGE==1
 package club.sk1er.patcher;
 
-import club.sk1er.patcher.hooks.EntityRendererHook;
-import club.sk1er.patcher.screen.PatcherMenuEditor;
-import club.sk1er.patcher.screen.render.caching.HUDCaching;
-import club.sk1er.patcher.screen.render.overlay.ArmorStatusRenderer;
 import club.sk1er.patcher.screen.render.overlay.GlanceRenderer;
-import club.sk1er.patcher.screen.render.overlay.ImagePreview;
 import club.sk1er.patcher.screen.render.overlay.OverlayHandler;
-import club.sk1er.patcher.screen.render.overlay.metrics.MetricsRenderer;
-import club.sk1er.patcher.screen.render.title.TitleFix;
-import club.sk1er.patcher.util.chat.ChatHandler;
-import club.sk1er.patcher.util.fov.FovHandler;
-import club.sk1er.patcher.util.keybind.MousePerspectiveKeybindHandler;
-import club.sk1er.patcher.util.keybind.linux.LinuxKeybindFix;
-import club.sk1er.patcher.util.world.render.culling.EntityCulling;
-import club.sk1er.patcher.util.world.render.entity.EntityRendering;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -36,13 +23,8 @@ public class PatcherForgeMod {
         );
 
         registerEvents(
-            Patcher.instance.getSoundHandler(), Patcher.instance.getAudioSwitcher(),
-            new OverlayHandler(), new EntityRendering(), new FovHandler(),
-            new ChatHandler(), new GlanceRenderer(), new EntityCulling(),
-            new ArmorStatusRenderer(), new PatcherMenuEditor(), new ImagePreview(),
-            new TitleFix(), new LinuxKeybindFix(),
-            new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
-            new MousePerspectiveKeybindHandler()
+            Patcher.instance.getSoundHandler(), new OverlayHandler(),
+            new GlanceRenderer()
         );
     }
 

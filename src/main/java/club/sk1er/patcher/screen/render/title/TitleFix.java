@@ -1,7 +1,7 @@
 package club.sk1er.patcher.screen.render.title;
 
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
-import club.sk1er.patcher.events.ServerLeaveEvent;
+import cc.polyfrost.patcher.events.ServerLeaveEvent;
 import club.sk1er.patcher.mixins.accessors.GuiIngameAccessor;
 import net.minecraft.client.Minecraft;
 

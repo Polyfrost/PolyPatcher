@@ -3,7 +3,7 @@ package club.sk1er.patcher.util.keybind.linux;
 import cc.polyfrost.oneconfig.events.event.KeyInputEvent;
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.ScreenEvent;
+import cc.polyfrost.patcher.events.ScreenEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;

@@ -3,7 +3,7 @@ package club.sk1er.patcher.screen.render.overlay.metrics;
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import cc.polyfrost.oneconfig.libs.universal.UResolution;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.HudDebugRenderEvent;
+import cc.polyfrost.patcher.events.HudDebugRenderEvent;
 import club.sk1er.patcher.hooks.MinecraftHook;
 import club.sk1er.patcher.hooks.MinecraftServerHook;
 import net.minecraft.client.Minecraft;

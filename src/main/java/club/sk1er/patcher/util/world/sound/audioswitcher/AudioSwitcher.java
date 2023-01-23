@@ -1,14 +1,14 @@
 package club.sk1er.patcher.util.world.sound.audioswitcher;
 
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
+import cc.polyfrost.oneconfig.utils.Notifications;
+import cc.polyfrost.patcher.events.ScreenEvent;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
-import cc.polyfrost.oneconfig.utils.Notifications;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenOptionsSounds;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +23,10 @@ public class AudioSwitcher {
     private boolean changedDevice;
     private int buttonYPosition;
 
-    @SubscribeEvent
-    public void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
-        //#if MC==10809
-        GuiScreen gui = event.gui;
+    @Subscribe
+    public void initGui(ScreenEvent.Init event) {
+        GuiScreen gui = event.screen;
         List<GuiButton> buttonList = event.buttonList;
-        //#else
-        //$$ GuiScreen gui = event.getGui();
-        //$$ List<GuiButton> buttonList = event.getButtonList();
-        //#endif
 
         if (gui instanceof GuiScreenOptionsSounds) {
             this.previousWasOptionsSounds = true;
@@ -76,30 +71,20 @@ public class AudioSwitcher {
         }
     }
 
-    @SubscribeEvent
-    public void drawScreen(GuiScreenEvent.DrawScreenEvent.Post event) {
-        //#if MC==10809
-        GuiScreen gui = event.gui;
-        //#else
-        //$$ GuiScreen gui = event.getGui();
-        //#endif
+    @Subscribe
+    public void drawScreen(ScreenEvent.Draw.Post event) {
+        GuiScreen gui = event.screen;
 
         if (gui instanceof GuiScreenOptionsSounds) {
             gui.drawCenteredString(this.mc.fontRendererObj, "Sound Device (Click to Change)", gui.width / 2, this.buttonYPosition - 12, -1);
         }
     }
 
-    @SubscribeEvent
-    public void actionPerformed(GuiScreenEvent.ActionPerformedEvent event) {
-        //#if MC==10809
-        GuiScreen gui = event.gui;
+    @Subscribe
+    public void actionPerformed(ScreenEvent.Action.Pre event) {
+        GuiScreen gui = event.screen;
         GuiButton button = event.button;
         int buttonId = button.id;
-        //#else
-        //$$ GuiScreen gui = event.getGui();
-        //$$ GuiButton button = event.getButton();
-        //$$ int buttonId = button.id;
-        //#endif
 
         if (gui instanceof GuiScreenOptionsSounds && buttonId == 38732) {
             this.fetchAvailableDevicesUncached();
@@ -126,7 +111,7 @@ public class AudioSwitcher {
             PatcherConfig.selectedAudioDevice = selectedAudioDevice;
             button.displayString = buttonText;
             if (!this.changedDevice) this.changedDevice = true;
-            event.setCanceled(true);
+            event.isCancelled = true;
         }
     }
 

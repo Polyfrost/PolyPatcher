@@ -1,4 +1,4 @@
-package club.sk1er.patcher.events;
+package cc.polyfrost.patcher.events;
 
 import net.minecraft.entity.player.EntityPlayer;
 

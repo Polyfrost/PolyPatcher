@@ -6,7 +6,7 @@ import cc.polyfrost.oneconfig.events.event.TickEvent;
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.LivingEntityRenderEvent;
+import cc.polyfrost.patcher.events.LivingEntityRenderEvent;
 import club.sk1er.patcher.mixins.accessors.RenderManagerAccessor;
 import club.sk1er.patcher.util.chat.ChatUtilities;
 import cc.polyfrost.oneconfig.libs.universal.UDesktop;
@@ -44,7 +44,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Used for stopping entities from rendering if they are not visible to the player
  * <p>
- * Subsequent entity on entity occlusion derived from https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection
+ * Subsequent entity on entity occlusion derived from
+ * <a href="https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection">wikipedia.org</a>
  */
 public class EntityCulling {
 

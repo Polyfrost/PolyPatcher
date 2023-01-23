@@ -1,4 +1,4 @@
-package club.sk1er.patcher.events;
+package cc.polyfrost.patcher.events;
 
 public class ServerJoinEvent { //todo implement
     public final boolean isLocal;

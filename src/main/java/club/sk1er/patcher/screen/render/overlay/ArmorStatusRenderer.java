@@ -2,7 +2,7 @@ package club.sk1er.patcher.screen.render.overlay;
 
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.ScreenEvent;
+import cc.polyfrost.patcher.events.ScreenEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;

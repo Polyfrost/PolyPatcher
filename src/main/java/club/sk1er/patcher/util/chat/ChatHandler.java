@@ -1,24 +1,22 @@
 package club.sk1er.patcher.util.chat;
 
 import cc.polyfrost.oneconfig.events.event.ChatReceiveEvent;
+import cc.polyfrost.oneconfig.events.event.Stage;
+import cc.polyfrost.oneconfig.events.event.TickEvent;
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
+import cc.polyfrost.oneconfig.libs.universal.ChatColor;
 import cc.polyfrost.oneconfig.libs.universal.UGraphics;
 import cc.polyfrost.oneconfig.platform.Platform;
+import cc.polyfrost.patcher.events.ChatRenderEvent;
+import cc.polyfrost.patcher.events.WorldLoadEvent;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.ChatRenderEvent;
 import club.sk1er.patcher.mixins.accessors.GuiNewChatAccessor;
-import cc.polyfrost.oneconfig.libs.universal.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentStyle;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
@@ -102,9 +100,9 @@ public class ChatHandler {
         }
     }
 
-    @SubscribeEvent
-    public void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
+    @Subscribe
+    public void tick(TickEvent event) {
+        if (event.stage == Stage.START) {
             if (ticks++ >= 12000) {
                 long time = System.currentTimeMillis();
                 for (Map.Entry<Integer, ChatEntry> entry : chatMessageMap.entrySet()) {
@@ -118,21 +116,17 @@ public class ChatHandler {
         }
     }
 
-    @SubscribeEvent
-    public void setChatMessageMap(ClientChatReceivedEvent event) {
-        //#if MC==10809
+    @Subscribe
+    public void setChatMessageMap(ChatReceiveEvent event) {
         IChatComponent message = event.message;
-        //#else
-        //$$ ITextComponent message = event.getMessage();
-        //#endif
         String clearMessage = cleanColor(message.getFormattedText()).trim();
         if (clearMessage.isEmpty() && PatcherConfig.removeBlankMessages) {
-            event.setCanceled(true);
+            event.isCancelled = true;
         }
     }
 
-    @SubscribeEvent
-    public void changeWorld(WorldEvent.Load event) {
+    @Subscribe
+    public void changeWorld(WorldLoadEvent event) {
         ticks = 0;
     }
 
@@ -307,6 +301,7 @@ public class ChatHandler {
         } else {
             for (int i = 0; i < clean.length(); i++) {
                 final char c = clean.charAt(i);
+                //noinspection UnnecessaryUnicodeEscape
                 if (c != '-' && c != '=' && c != '\u25AC') {
                     divider = false;
                     break;

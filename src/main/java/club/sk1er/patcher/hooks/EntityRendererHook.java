@@ -2,7 +2,7 @@ package club.sk1er.patcher.hooks;
 
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.WorldPostRenderEvent;
+import cc.polyfrost.patcher.events.WorldPostRenderEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 //#if MC==11202

@@ -6,7 +6,7 @@ import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import cc.polyfrost.oneconfig.platform.Platform;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.ScreenEvent;
+import cc.polyfrost.patcher.events.ScreenEvent;
 import club.sk1er.patcher.mixins.accessors.GuiMainMenuAccessor;
 import club.sk1er.patcher.screen.disconnect.SmartDisconnectScreen;
 import club.sk1er.patcher.screen.quit.ConfirmQuitScreen;

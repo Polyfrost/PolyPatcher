@@ -15,17 +15,30 @@ import club.sk1er.patcher.commands.PatcherCommand;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.config.PatcherSoundConfig;
 import club.sk1er.patcher.ducks.FontRendererExt;
+import club.sk1er.patcher.hooks.EntityRendererHook;
 import club.sk1er.patcher.hooks.MinecraftHook;
 import club.sk1er.patcher.mixins.features.network.packet.C01PacketChatMessageMixin_ExtendedChatLength;
 import club.sk1er.patcher.render.ScreenshotPreview;
+import club.sk1er.patcher.screen.PatcherMenuEditor;
+import club.sk1er.patcher.screen.render.caching.HUDCaching;
+import club.sk1er.patcher.screen.render.overlay.ArmorStatusRenderer;
+import club.sk1er.patcher.screen.render.overlay.ImagePreview;
+import club.sk1er.patcher.screen.render.overlay.metrics.MetricsRenderer;
+import club.sk1er.patcher.screen.render.title.TitleFix;
 import club.sk1er.patcher.tweaker.PatcherTweaker;
+import club.sk1er.patcher.util.chat.ChatHandler;
 import club.sk1er.patcher.util.enhancement.EnhancementManager;
 import club.sk1er.patcher.util.enhancement.ReloadListener;
+import club.sk1er.patcher.util.fov.FovHandler;
 import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
 import club.sk1er.patcher.util.keybind.KeybindDropModifier;
+import club.sk1er.patcher.util.keybind.MousePerspectiveKeybindHandler;
+import club.sk1er.patcher.util.keybind.linux.LinuxKeybindFix;
 import club.sk1er.patcher.util.screenshot.AsyncScreenshots;
 import club.sk1er.patcher.util.status.ProtocolVersionDetector;
 import club.sk1er.patcher.util.world.SavesWatcher;
+import club.sk1er.patcher.util.world.render.culling.EntityCulling;
+import club.sk1er.patcher.util.world.render.entity.EntityRendering;
 import club.sk1er.patcher.util.world.sound.SoundHandler;
 import club.sk1er.patcher.util.world.sound.audioswitcher.AudioSwitcher;
 import com.google.gson.JsonObject;
@@ -109,8 +122,12 @@ public class Patcher {
         );
 
         registerOneconfigEvents(
-            this,
-            MinecraftHook.INSTANCE,
+            this, audioSwitcher, new EntityRendering(),
+            new FovHandler(), new ChatHandler(), new EntityCulling(),
+            new ArmorStatusRenderer(), new PatcherMenuEditor(),
+            new ImagePreview(), new TitleFix(), new LinuxKeybindFix(),
+            new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
+            new MousePerspectiveKeybindHandler(), MinecraftHook.INSTANCE,
             ScreenshotPreview.INSTANCE
         );
 

@@ -2,7 +2,7 @@ package club.sk1er.patcher.util.world.render.entity;
 
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.events.LivingEntityRenderEvent;
+import cc.polyfrost.patcher.events.LivingEntityRenderEvent;
 import club.sk1er.patcher.util.world.render.culling.EntityCulling;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
