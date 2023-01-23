@@ -1,16 +1,16 @@
 package club.sk1er.patcher.render
 
+import cc.polyfrost.oneconfig.events.event.HudRenderEvent
 import club.sk1er.patcher.config.PatcherConfig
-import gg.essential.elementa.ElementaVersion
-import gg.essential.elementa.UIComponent
-import gg.essential.elementa.components.UIImage
-import gg.essential.elementa.components.Window
-import gg.essential.elementa.constraints.RelativeConstraint
-import gg.essential.elementa.constraints.animation.Animations
-import gg.essential.elementa.dsl.*
-import gg.essential.universal.UMatrixStack
-import net.minecraftforge.client.event.RenderGameOverlayEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import cc.polyfrost.oneconfig.libs.elementa.ElementaVersion
+import cc.polyfrost.oneconfig.libs.elementa.UIComponent
+import cc.polyfrost.oneconfig.libs.elementa.components.UIImage
+import cc.polyfrost.oneconfig.libs.elementa.components.Window
+import cc.polyfrost.oneconfig.libs.elementa.constraints.RelativeConstraint
+import cc.polyfrost.oneconfig.libs.elementa.constraints.animation.Animations
+import cc.polyfrost.oneconfig.libs.elementa.dsl.*
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe
+import cc.polyfrost.oneconfig.libs.universal.UMatrixStack
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.util.concurrent.CompletableFuture
@@ -19,14 +19,13 @@ object ScreenshotPreview {
 
     private var currentWindow: Window? = null
 
-    @SubscribeEvent
-    fun renderScreenshot(event: RenderGameOverlayEvent.Post) {
-        if (event.type != RenderGameOverlayEvent.ElementType.TEXT) return
+    @Subscribe
+    fun renderScreenshot(event: HudRenderEvent) {
         this.currentWindow?.draw(UMatrixStack.Compat.get())
     }
 
     fun newCapture(image: BufferedImage) {
-        this.currentWindow = Window(ElementaVersion.V1)
+        this.currentWindow = Window(ElementaVersion.V2)
         this.instantiateComponents(image)
     }
 

@@ -7,7 +7,7 @@ import cc.polyfrost.oneconfig.platform.Platform;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.events.ChatRenderEvent;
 import club.sk1er.patcher.mixins.accessors.GuiNewChatAccessor;
-import gg.essential.universal.ChatColor;
+import cc.polyfrost.oneconfig.libs.universal.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.event.HoverEvent;
