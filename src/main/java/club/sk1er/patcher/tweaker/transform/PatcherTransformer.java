@@ -1,5 +1,6 @@
 package club.sk1er.patcher.tweaker.transform;
 
+import cc.polyfrost.oneconfig.platform.Platform;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import org.objectweb.asm.Opcodes;
@@ -116,7 +117,6 @@ public interface PatcherTransformer {
     }
 
     default boolean isDevelopment() {
-        Object o = Launch.blackboard.get("fml.deobfuscatedEnvironment");
-        return o != null && (boolean) o;
+        return Platform.getInstance().isDevelopmentEnvironment();
     }
 }

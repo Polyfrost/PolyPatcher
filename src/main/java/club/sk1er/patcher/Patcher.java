@@ -1,6 +1,12 @@
 package club.sk1er.patcher;
 
+import cc.polyfrost.oneconfig.events.EventManager;
+import cc.polyfrost.oneconfig.events.event.Stage;
+import cc.polyfrost.oneconfig.events.event.TickEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import cc.polyfrost.oneconfig.libs.universal.UDesktop;
+import cc.polyfrost.oneconfig.platform.LoaderPlatform;
+import cc.polyfrost.oneconfig.platform.Platform;
 import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import cc.polyfrost.oneconfig.utils.Notifications;
 import cc.polyfrost.oneconfig.utils.commands.CommandManager;
@@ -9,32 +15,17 @@ import club.sk1er.patcher.commands.PatcherCommand;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.config.PatcherSoundConfig;
 import club.sk1er.patcher.ducks.FontRendererExt;
-import club.sk1er.patcher.hooks.EntityRendererHook;
 import club.sk1er.patcher.hooks.MinecraftHook;
 import club.sk1er.patcher.mixins.features.network.packet.C01PacketChatMessageMixin_ExtendedChatLength;
 import club.sk1er.patcher.render.ScreenshotPreview;
-import club.sk1er.patcher.screen.PatcherMenuEditor;
-import club.sk1er.patcher.screen.render.caching.HUDCaching;
-import club.sk1er.patcher.screen.render.overlay.ArmorStatusRenderer;
-import club.sk1er.patcher.screen.render.overlay.GlanceRenderer;
-import club.sk1er.patcher.screen.render.overlay.ImagePreview;
-import club.sk1er.patcher.screen.render.overlay.OverlayHandler;
-import club.sk1er.patcher.screen.render.overlay.metrics.MetricsRenderer;
-import club.sk1er.patcher.screen.render.title.TitleFix;
 import club.sk1er.patcher.tweaker.PatcherTweaker;
-import club.sk1er.patcher.util.chat.ChatHandler;
 import club.sk1er.patcher.util.enhancement.EnhancementManager;
 import club.sk1er.patcher.util.enhancement.ReloadListener;
-import club.sk1er.patcher.util.fov.FovHandler;
 import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
 import club.sk1er.patcher.util.keybind.KeybindDropModifier;
-import club.sk1er.patcher.util.keybind.MousePerspectiveKeybindHandler;
-import club.sk1er.patcher.util.keybind.linux.LinuxKeybindFix;
 import club.sk1er.patcher.util.screenshot.AsyncScreenshots;
 import club.sk1er.patcher.util.status.ProtocolVersionDetector;
 import club.sk1er.patcher.util.world.SavesWatcher;
-import club.sk1er.patcher.util.world.render.culling.EntityCulling;
-import club.sk1er.patcher.util.world.render.entity.EntityRendering;
 import club.sk1er.patcher.util.world.sound.SoundHandler;
 import club.sk1er.patcher.util.world.sound.audioswitcher.AudioSwitcher;
 import com.google.gson.JsonObject;
@@ -42,19 +33,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.common.ForgeVersion;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,19 +43,22 @@ import java.io.*;
 import java.net.URI;
 import java.util.List;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@Mod(modid = "patcher", name = "Patcher", version = Patcher.VERSION, clientSideOnly = true)
 public class Patcher {
 
-    @Mod.Instance("patcher")
     public static Patcher instance;
+
+    Patcher() {
+        instance = this;
+    }
 
     // normal versions will be "1.x.x"
     // betas will be "1.x.x+beta-y" / "1.x.x+branch_beta-y"
     // rcs will be 1.x.x+rc-y
     // extra branches will be 1.x.x+branch-y
-    public static final String VERSION = "1.8.6+oneconfig_alpha-1";
+    public static final String VERSION = "1.8.6+oneconfig_alpha-2";
 
     private final Logger logger = LogManager.getLogger("Patcher");
     private final File logsDirectory = new File(Minecraft.getMinecraft().mcDataDir + File.separator + "logs" + File.separator);
@@ -88,6 +70,7 @@ public class Patcher {
     private final Set<String> blacklistedServers = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
     private final File blacklistedServersFile = new File("./config/blacklisted_servers.txt");
 
+    private SoundHandler soundHandler;
     private final SavesWatcher savesWatcher = new SavesWatcher();
     private final AudioSwitcher audioSwitcher = new AudioSwitcher();
 
@@ -100,19 +83,20 @@ public class Patcher {
 
     private boolean isEssential;
 
-    @Mod.EventHandler
-    public void onInit(FMLInitializationEvent event) {
-        registerKeybinds(
-            dropModifier = new KeybindDropModifier(),
-            hideScreen = new FunctionKeyChanger.KeybindHideScreen(),
-            customDebug = new FunctionKeyChanger.KeybindCustomDebug(),
-            clearShaders = new FunctionKeyChanger.KeybindClearShaders()
+    void onInit(Consumer<List<KeyBinding>> keybindRegisterer) {
+        keybindRegisterer.accept(
+            Arrays.asList(
+                dropModifier = new KeybindDropModifier(),
+                hideScreen = new FunctionKeyChanger.KeybindHideScreen(),
+                customDebug = new FunctionKeyChanger.KeybindCustomDebug(),
+                clearShaders = new FunctionKeyChanger.KeybindClearShaders()
+            )
         );
 
         patcherConfig = PatcherConfig.INSTANCE;
         patcherSoundConfig = new PatcherSoundConfig(null, null);
 
-        SoundHandler soundHandler = new SoundHandler();
+        this.soundHandler = new SoundHandler();
         IReloadableResourceManager resourceManager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
         resourceManager.registerReloadListener(soundHandler);
         resourceManager.registerReloadListener(new ReloadListener());
@@ -124,15 +108,10 @@ public class Patcher {
             new AsyncScreenshots.ScreenshotsFolder()
         );
 
-        registerEvents(
-            this, soundHandler, dropModifier, audioSwitcher,
-            new OverlayHandler(), new EntityRendering(), new FovHandler(),
-            new ChatHandler(), new GlanceRenderer(), new EntityCulling(),
-            new ArmorStatusRenderer(), new PatcherMenuEditor(), new ImagePreview(),
-            new TitleFix(), new LinuxKeybindFix(),
-            new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
-            MinecraftHook.INSTANCE, ScreenshotPreview.INSTANCE,
-            new MousePerspectiveKeybindHandler()
+        registerOneconfigEvents(
+            this,
+            MinecraftHook.INSTANCE,
+            ScreenshotPreview.INSTANCE
         );
 
         checkLogs();
@@ -142,8 +121,7 @@ public class Patcher {
         this.savesWatcher.watch();
     }
 
-    @EventHandler
-    public void onPostInit(FMLPostInitializationEvent event) {
+    void onPostInit() {
         if (!loadedGalacticFontRenderer) {
             loadedGalacticFontRenderer = true;
             FontRenderer galacticFontRenderer = Minecraft.getMinecraft().standardGalacticFontRenderer;
@@ -151,12 +129,11 @@ public class Patcher {
                 ((FontRendererExt) galacticFontRenderer).patcher$getFontRendererHook().create();
             }
         }
-        isEssential = Loader.isModLoaded("essential");
+        isEssential = Platform.getLoaderPlatform().isModLoaded("essential");
     }
 
-    @EventHandler
-    public void onLoadComplete(FMLLoadCompleteEvent event) {
-        List<ModContainer> activeModList = Loader.instance().getActiveModList();
+    void onLoadComplete() {
+        List<LoaderPlatform.ActiveMod> activeModList = Platform.getLoaderPlatform().getLoadedMods();
         Notifications notifications = Notifications.INSTANCE;
         this.detectIncompatibilities(activeModList, notifications);
         this.detectReplacements(activeModList, notifications);
@@ -168,9 +145,12 @@ public class Patcher {
 
         logger.info("Minecraft started in {} seconds.", time);
 
+        //#if FORGE==1
+        String mcVersion = net.minecraftforge.common.ForgeVersion.mcVersion;
+        String forgeVersion = net.minecraftforge.common.ForgeVersion.getVersion();
         //noinspection ConstantConditions
-        if (!ForgeVersion.mcVersion.equals("1.8.9") || ForgeVersion.getVersion().contains("2318")) return;
-        notifications.send("Patcher", "Outdated Forge has been detected (" + ForgeVersion.getVersion() + "). " +
+        if (!mcVersion.equals("1.8.9") || forgeVersion.contains("2318")) return;
+        notifications.send("Patcher", "Outdated Forge has been detected (" + forgeVersion + "). " +
             "Click to open the Forge website to download the latest version.", 30000f, () -> {
             String updateLink = "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html";
             try {
@@ -187,7 +167,10 @@ public class Patcher {
                 }
             }
         });
+        //#endif
     }
+
+    //#if MC==10809
 
     /**
      * Runs when the user connects to a server.
@@ -202,12 +185,11 @@ public class Patcher {
      * If the server is not local nor blacklisted, check the servers protocol and see if it supports 315, aka 1.11.
      * If it does, then set the message length max to 256, otherwise return to 100.
      *
-     * @param event {@link FMLNetworkEvent.ClientConnectedToServerEvent}
+     * @param isLocal Whether the server is local or not.
      */
-    //#if MC==10809
-    @SubscribeEvent
-    public void connectToServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
-        if (event.isLocal) {
+    public void connectToServer(boolean isLocal) {
+        //TODO: legacy-fabric: HOOK
+        if (isLocal) {
             GuiChatTransformer.maxChatLength = 256;
             return;
         }
@@ -227,9 +209,9 @@ public class Patcher {
     }
     //#endif
 
-    @SubscribeEvent
-    public void clientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) EnhancementManager.getInstance().tick();
+    @Subscribe
+    public void clientTick(TickEvent event) {
+        if (event.stage == Stage.START) EnhancementManager.getInstance().tick();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -248,13 +230,14 @@ public class Patcher {
 
     private void registerKeybinds(KeyBinding... keybinds) {
         for (KeyBinding keybind : keybinds) {
-            ClientRegistry.registerKeyBinding(keybind);
+            Minecraft.getMinecraft().gameSettings.keyBindings =
+                ArrayUtils.add(Minecraft.getMinecraft().gameSettings.keyBindings, keybind);
         }
     }
 
-    private void registerEvents(Object... events) {
-        for (Object event : events) {
-            MinecraftForge.EVENT_BUS.register(event);
+    private void registerOneconfigEvents(Object... handlers) {
+        for (Object eventHandler : handlers) {
+            EventManager.INSTANCE.register(eventHandler);
         }
     }
 
@@ -334,10 +317,10 @@ public class Patcher {
         this.forceSaveConfig();
     }
 
-    private void detectIncompatibilities(List<ModContainer> activeModList, Notifications notifications) {
-        for (ModContainer container : activeModList) {
-            String modId = container.getModId();
-            String baseMessage = container.getName() + " has been detected. ";
+    private void detectIncompatibilities(List<LoaderPlatform.ActiveMod> activeModList, Notifications notifications) {
+        for (LoaderPlatform.ActiveMod container : activeModList) {
+            String modId = container.id;
+            String baseMessage = container.name + " has been detected. ";
             if (PatcherConfig.entityCulling && modId.equals("enhancements")) {
                 notifications.send("Patcher", baseMessage + "Entity Culling is now disabled.");
                 PatcherConfig.entityCulling = false;
@@ -364,7 +347,7 @@ public class Patcher {
         this.forceSaveConfig();
     }
 
-    private void detectReplacements(List<ModContainer> activeModList, Notifications notifications) {
+    private void detectReplacements(List<LoaderPlatform.ActiveMod> activeModList, Notifications notifications) {
         JsonObject replacedMods;
         try { // todo: replaced an async thing but i think its fine because get() pauses the game thread anyways i think???
             replacedMods = NetworkUtils.getJsonElement("https://static.sk1er.club/patcher/duplicate_mods.json").getAsJsonObject();
@@ -376,9 +359,9 @@ public class Patcher {
         if (replacedMods == null) return;
         Set<String> replacements = new HashSet<>();
         Set<String> modids = replacedMods.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet());
-        for (ModContainer modContainer : activeModList) {
-            if (modids.contains(modContainer.getModId())) {
-                replacements.add(modContainer.getName());
+        for (LoaderPlatform.ActiveMod modContainer : activeModList) {
+            if (modids.contains(modContainer.id)) {
+                replacements.add(modContainer.name);
             }
         }
 
@@ -415,6 +398,10 @@ public class Patcher {
 
     public KeyBinding getClearShaders() {
         return clearShaders;
+    }
+
+    public SoundHandler getSoundHandler() {
+        return soundHandler;
     }
 
     public AudioSwitcher getAudioSwitcher() {

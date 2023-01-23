@@ -39,7 +39,9 @@ loom {
 }
 
 sourceSets {
-    val dummy by creating
+    val dummy by creating {
+        compileClasspath += main.get().compileClasspath
+    }
     main {
         compileClasspath += dummy.output
     }
@@ -50,19 +52,32 @@ repositories {
     maven("https://repo.polyfrost.cc/releases")
 }
 
-val embed by configurations.creating
-configurations.implementation.get().extendsFrom(embed)
+val embed: Configuration by configurations.creating {
+    configurations.implementation.get().extendsFrom(this)
+}
 
 dependencies {
     compileOnly("cc.polyfrost:oneconfig-$platform:0.1.0-alpha+")
     embed("cc.polyfrost:elementa-$platform:+") {
         isTransitive = false
     }
-    embed("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-alpha+")
     embed("com.github.videogame-hacker:Koffee:88ba1b0") {
         isTransitive = false
     }
     compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+
+    if (platform.isFabric) {
+        logger.lifecycle("Missing OneConfig Embedded loader for Fabric")
+    } else if (platform.isLegacyForge) {
+        embed("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-alpha+")
+    } else {
+        throw GradleException("Unsupported platform: $platform")
+    }
+
+    if (platform.isFabric) {
+        modImplementation("net.fabricmc:fabric-loader:0.11.6")
+        modImplementation("net.legacyfabric.legacy-fabric-api:legacy-fabric-api:1.9.0+1.8.9")
+    }
 }
 
 tasks.compileKotlin {

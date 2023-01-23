@@ -2,7 +2,7 @@
   {
     "modid": "patcher",
     "name": "Patcher",
-    "description": "A Forge mod full of Vanilla bug fixes, Quality of Life improvements, and performance enhancements.",
+    "description": "A Forge/Fabric mod full of Vanilla bug fixes, Quality of Life improvements, and performance enhancements.",
     "version": "${version}",
     "mcversion": "${mcVersionStr}",
     "url": "https://sk1er.club/mods/patcher",

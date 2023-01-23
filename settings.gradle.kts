@@ -13,12 +13,13 @@ rootProject.buildFileName = "root.gradle.kts"
 
 listOf(
     "1.8.9-forge",
-    "1.12.2-forge"
+    "1.8.9-fabric",
+    "1.12.2-forge",
+    "1.12.2-fabric",
 ).forEach { version ->
     include(":$version")
     project(":$version").apply {
         projectDir = file("versions/$version")
         buildFileName = "../../build.gradle.kts"
     }
-
 }

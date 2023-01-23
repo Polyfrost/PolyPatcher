@@ -1,0 +1,61 @@
+
+//"modid": "patcher",
+//"name": "Patcher",
+//"description": "A Forge mod full of Vanilla bug fixes, Quality of Life improvements, and performance enhancements.",
+//"version": "${version}",
+//"mcversion": "${mcVersionStr}",
+//"url": "https://sk1er.club/mods/patcher",
+//"updateUrl": "",
+//"authorList": [
+//"Sk1er LLC"
+//],
+//"credits": "prplz, 2pi, UserTeemu, DJtheRedstoner; SporkSpoon for the monkey",
+//"logoFile": "patcher.png",
+//"screenshots": [],
+
+{
+  "schemaVersion": 1,
+  "id": "patcher",
+  "name": "Patcher",
+  "version": "${version}",
+  "description": "A Forge/Fabric mod full of Vanilla bug fixes, Quality of Life improvements, and performance enhancements.",
+  "authors": [
+    "Sk1er LLC",
+    "prplz",
+    "2pi",
+    "UserTeemu",
+    "DJtheRedstoner",
+    "SporkSpoon",
+    "Wyvest",
+    "xtrm"
+  ],
+  "contact": {
+    "homepage": "https://sk1er.club/mods/patcher",
+    "sources": "https://github.com/Legacy-Consortium/Patcher",
+    "issues": "https://inv.wtf/polyfrost"
+  },
+  "license": "CC-BY-NC-SA-4.0",
+  "environment": "client",
+  "mixins": [
+    "patcher.mixins.json"
+  ],
+  "entrypoints": {
+    "preLaunch": [
+      "cc.polyfrost.oneconfig.internal.plugin.OneConfigPreLaunch"
+    ],
+    "client": [ "cc.polyfrost.oneconfig.test.TestMod_Test" ], "_warning": [ "This line is automatically removed by Gradle's jar task" ],
+    "mm:early_risers": [
+      "cc.polyfrost.oneconfig.internal.plugin.asm.ClassTransformer"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.11.0",
+    "minecraft": "${mcVersionStr}",
+    "java": ">=${java}"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ]
+    }
+  }
+}
