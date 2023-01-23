@@ -1,13 +1,13 @@
 package club.sk1er.patcher.util.keybind.linux;
 
+import cc.polyfrost.oneconfig.events.event.KeyInputEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.events.ScreenEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Slot;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
-import net.minecraftforge.client.event.GuiScreenEvent;
 import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.input.Keyboard;
 
@@ -45,8 +45,8 @@ public class LinuxKeybindFix {
         }});
     }};
 
-    @SubscribeEvent
-    public void onKeyPress(InputEvent.KeyInputEvent event) {
+    @Subscribe
+    public void onKeyPress(KeyInputEvent event) {
         if (SystemUtils.IS_OS_LINUX && mc.thePlayer != null && Keyboard.isCreated() && Keyboard.getEventKeyState()) {
             if (PatcherConfig.keyboardLayout == 0) {
                 final int eventKey = Keyboard.getEventKey();
@@ -69,13 +69,9 @@ public class LinuxKeybindFix {
         }
     }
 
-    @SubscribeEvent
-    public void onGuiPress(GuiScreenEvent.KeyboardInputEvent.Pre event) {
-        //#if MC==10809
-        GuiScreen guiScreen = event.gui;
-        //#else
-        //$$ GuiScreen guiScreen = event.getGui();
-        //#endif
+    @Subscribe
+    public void onGuiPress(ScreenEvent.KeyEvent.Pre event) {
+        GuiScreen guiScreen = event.screen;
         if (SystemUtils.IS_OS_LINUX && PatcherConfig.keyboardLayout != 0 && guiScreen instanceof GuiContainer && mc.thePlayer != null
             && Keyboard.isCreated() && Keyboard.getEventKeyState()) {
             char charPressed = Keyboard.getEventCharacter();
@@ -93,7 +89,7 @@ public class LinuxKeybindFix {
                     //#endif
                     mc.thePlayer
                 );
-                event.setCanceled(true);
+                event.isCancelled = true;
             }
         }
     }

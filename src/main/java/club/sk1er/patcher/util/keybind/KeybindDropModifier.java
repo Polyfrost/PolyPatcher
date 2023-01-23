@@ -1,11 +1,12 @@
 package club.sk1er.patcher.util.keybind;
 
+import cc.polyfrost.oneconfig.events.event.Stage;
+import cc.polyfrost.oneconfig.events.event.TickEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -19,9 +20,9 @@ public class KeybindDropModifier extends KeyBinding {
         super("Drop Stack Modifier", Keyboard.KEY_NONE, "Patcher");
     }
 
-    @SubscribeEvent
-    public void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
+    @Subscribe
+    public void tick(TickEvent event) {
+        if (event.stage == Stage.START) {
             final EntityPlayerSP player = mc.thePlayer;
             if (player != null && !player.isSpectator() && GameSettings.isKeyDown(this) && GameSettings.isKeyDown(mc.gameSettings.keyBindDrop) && mc.currentScreen == null) {
                 player.dropOneItem(true);

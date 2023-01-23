@@ -1,12 +1,12 @@
 package club.sk1er.patcher.util.fov;
 
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.events.FovUpdateEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraftforge.client.event.FOVUpdateEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,18 +42,17 @@ public class FovHandler {
      */
     private static final Map<Integer, Float> MODIFIER_BY_TICK = new HashMap<>();
 
-    @SubscribeEvent
-    public void fovChange(FOVUpdateEvent event) {
+    @Subscribe
+    private void fovChange(FovUpdateEvent event) {
         if (!PatcherConfig.allowFovModifying) return;
 
         float base = 1.0F;
 
-        //#if MC==10809
         EntityPlayer entity = event.entity;
+        //#if MC==10809
         ItemStack item = entity.getItemInUse();
         int useDuration = entity.getItemInUseDuration();
         //#else
-        //$$ EntityPlayer entity = event.getEntity();
         //$$ ItemStack item = entity.getActiveItemStack();
         //$$ int useDuration = entity.getItemInUseMaxCount();
         //#endif
@@ -92,11 +91,7 @@ public class FovHandler {
             }
         }
 
-        //#if MC==10809
-        event.newfov = base;
-        //#else
-        //$$ event.setNewfov(base);
-        //#endif
+        event.fov = base;
     }
 
     // Input the current state and modifier.

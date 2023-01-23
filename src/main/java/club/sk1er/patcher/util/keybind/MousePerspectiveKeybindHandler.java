@@ -1,13 +1,13 @@
 package club.sk1er.patcher.util.keybind;
 
+import cc.polyfrost.oneconfig.events.event.MouseInputEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 public class MousePerspectiveKeybindHandler {
-    @SubscribeEvent
-    public void onMouseInput(InputEvent.MouseInputEvent event) {
+    @Subscribe
+    public void onMouseInput(MouseInputEvent event) {
         // TODO: Ideally fix the issue at its source instead of handling ourselves, couldn't find a good way to do so.
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.gameSettings.keyBindTogglePerspective.isPressed()) {

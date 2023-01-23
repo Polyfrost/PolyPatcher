@@ -1,6 +1,8 @@
 package club.sk1er.patcher.hooks;
 
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.events.WorldPostRenderEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 //#if MC==11202
@@ -10,8 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
 @SuppressWarnings("unused")
@@ -83,12 +83,8 @@ public class EntityRendererHook {
         return original;
     }
 
-    @SubscribeEvent
-    public void worldRender(RenderWorldLastEvent event) {
-        //#if MC==10809
-        partialTicks = event.partialTicks;
-        //#else
-        //$$ partialTicks = event.getPartialTicks();
-        //#endif
+    @Subscribe
+    public void worldRender(WorldPostRenderEvent event) {
+        partialTicks = event.deltaTicks;
     }
 }

@@ -1,5 +1,8 @@
 package club.sk1er.patcher.hooks;
 
+import cc.polyfrost.oneconfig.events.event.Stage;
+import cc.polyfrost.oneconfig.events.event.TickEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.KeyBindingAccessor;
@@ -8,8 +11,6 @@ import club.sk1er.patcher.screen.render.overlay.metrics.MetricsData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.Util;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -92,9 +93,9 @@ public class MinecraftHook {
         Display.setLocation(x, y);
     }
 
-    @SubscribeEvent
-    public void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !PatcherConfig.windowedFullscreen)
+    @Subscribe
+    public void tick(TickEvent event) {
+        if (event.stage != Stage.END || !PatcherConfig.windowedFullscreen)
             return;
         boolean fullScreenNow = Minecraft.getMinecraft().isFullScreen();
         if (lastFullscreen != fullScreenNow) {

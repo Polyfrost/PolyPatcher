@@ -1,7 +1,12 @@
 package club.sk1er.patcher.util.world.render.culling;
 
+import cc.polyfrost.oneconfig.events.event.RenderEvent;
+import cc.polyfrost.oneconfig.events.event.Stage;
+import cc.polyfrost.oneconfig.events.event.TickEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.events.LivingEntityRenderEvent;
 import club.sk1er.patcher.mixins.accessors.RenderManagerAccessor;
 import club.sk1er.patcher.util.chat.ChatUtilities;
 import gg.essential.api.EssentialAPI;
@@ -22,10 +27,6 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL33;
@@ -193,11 +194,9 @@ public class EntityCulling {
      * Fire rays from the player's eyes, detecting on if it can see an entity or not.
      * If it can see an entity, continue to render the entity, otherwise save some time
      * performing rendering and cancel the entity render.
-     *
-     * @param event {@link RenderLivingEvent.Pre<EntityLivingBase>}
      */
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void shouldRenderEntity(RenderLivingEvent.Pre<EntityLivingBase> event) {
+    @Subscribe
+    public void shouldRenderEntity(LivingEntityRenderEvent.Pre<EntityLivingBase> event) {
         if (!PatcherConfig.entityCulling || !shouldPerformCulling) {
             return;
         }
@@ -219,7 +218,7 @@ public class EntityCulling {
         }
 
         if (checkEntity(entity)) {
-            event.setCanceled(true);
+            event.isCancelled = true;
             if (!canRenderName(entity)) {
                 return;
             }
@@ -246,9 +245,9 @@ public class EntityCulling {
 
     }
 
-    @SubscribeEvent
-    public void renderTickEvent(TickEvent.RenderTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !PatcherConfig.entityCulling) {
+    @Subscribe
+    public void renderTickEvent(RenderEvent event) {
+        if (event.stage != Stage.END || !PatcherConfig.entityCulling) {
             return;
         }
 
@@ -292,9 +291,9 @@ public class EntityCulling {
         }
     }
 
-    @SubscribeEvent
-    public void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || !PatcherConfig.entityCulling || this.destroyTimer++ < 120) {
+    @Subscribe
+    public void tick(TickEvent event) {
+        if (event.stage != Stage.END || !PatcherConfig.entityCulling || this.destroyTimer++ < 120) {
             return;
         }
 

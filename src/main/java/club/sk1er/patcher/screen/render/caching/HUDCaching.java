@@ -1,5 +1,8 @@
 package club.sk1er.patcher.screen.render.caching;
 
+import cc.polyfrost.oneconfig.events.event.Stage;
+import cc.polyfrost.oneconfig.events.event.TickEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.GuiIngameAccessor;
 import club.sk1er.patcher.mixins.accessors.GuiIngameForgeAccessor;
@@ -17,8 +20,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraftforge.client.GuiIngameForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 
 public class HUDCaching {
@@ -28,9 +29,9 @@ public class HUDCaching {
     private static boolean dirty = true;
     public static boolean renderingCacheOverride;
 
-    @SubscribeEvent
-    public void tick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && PatcherConfig.hudCaching) {
+    @Subscribe
+    public void tick(TickEvent event) {
+        if (event.stage == Stage.END && PatcherConfig.hudCaching) {
             if (!OpenGlHelper.isFramebufferEnabled() && mc.thePlayer != null) {
                 String statement = (!ClassTransformer.optifineVersion.equals("NONE") ?
                     "\n&cTry to disable OptiFine's Fast Render/Anti-aliasing option." : "") + "\n&7Are Framebuffers supported?: &e&l" + OpenGlHelper.framebufferSupported;

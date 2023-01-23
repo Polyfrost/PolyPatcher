@@ -1,19 +1,19 @@
 package club.sk1er.patcher.screen.render.overlay.metrics;
 
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
+import cc.polyfrost.oneconfig.libs.universal.UResolution;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.events.HudDebugRenderEvent;
 import club.sk1er.patcher.hooks.MinecraftHook;
 import club.sk1er.patcher.hooks.MinecraftServerHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 @SuppressWarnings("unused")
@@ -21,25 +21,18 @@ public class MetricsRenderer extends Gui {
 
     private final Minecraft mc = Minecraft.getMinecraft();
 
-    @SubscribeEvent
-    public void draw(RenderGameOverlayEvent.Post event) {
-        //#if MC==10809
-        RenderGameOverlayEvent.ElementType type = event.type;
-        ScaledResolution res = event.resolution;
-        //#else
-        //$$ RenderGameOverlayEvent.ElementType type = event.getType();
-        //$$ ScaledResolution res = event.getResolution();
-        //#endif
-        if (PatcherConfig.useVanillaMetricsRenderer && type == RenderGameOverlayEvent.ElementType.DEBUG && mc.gameSettings.showLagometer && mc.gameSettings.showDebugInfo) {
-            final int width = res.getScaledWidth();
-            this.drawMetricsData(res, mc.fontRendererObj, MinecraftHook.metricsData, 0, width >> 1, true);
+    @Subscribe
+    public void draw(HudDebugRenderEvent event) {
+        if (PatcherConfig.useVanillaMetricsRenderer && mc.gameSettings.showLagometer && mc.gameSettings.showDebugInfo) {
+            final int width = UResolution.getScaledWidth();
+            this.drawMetricsData(mc.fontRendererObj, MinecraftHook.metricsData, 0, width >> 1, true);
             if (mc.getIntegratedServer() != null) {
-                this.drawMetricsData(res, mc.fontRendererObj, MinecraftServerHook.metricsData, width - Math.min(width >> 1, 240), width >> 1, false);
+                this.drawMetricsData(mc.fontRendererObj, MinecraftServerHook.metricsData, width - Math.min(width >> 1, 240), width >> 1, false);
             }
         }
     }
 
-    public void drawMetricsData(ScaledResolution resolution, FontRenderer fontRenderer, MetricsData data, int x, int width, boolean showFps) {
+    public void drawMetricsData(FontRenderer fontRenderer, MetricsData data, int x, int width, boolean showFps) {
         final int startIndex = data.getStartIndex();
         final int writeIndex = data.getWriteIndex();
         final long[] samples = data.getSamples();
@@ -58,7 +51,7 @@ public class MetricsRenderer extends Gui {
             o += wrappedIndex;
         }
 
-        final int scaledHeight = resolution.getScaledHeight();
+        final int scaledHeight = UResolution.getScaledHeight();
         drawRect(x, scaledHeight - 60, x + sampleAverage, scaledHeight, -1873784752);
         final Tessellator tessellator = Tessellator.getInstance();
         final WorldRenderer renderer = tessellator.getWorldRenderer();

@@ -1,6 +1,11 @@
 package club.sk1er.patcher.util.chat;
 
+import cc.polyfrost.oneconfig.events.event.ChatReceiveEvent;
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
+import cc.polyfrost.oneconfig.libs.universal.UGraphics;
+import cc.polyfrost.oneconfig.platform.Platform;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.events.ChatRenderEvent;
 import club.sk1er.patcher.mixins.accessors.GuiNewChatAccessor;
 import gg.essential.universal.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -10,9 +15,7 @@ import net.minecraft.util.ChatComponentStyle;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -47,26 +50,18 @@ public class ChatHandler {
     private int ticks;
 
     //#if MC==10809
-    @SubscribeEvent
-    public void renderChat(RenderGameOverlayEvent.Chat event) {
-        if (event.type == RenderGameOverlayEvent.ElementType.CHAT && PatcherConfig.chatPosition) {
-            event.posY -= 12;
+    @Subscribe
+    private void renderChat(ChatRenderEvent event) {
+        if (PatcherConfig.chatPosition) {
+            UGraphics.GL.translate(0, -12, 0);
         }
     }
     //#endif
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onChatMessage(ClientChatReceivedEvent event) {
-        //#if MC==10809
+    @Subscribe
+    private void onChatMessage(ChatReceiveEvent event) {
         IChatComponent message = event.message;
-        int type = event.type;
-        int gameInfoType = 2;
-        //#else
-        //$$ ITextComponent message = event.getMessage();
-        //$$ ChatType type = event.getType();
-        //$$ ChatType gameInfoType = ChatType.GAME_INFO;
-        //#endif
-        if (PatcherConfig.timestamps && !message.getUnformattedText().trim().isEmpty() && type != gameInfoType) {
+        if (PatcherConfig.timestamps && !message.getUnformattedText().trim().isEmpty()) {
             String time = getCurrentTime();
             if (PatcherConfig.timestampsStyle == 0) {
                 ChatComponentIgnored component = new ChatComponentIgnored(ChatColor.GRAY + "[" + time + "] " + ChatColor.RESET);
@@ -142,7 +137,7 @@ public class ChatHandler {
     }
 
     public static void appendMessageCounter(IChatComponent chatComponent, boolean refresh) {
-        if ((Loader.isModLoaded("hychat") || Loader.isModLoaded("labymod")) || !PatcherConfig.compactChat) {
+        if ((Platform.getLoaderPlatform().isModLoaded("hychat") || Platform.getLoaderPlatform().isModLoaded("labymod")) || !PatcherConfig.compactChat) {
             return;
         }
 

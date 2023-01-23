@@ -1,6 +1,8 @@
 package club.sk1er.patcher.screen.render.overlay;
 
+import cc.polyfrost.oneconfig.libs.eventbus.Subscribe;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.events.ScreenEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,8 +13,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 //#if MC==11202
 //$$ import net.minecraft.init.Enchantments;
@@ -22,13 +22,9 @@ public class ArmorStatusRenderer {
 
     private final Minecraft mc = Minecraft.getMinecraft();
 
-    @SubscribeEvent
-    public void onRenderArmor(GuiScreenEvent.DrawScreenEvent.Post event) {
-        //#if MC==10809
-        GuiScreen gui = event.gui;
-        //#else
-        //$$ GuiScreen gui = event.getGui();
-        //#endif
+    @Subscribe
+    public void onRenderArmor(ScreenEvent.Draw.Post event) {
+        GuiScreen gui = event.screen;
         if ((PatcherConfig.protectionPercentage || PatcherConfig.projectileProtectionPercentage) && (gui instanceof GuiInventory || gui instanceof GuiContainerCreative)) {
             final String armorValue = getArmorString();
             if (armorValue == null) {
