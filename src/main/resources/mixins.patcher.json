@@ -138,6 +138,7 @@
     "features.GuiIngameForgeMixin_CrosshairRendering",
     "features.GuiIngameForgeMixin_TitleRendering",
     "features.GuiIngameMixin_CrosshairVisibility",
+    "features.GuiIngameMixin_PumpkinBlurRendering",
     "features.GuiMultiplayerMixin_FastServerJoin",
     "features.GuiNewChatMixin_ChatDelay",
     "features.GuiNewChatMixin_CompactChat",
