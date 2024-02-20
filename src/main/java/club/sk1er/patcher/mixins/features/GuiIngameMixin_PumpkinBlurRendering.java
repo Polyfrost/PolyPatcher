@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class GuiIngameMixin_PumpkinBlurRendering {
     @Inject(method = "renderPumpkinOverlay", at = @At("HEAD"), cancellable = true)
     private void patcher$cancelPumpkinOverlay(ScaledResolution scaledRes, CallbackInfo ci) {
-        if (PatcherConfig.pumpkinOverlayOpacity == 0) ci.cancel();
+        if (PatcherConfig.pumpkinOverlayOpacity == 0) ci.cancel(); // micro-optimization, let's skip all the math to render if it's not going to be visible anyways
     }
 
     @ModifyArg(method = "renderPumpkinOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;color(FFFF)V"), index = 3)
