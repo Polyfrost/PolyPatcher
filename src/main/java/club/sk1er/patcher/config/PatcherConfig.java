@@ -191,6 +191,7 @@ public class PatcherConfig extends Config {
         min = 0F, max = 1.0F
     )
     public static float fireOverlayOpacity = 1.0F;
+
     @Slider( // todo add percentage
         name = "Pumpkin Overlay Opacity",
         description = "Change the opacity of the pumpkin overlay.",
@@ -198,7 +199,6 @@ public class PatcherConfig extends Config {
         min = 0F, max = 1.0F
     )
     public static float pumpkinOverlayOpacity = 1.0F;
-
 
     @Switch(
         name = "Hide Fire Overlay with Fire Resistance",
