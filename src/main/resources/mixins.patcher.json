@@ -205,7 +205,6 @@
     "features.optifine.LayerCapeMixin_NaturalCapes_OptifineCompat",
     "features.render.item.ItemRendererMixin_FireRendering",
     "features.render.item.ItemRendererMixin_RemoveWaterOverlay",
-    "misc.GuiOverlayDebugMixin_ShowPatcherVersion",
     "performance.AnvilChunkLoaderMixin_UnclosedStream",
     "performance.BlockPosMixin_ReduceAllocations",
     "performance.BlockRedstoneTorchMixin_MemoryLeak",
