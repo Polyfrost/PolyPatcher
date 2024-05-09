@@ -1441,6 +1441,10 @@ public class PatcherConfig extends Config {
             actionbarBackground = false;
             modified = true;
         }
+        if (removeContainerBackground) {
+            containerBackgroundOpacity = 0F;
+            modified = true;
+        }
 
         if (modified) {
             save();
