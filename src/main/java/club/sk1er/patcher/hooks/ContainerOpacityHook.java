@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 public class ContainerOpacityHook {
 
     public static void beginTransparency() {
-        float containerOpacity = PatcherConfig.containerOpacity;
+        float containerOpacity = PatcherConfig.containerOpacity / 100F;
         if (containerOpacity == 1.0f) return;
 
         GlStateManager.enableBlend();
@@ -18,7 +18,7 @@ public class ContainerOpacityHook {
     }
 
     public static void endTransparency() {
-        if (PatcherConfig.containerOpacity == 1.0f) return;
+        if (PatcherConfig.containerOpacity / 100F == 1.0F) return;
 
         GlStateManager.disableBlend();
         GlStateManager.disableAlpha();

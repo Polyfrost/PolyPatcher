@@ -295,6 +295,20 @@ public class PatcherConfig extends Config {
     )
     public static boolean disableHotbarScrolling;
 
+    @Switch(
+        name = "Invert Hotbar Scrolling",
+        description = "Changes the direction of scrolling in your hotbar.",
+        category = "Miscellaneous", subcategory = "General"
+    )
+    public static boolean invertHotbarScrolling;
+
+    @Switch(
+        name = "Prevent Overflow Hotbar Scrolling",
+        description = "Prevents from directly scrolling between the first and last hotbar slot.",
+        category = "Miscellaneous", subcategory = "General"
+    )
+    public static boolean preventOverflowHotbarScrolling;
+
     @Slider(
         name = "Unfocused Sounds",
         description = "Change the volume of sounds when you're not tabbed into the window.",
@@ -969,20 +983,28 @@ public class PatcherConfig extends Config {
         return inventoryScale == 0 ? -1 : inventoryScale;
     }
 
-    @Switch(
-        name = "Remove Container Background",
-        description = "Remove the dark background inside a container.",
-        category = "Screens", subcategory = "General"
-    )
+//    @Switch(
+//        name = "Remove Container Background",
+//        description = "Remove the dark background inside a container.",
+//        category = "Screens", subcategory = "General"
+//    )
     public static boolean removeContainerBackground = false;
 
     @Slider(
-        name = "Container Opacity",
+        name = "Change Container Background Opacity (%)",
+        description = "Remove the dark background inside a container.",
+        category = "Screens", subcategory = "General",
+        min = 0F, max = 100F
+    )
+    public static float containerBackgroundOpacity = (208/255F) * 100F;
+
+    @Slider(
+        name = "Container Opacity (%)",
         description = "Change the opacity of supported containers.\nIncludes Chests & Survival Inventory.",
         category = "Screens", subcategory = "General",
-        min = 0, max = 1.0F
+        min = 0F, max = 100F
     )
-    public static float containerOpacity = 1.0f;
+    public static float containerOpacity = 100F;
 
     @Info(
         text = "Supported servers for 1.11 chat length are servers that support 1.11 or above.",

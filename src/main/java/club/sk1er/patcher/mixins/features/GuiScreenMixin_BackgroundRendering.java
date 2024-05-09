@@ -9,9 +9,12 @@ import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(GuiScreen.class)
 public class GuiScreenMixin_BackgroundRendering {
@@ -22,7 +25,7 @@ public class GuiScreenMixin_BackgroundRendering {
 
     @Inject(method = "drawDefaultBackground", at = @At("HEAD"), cancellable = true)
     private void patcher$cancelRendering(CallbackInfo ci) {
-        if (PatcherConfig.removeContainerBackground && this.mc.theWorld != null) {
+        if (PatcherConfig.containerBackgroundOpacity == 0 && this.mc.theWorld != null) {
             // Some guis (for example, the advancements gui) depend on the depth buffer having the rectangle from
             // the background in it. So, we draw a similar rectangle to only the depth buffer.
             GlStateManager.colorMask(false, false, false, false);
@@ -32,5 +35,18 @@ public class GuiScreenMixin_BackgroundRendering {
             MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.BackgroundDrawnEvent((GuiScreen) (Object) this));
             ci.cancel();
         }
+    }
+
+    @ModifyArgs(method = "drawWorldBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiScreen;drawGradientRect(IIIIII)V"))
+    private void patcher$modifyColor(Args args) {
+        if (PatcherConfig.containerBackgroundOpacity != 0) {
+            args.set(4, patcher$getOpacity(args.get(4), Math.max(PatcherConfig.containerBackgroundOpacity / 100F - 16/255F, 0)));
+            args.set(5, patcher$getOpacity(args.get(4), Math.max(PatcherConfig.containerBackgroundOpacity / 100F, 0)));
+        }
+    }
+
+    @Unique
+    private int patcher$getOpacity(int color, float opacity) {
+        return (int) (opacity * 255) << 24 | (color & 0xFFFFFF);
     }
 }
