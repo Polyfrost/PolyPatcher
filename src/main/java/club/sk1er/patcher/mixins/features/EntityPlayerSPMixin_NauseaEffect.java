@@ -19,14 +19,14 @@ public class EntityPlayerSPMixin_NauseaEffect extends AbstractClientPlayer {
     @Shadow public float timeInPortal;
     @Shadow public float prevTimeInPortal;
 
-    @Override
-    public void removePotionEffectClient(int potionId) {
-        if (PatcherConfig.nauseaEffect && potionId == Potion.confusion.id) {
-            this.timeInPortal = 0.0f;
-            this.prevTimeInPortal = 0.0f;
-        }
-
-        super.removePotionEffectClient(potionId);
-    }
+//    @Override
+//    public void removePotionEffectClient(int potionId) {
+//        if (PatcherConfig.nauseaEffect && potionId == Potion.confusion.id) {
+//            this.timeInPortal = 0.0f;
+//            this.prevTimeInPortal = 0.0f;
+//        }
+//
+//        super.removePotionEffectClient(potionId);
+//    }
     //#endif
 }

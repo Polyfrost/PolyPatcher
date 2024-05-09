@@ -14,7 +14,7 @@ public class TileEntityEndPortalRendererMixins_CancelRender {
         //#if MC==10809
         "renderTileEntityAt(Lnet/minecraft/tileentity/TileEntityEndPortal;DDDFI)V";
         //#else
-        //$$ "renderTileEntityAt(Lnet/minecraft/tileentity/TileEntityEndPortal;DDDFIF)V";
+        //$$ "render(Lnet/minecraft/tileentity/TileEntityEndPortal;DDDFIF)V";
         //#endif
 
     @Inject(method = patcher$renderTileEntityAtDesc, at = @At("HEAD"), cancellable = true)

@@ -176,12 +176,12 @@ public class PatcherConfig extends Config {
     )
     public static boolean cleanerNightVision = false;
 
-    @Switch(
-        name = "Nausea Effect",
-        description = "Remove the nether portal effect appearing when clearing nausea.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean nauseaEffect;
+//    @Switch(
+//        name = "Nausea Effect",
+//        description = "Remove the nether portal effect appearing when clearing nausea.",
+//        category = "Miscellaneous", subcategory = "Overlays"
+//    )
+//    public static boolean nauseaEffect;
 
     @Switch(
         name = "Disable Achievements",
@@ -198,21 +198,21 @@ public class PatcherConfig extends Config {
     )
     public static float fireOverlayHeight;
 
-    @Slider( // todo add percentage
-        name = "Fire Overlay Opacity",
+    @Slider(
+        name = "Fire Overlay Opacity (%)",
         description = "Change the opacity of the fire overlay.",
         category = "Miscellaneous", subcategory = "Overlays",
-        min = 0F, max = 1.0F
+        min = 0, max = 100
     )
-    public static float fireOverlayOpacity = 1.0F;
+    public static int fireOverlayOpacity = 100;
 
-    @Slider( // todo add percentage
-        name = "Pumpkin Overlay Opacity",
+    @Slider(
+        name = "Pumpkin Overlay Opacity (%)",
         description = "Change the opacity of the pumpkin overlay.",
         category = "Miscellaneous", subcategory = "Overlays",
-        min = 0F, max = 1.0F
+        min = 0, max = 100
     )
-    public static float pumpkinOverlayOpacity = 1.0F;
+    public static int pumpkinOverlayOpacity = 100;
 
     @Switch(
         name = "Hide Fire Overlay with Fire Resistance",
@@ -235,6 +235,12 @@ public class PatcherConfig extends Config {
     public static boolean autoTitleScale;
 
     public static float titleOpacity = 1.0F;
+
+    // fog
+
+
+
+    // fov
 
     @Switch(
         name = "Remove Water FOV",
@@ -290,11 +296,18 @@ public class PatcherConfig extends Config {
     public static boolean disableHotbarScrolling;
 
     @Switch(
-        name = "Crosshair Perspective",
-        description = "Remove the crosshair when in third person.",
+        name = "Invert Hotbar Scrolling",
+        description = "Changes the direction of scrolling in your hotbar.",
         category = "Miscellaneous", subcategory = "General"
     )
-    public static boolean crosshairPerspective;
+    public static boolean invertHotbarScrolling;
+
+    @Switch(
+        name = "Prevent Overflow Hotbar Scrolling",
+        description = "Prevents from directly scrolling between the first and last hotbar slot.",
+        category = "Miscellaneous", subcategory = "General"
+    )
+    public static boolean preventOverflowHotbarScrolling;
 
     @Slider(
         name = "Unfocused Sounds",
@@ -345,12 +358,27 @@ public class PatcherConfig extends Config {
     public static boolean cleanProjectiles;
 
     @Slider(
-        name = "Ridden Horse Opacity",
+        name = "Ridden Horse Opacity (%)",
         description = "Change the opacity of the horse you're currently riding for visibility.",
         category = "Miscellaneous", subcategory = "Rendering",
-        min = 0F, max = 1.0F
+        min = 0F, max = 100
     )
-    public static float riddenHorseOpacity = 1.0F;
+    public static int riddenHorseOpacity = 100;
+
+    @Slider(
+        name = "Distortion Effects (%)",
+        description = "Changes the distortion effects (e.g. Nausea and nether portal distortion).",
+        category = "Miscellaneous", subcategory = "Rendering",
+        min = 0, max = 100
+    )
+    public static int distortionEffect = 100;
+
+    @Slider(
+        name = "Water Fog Density (%)",
+        category = "Miscellaneous", subcategory = "Fog",
+        min = 0, max = 100
+    )
+    public static int waterDensity = 100;
 
     @Switch(
         name = "Hide Aura on Invisible Withers",
@@ -453,13 +481,6 @@ public class PatcherConfig extends Config {
     public static boolean betterRomanNumerals = true;
 
     @Switch(
-        name = "Clean View",
-        description = "Stop rendering your potion effect particles.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean cleanView;
-
-    @Switch(
         name = "Windowed Fullscreen",
         description = "Implement Windowed Fullscreen in Minecraft, allowing you to drag your mouse outside the window.",
         category = "Miscellaneous", subcategory = "Window"
@@ -479,13 +500,6 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "Overlays"
     )
     public static boolean removeWaterOverlay;
-
-    @Switch(
-        name = "Disable Breaking Particles",
-        description = "Remove block-breaking particles for visibility.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean disableBlockBreakParticles;
 
     @Switch(
         name = "Disable Lightning Bolts",
@@ -515,13 +529,6 @@ public class PatcherConfig extends Config {
         min = 1, max = 90
     )
     public static int logOptimizerLength = 30;
-
-    @Switch(
-        name = "Remove Inverted Colors from Crosshair",
-        description = "Remove the inverted color effect on the crosshair.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean removeInvertFromCrosshair;
 
     @Info(
         text = "1.12 Farm Selection Boxes only works on Hypixel & Singleplayer.",
@@ -624,6 +631,12 @@ public class PatcherConfig extends Config {
     )
     public static boolean naturalCapes;
 
+    @Switch(
+        name = "Smooth Scrolling",
+        category = "Miscellaneous", subcategory = "Rendering"
+    )
+    public static boolean smoothScrolling;
+
     // PERFORMANCE
 
     @Switch(
@@ -668,21 +681,6 @@ public class PatcherConfig extends Config {
         category = "Performance", subcategory = "World"
     )
     public static boolean batchModelRendering = true;
-
-    @Switch(
-        name = "Static Particle Color",
-        description = "Disable particle lighting checks each frame.",
-        category = "Performance", subcategory = "Particles"
-    )
-    public static boolean staticParticleColor = true;
-
-    @Slider(
-        name = "Max Particle Limit",
-        description = "Stop additional particles from appearing when there are too many at once.",
-        category = "Performance", subcategory = "Particles",
-        min = 1, max = 10000
-    )
-    public static int maxParticleLimit = 4000;
 
     @Switch(
         name = "Optimized Font Renderer",
@@ -798,7 +796,7 @@ public class PatcherConfig extends Config {
     public static boolean unstackedItems;
 
     @Info(
-        text = "Due to the way OptiFine shaders work, we are unable to make Entity Culling compatible.",
+        text = "Due to the way OptiFine shaders work, we are unable to make Entity Culling compatible with them.",
         category = "Performance", subcategory = "Culling",
         type = InfoType.ERROR,
         size = 2
@@ -826,6 +824,20 @@ public class PatcherConfig extends Config {
         category = "Performance", subcategory = "Culling"
     )
     public static boolean smartEntityCulling = true;
+
+    @Switch(
+        name = "Don't Cull Ender Dragons",
+        description = "Continue to render Ender Dragons when the entity is being occluded.",
+        category = "Performance", subcategory = "Culling"
+    )
+    public static boolean dontCullEnderDragons = true;
+
+    @Switch(
+        name = "Don't Cull Withers",
+        description = "Continue to render Withers when the entity is being occluded.",
+        category = "Performance", subcategory = "Culling"
+    )
+    public static boolean dontCullWithers = true;
 
     @Switch(
         name = "Don't Cull Player Nametags",
@@ -971,27 +983,28 @@ public class PatcherConfig extends Config {
         return inventoryScale == 0 ? -1 : inventoryScale;
     }
 
-    @Switch(
-        name = "Remove Container Background",
-        description = "Remove the dark background inside a container.",
-        category = "Screens", subcategory = "General"
-    )
+//    @Switch(
+//        name = "Remove Container Background",
+//        description = "Remove the dark background inside a container.",
+//        category = "Screens", subcategory = "General"
+//    )
     public static boolean removeContainerBackground = false;
 
     @Slider(
-        name = "Container Opacity",
+        name = "Change Container Background Opacity (%)",
+        description = "Remove the dark background inside a container.",
+        category = "Screens", subcategory = "General",
+        min = 0F, max = 100F
+    )
+    public static float containerBackgroundOpacity = (208/255F) * 100F;
+
+    @Slider(
+        name = "Container Opacity (%)",
         description = "Change the opacity of supported containers.\nIncludes Chests & Survival Inventory.",
         category = "Screens", subcategory = "General",
-        min = 0, max = 1.0F
+        min = 0F, max = 100F
     )
-    public static float containerOpacity = 1.0f;
-
-    @Switch(
-        name = "GUI Crosshair",
-        description = "Stop rendering the crosshair when in a GUI.",
-        category = "Screens", subcategory = "General"
-    )
-    public static boolean guiCrosshair;
+    public static float containerOpacity = 100F;
 
     @Info(
         text = "Supported servers for 1.11 chat length are servers that support 1.11 or above.",
@@ -1228,8 +1241,15 @@ public class PatcherConfig extends Config {
     public static boolean safeChatClicks;
 
     @Switch(
+        name = "Safe Chat Clicks History",
+        description = "Adds commands sent from clicking chat messages to the chat history.",
+        category = "Screens", subcategory = "Chat"
+    )
+    public static boolean safeChatClicksHistory;
+
+    @Switch(
         name = "Smart Disconnect",
-        description = "Choose between disconnecting or relogging when clicking the disconnect button.",
+        description = "Choose between disconnecting or relogging when clicking the disconnect button.\n§eOnly works on Multiplayer servers.",
         category = "Screens", subcategory = "General"
     )
     public static boolean smartDisconnect;
@@ -1382,6 +1402,8 @@ public class PatcherConfig extends Config {
 
     public static boolean labyModMoment = true;
     public static String selectedAudioDevice = "";
+    public static boolean tabHeightAllow = false;
+    public static int tabHeight = 0;
 
     public static PatcherConfig INSTANCE = new PatcherConfig(); // Needs to be at the bottom or the default values take priority
 
@@ -1417,6 +1439,10 @@ public class PatcherConfig extends Config {
         }
         if (actionbarBackground) {
             actionbarBackground = false;
+            modified = true;
+        }
+        if (removeContainerBackground) {
+            containerBackgroundOpacity = 0F;
             modified = true;
         }
 
@@ -1493,7 +1519,7 @@ public class PatcherConfig extends Config {
             Arrays.asList(
                 "resourceExploitFix", "newKeybindHandling", "separateResourceLoading", "futureHitBoxes", "farmSelectionBoxesInfo",
                 "leftHandInFirstPerson", "extendedChatLength", "chatPosition",
-                "parallaxFix", "crosshairPerspective", "extendChatBackground", "vanillaGlassPanes"
+                "parallaxFix", "extendChatBackground", "vanillaGlassPanes"
             ).forEach(property -> hideIf(property, minecraft112));
 
             hideIf("keyboardLayout", () -> !SystemUtils.IS_OS_LINUX);

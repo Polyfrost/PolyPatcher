@@ -44,7 +44,7 @@ public class PatcherSoundConfig extends Config {
                 data.computeIfAbsent(entry.getKey(), location -> {
                     String name = getName(location);
                     //#if MC==11202
-                    //$$ String[] notCategory = entry.getValue().getLocation().getResourcePath().split("\\.");
+                    //$$ String[] notCategory = entry.getValue().getLocation().getPath().split("\\.");
                     //#endif
                     String category =
                         //#if MC==10809

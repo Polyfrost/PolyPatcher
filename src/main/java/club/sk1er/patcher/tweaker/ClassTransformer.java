@@ -117,8 +117,6 @@ public class ClassTransformer implements IClassTransformer {
         //#if MC==10809
         registerTransformer(new GuiNewChatTransformer());
         registerTransformer(new S0EPacketSpawnObjectTransformer());
-        registerTransformer(new RenderXPOrbTransformer());
-        registerTransformer(new RenderFireballTransformer());
         //#endif
         registerTransformer(new RenderGlobalTransformer());
         registerTransformer(new RenderPlayerTransformer());

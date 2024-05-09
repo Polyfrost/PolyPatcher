@@ -17,6 +17,8 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Team;
@@ -150,12 +152,12 @@ public class EntityCulling {
 
             Notifications.INSTANCE.send("Patcher",
                 "Entity Culling has been disabled as your computer is too old and does not support the technology behind it.\n" +
-                    "If you believe this is a mistake, please contact us at https://polyfrost.cc/discord or click this message", () -> {
+                    "If you believe this is a mistake, please contact us at https://polyfrost.org/discord or click this message", () -> {
                     try {
-                        UDesktop.browse(new URI("https://polyfrost.cc/discord"));
+                        UDesktop.browse(new URI("https://polyfrost.org/discord"));
                     } catch (URISyntaxException e) {
                         Patcher.instance.getLogger().error("Failed to open support discord.", e);
-                        ChatUtilities.sendMessage("Failed to open https://polyfrost.cc/discord.");
+                        ChatUtilities.sendMessage("Failed to open https://polyfrost.org/discord.");
                     }
                 });
 
@@ -208,7 +210,9 @@ public class EntityCulling {
         boolean armorstand = entity instanceof EntityArmorStand;
         if (entity == mc.thePlayer || entity.worldObj != mc.thePlayer.worldObj ||
             (PatcherConfig.checkArmorstandRules && armorstand && ((EntityArmorStand) entity).hasMarker()) ||
-            (entity.isInvisibleToPlayer(mc.thePlayer) && !armorstand)
+            (entity.isInvisibleToPlayer(mc.thePlayer) && !armorstand) ||
+            (PatcherConfig.dontCullWithers && entity instanceof EntityWither) ||
+            (PatcherConfig.dontCullEnderDragons && entity instanceof EntityDragon)
             //#if MC==11202
             //$$ || entity.isGlowing()
             //#endif

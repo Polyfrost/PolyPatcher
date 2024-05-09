@@ -18,6 +18,6 @@ public class GuiIngameMixin_PumpkinBlurRendering {
 
     @ModifyArg(method = "renderPumpkinOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;color(FFFF)V"), index = 3)
     private float patcher$modifyPumpkinOpacity(float alpha) {
-        return PatcherConfig.pumpkinOverlayOpacity;
+        return PatcherConfig.pumpkinOverlayOpacity / 100f;
     }
 }

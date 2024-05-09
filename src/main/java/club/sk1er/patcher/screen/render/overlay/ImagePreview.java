@@ -74,6 +74,7 @@ public class ImagePreview {
 
                 if (!found) return;
             } catch (MalformedURLException e) {
+                Patcher.instance.getLogger().error("Error during url lookup: " + value, e);
                 return;
             }
         }
@@ -84,7 +85,7 @@ public class ImagePreview {
             return;
         }
 
-        if (value.contains("imgur.com/")) {
+        if (value.contains("imgur.com/") && !value.contains("i.imgur")) {
             final String[] split = value.split("/");
             value = String.format("https://i.imgur.com/%s.png", split[split.length - 1]);
         }
@@ -158,6 +159,10 @@ public class ImagePreview {
             connection.setUseCaches(true);
             connection.setInstanceFollowRedirects(true);
             connection.addRequestProperty("User-Agent", "Patcher Image Previewer");
+            if (url.contains("imgur")) {
+                // Prevents redirect to main website
+                connection.addRequestProperty("Referer", "https://imgur.com/");
+            }
             connection.setReadTimeout(15000);
             connection.setConnectTimeout(15000);
             connection.setDoOutput(true);

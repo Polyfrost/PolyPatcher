@@ -6,7 +6,7 @@ net.minecraft.util.text.translation.I18n translateToLocal() net.minecraft.util.S
 net.minecraft.client.entity.EntityPlayerSP sendMessage() net.minecraft.client.entity.EntityPlayerSP addChatComponentMessage()
 net.minecraft.client.renderer.entity.layers.LayerArmorBase renderEnchantedGlint() net.minecraft.client.renderer.entity.layers.LayerArmorBase renderGlint()
 net.minecraft.client.renderer.entity.RenderEntityItem getModelCount() net.minecraft.client.renderer.entity.RenderEntityItem func_177078_a()
-net.minecraft.client.gui.advancements.GuiAdvancement func_191817_b() net.minecraft.client.gui.achievement.GuiAchievement updateAchievementWindow()
+net.minecraft.client.gui.advancements.GuiAdvancement draw() net.minecraft.client.gui.achievement.GuiAchievement updateAchievementWindow()
 net.minecraft.client.multiplayer.ServerList set() net.minecraft.client.multiplayer.ServerList func_147413_a()
 net.minecraft.world.World getCollisionBoxes() net.minecraft.world.World getCollidingBoundingBoxes()
 net.minecraft.server.MinecraftServer applyServerIconToResponse() net.minecraft.server.MinecraftServer addFaviconToStatusResponse()
