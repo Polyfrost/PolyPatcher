@@ -2,6 +2,9 @@ package club.sk1er.container;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
 
 public class ContainerMessage {
 
@@ -12,11 +15,24 @@ public class ContainerMessage {
             e.printStackTrace();
         }
 
-        JOptionPane.showMessageDialog(null,
-            "This is a Forge mod, not an application. Please put this in your mods folder, located inside your Minecraft folder."
-                + "\nIf you don't know how to install a Forge mod, search 'Forge Mod Installation Tutorials' online."
-                + "\nIf you're still lost, contact the support Discord at https://sk1er.club/support.",
-            "This is not the proper installation method.", JOptionPane.INFORMATION_MESSAGE);
+        String message = "Patcher is a Forge mod, not an application. Please put this in your mods folder, located inside your Minecraft folder."
+            + "\nIf you don't know how to install a Forge mod, search 'Forge Mod Installation Tutorials' online."
+            + "\nIf you're still lost, contact the support Discord at https://polyfrost.cc/discord.";
+        String title = "Patcher - This is not the proper installation method.";
+
+        if (Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            int option = JOptionPane.showOptionDialog(null, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] { "Join Discord", "Close" }, JOptionPane.YES_OPTION);
+
+            if (option == JOptionPane.YES_OPTION) {
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://polyfrost.cc/discord"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
+        }
 
         System.exit(0);
     }
