@@ -1,7 +1,5 @@
 package club.sk1er.container;
 
-import cc.polyfrost.oneconfig.libs.universal.UDesktop;
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import java.awt.Desktop;
@@ -25,7 +23,11 @@ public class ContainerMessage {
             int option = JOptionPane.showOptionDialog(null, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new Object[] { "Join Discord", "Close" }, JOptionPane.YES_OPTION);
 
             if (option == JOptionPane.YES_OPTION) {
-                UDesktop.browse(URI.create("https://polyfrost.org/discord"));
+                try {
+                    Desktop.getDesktop().browse(URI.create("https://polyfrost.cc/discord"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
