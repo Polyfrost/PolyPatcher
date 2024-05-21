@@ -6,13 +6,14 @@ net.minecraft.util.text.translation.I18n translateToLocal() net.minecraft.util.S
 net.minecraft.client.entity.EntityPlayerSP sendMessage() net.minecraft.client.entity.EntityPlayerSP addChatComponentMessage()
 net.minecraft.client.renderer.entity.layers.LayerArmorBase renderEnchantedGlint() net.minecraft.client.renderer.entity.layers.LayerArmorBase renderGlint()
 net.minecraft.client.renderer.entity.RenderEntityItem getModelCount() net.minecraft.client.renderer.entity.RenderEntityItem func_177078_a()
-net.minecraft.client.gui.advancements.GuiAdvancement func_191817_b() net.minecraft.client.gui.achievement.GuiAchievement updateAchievementWindow()
+net.minecraft.client.gui.advancements.GuiAdvancement draw() net.minecraft.client.gui.achievement.GuiAchievement updateAchievementWindow()
 net.minecraft.client.multiplayer.ServerList set() net.minecraft.client.multiplayer.ServerList func_147413_a()
 net.minecraft.world.World getCollisionBoxes() net.minecraft.world.World getCollidingBoundingBoxes()
 net.minecraft.server.MinecraftServer applyServerIconToResponse() net.minecraft.server.MinecraftServer addFaviconToStatusResponse()
 net.minecraft.client.renderer.chunk.VisGraph floodFill() net.minecraft.client.renderer.chunk.VisGraph func_178604_a()
 net.minecraft.client.renderer.chunk.VisGraph addEdges() net.minecraft.client.renderer.chunk.VisGraph func_178610_a()
 net.minecraft.client.particle.ParticleManager tickParticleList() net.minecraft.client.particle.EffectRenderer updateEffectAlphaLayer()
+net.minecraft.client.audio.SoundManager setVolume() net.minecraft.client.audio.SoundManager setSoundCategoryVolume()
 
 net.minecraft.init.MobEffects POISON net.minecraft.potion.Potion poison
 net.minecraft.init.MobEffects WITHER net.minecraft.potion.Potion wither
@@ -40,6 +41,7 @@ net.minecraft.network.play.server.SPacketEntityHeadLook net.minecraft.network.pl
 net.minecraft.network.play.server.SPacketEntityStatus net.minecraft.network.play.server.S19PacketEntityStatus
 net.minecraft.network.play.server.SPacketCloseWindow net.minecraft.network.play.server.S2EPacketCloseWindow
 net.minecraft.network.play.server.SPacketCustomPayload net.minecraft.network.play.server.S3FPacketCustomPayload
+net.minecraft.network.play.server.SPacketSpawnPlayer net.minecraft.network.play.server.S0CPacketSpawnPlayer
 net.minecraft.network.status.client.CPacketServerQuery net.minecraft.network.status.client.C00PacketServerQuery
 net.minecraft.network.status.server.SPacketServerInfo net.minecraft.network.status.server.S00PacketServerInfo
 net.minecraft.network.status.server.SPacketPong net.minecraft.network.status.server.S01PacketPong
@@ -57,3 +59,4 @@ net.minecraft.client.particle.Particle net.minecraft.client.particle.EntityFX
 net.minecraft.client.gui.advancements.GuiAdvancement net.minecraft.client.gui.achievement.GuiAchievement
 net.minecraft.client.gui.GuiWorldSelection net.minecraft.client.gui.GuiSelectWorld
 net.minecraft.pathfinding.NodeProcessor net.minecraft.world.pathfinder.NodeProcessor
+net.minecraft.util.SoundCategory net.minecraft.client.audio.SoundCategory

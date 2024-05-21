@@ -15,7 +15,8 @@ public class FramebufferMixin_HUDCaching {
     public void patcher$bindHUDCachingBuffer(boolean viewport, CallbackInfo ci) {
         final Framebuffer framebuffer = (Framebuffer) (Object) this;
         if (HUDCaching.renderingCacheOverride && framebuffer == Minecraft.getMinecraft().getFramebuffer()) {
-            HUDCaching.framebuffer.bindFramebuffer(viewport);
+            HUDCaching.hudFramebuffer.bindFramebuffer(viewport);
+            //HUDCaching.screenFramebuffer.bindFramebuffer(viewport);
             ci.cancel();
         }
     }

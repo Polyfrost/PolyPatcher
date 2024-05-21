@@ -1,14 +1,15 @@
 [
   {
-    "modid": "patcher",
-    "name": "Patcher",
+    "modid": "${id}",
+    "name": "${name}",
     "description": "A Forge mod full of Vanilla bug fixes, Quality of Life improvements, and performance enhancements.",
     "version": "${version}",
     "mcversion": "${mcVersionStr}",
     "url": "https://sk1er.club/mods/patcher",
     "updateUrl": "",
     "authorList": [
-      "Sk1er LLC"
+      "Sk1er LLC",
+      "Polyfrost"
     ],
     "credits": "prplz, 2pi, UserTeemu, DJtheRedstoner; SporkSpoon for the monkey",
     "logoFile": "patcher.png",

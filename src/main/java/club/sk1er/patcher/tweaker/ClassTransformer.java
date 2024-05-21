@@ -41,7 +41,7 @@ import club.sk1er.patcher.tweaker.transform.PatcherTransformer;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
-import gg.essential.universal.UDesktop;
+import cc.polyfrost.oneconfig.libs.universal.UDesktop;
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 import org.apache.commons.lang3.StringUtils;
@@ -117,10 +117,6 @@ public class ClassTransformer implements IClassTransformer {
         //#if MC==10809
         registerTransformer(new GuiNewChatTransformer());
         registerTransformer(new S0EPacketSpawnObjectTransformer());
-        registerTransformer(new RenderXPOrbTransformer());
-        registerTransformer(new RenderFireballTransformer());
-        registerTransformer(new RenderFishTransformer());
-        registerTransformer(new RenderSnowballTransformer());
         //#endif
         registerTransformer(new RenderGlobalTransformer());
         registerTransformer(new RenderPlayerTransformer());

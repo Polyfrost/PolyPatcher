@@ -4,9 +4,8 @@ import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.RenderManagerAccessor;
 import club.sk1er.patcher.util.chat.ChatUtilities;
-import gg.essential.api.EssentialAPI;
-import gg.essential.universal.UDesktop;
-import kotlin.Unit;
+import cc.polyfrost.oneconfig.libs.universal.UDesktop;
+import cc.polyfrost.oneconfig.utils.Notifications;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -18,6 +17,8 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.scoreboard.Team;
@@ -55,6 +56,7 @@ public class EntityCulling {
     private static final boolean SUPPORT_NEW_GL = GLContext.getCapabilities().OpenGL33;
     public static boolean shouldPerformCulling = false;
     private int destroyTimer;
+    public static boolean renderingSpawnerEntity = false;
 
     /**
      * Used for checking if the entities' nametag can be rendered if the user still wants
@@ -148,16 +150,15 @@ public class EntityCulling {
             PatcherConfig.entityCulling = false;
             Patcher.instance.forceSaveConfig();
 
-            EssentialAPI.getNotifications().push("Patcher",
+            Notifications.INSTANCE.send("Patcher",
                 "Entity Culling has been disabled as your computer is too old and does not support the technology behind it.\n" +
-                    "If you believe this is a mistake, please contact us at https://sk1er.club/support-discord or click this message", () -> {
+                    "If you believe this is a mistake, please contact us at https://polyfrost.org/discord or click this message", () -> {
                     try {
-                        UDesktop.browse(new URI("https://sk1er.club/support-discord"));
+                        UDesktop.browse(new URI("https://polyfrost.org/discord"));
                     } catch (URISyntaxException e) {
                         Patcher.instance.getLogger().error("Failed to open support discord.", e);
-                        ChatUtilities.sendMessage("Failed to open https://sk1er.club/support-discord.");
+                        ChatUtilities.sendMessage("Failed to open https://polyfrost.org/discord.");
                     }
-                    return Unit.INSTANCE;
                 });
 
             return 0;
@@ -171,6 +172,7 @@ public class EntityCulling {
      * @return true if the entity rendering should be skipped
      */
     private static boolean checkEntity(Entity entity) {
+        if (renderingSpawnerEntity) return false;
         OcclusionQuery query = queries.computeIfAbsent(entity.getUniqueID(), OcclusionQuery::new);
         if (query.refresh) {
             query.nextQuery = getQuery();
@@ -208,7 +210,9 @@ public class EntityCulling {
         boolean armorstand = entity instanceof EntityArmorStand;
         if (entity == mc.thePlayer || entity.worldObj != mc.thePlayer.worldObj ||
             (PatcherConfig.checkArmorstandRules && armorstand && ((EntityArmorStand) entity).hasMarker()) ||
-            (entity.isInvisibleToPlayer(mc.thePlayer) && !armorstand)
+            (entity.isInvisibleToPlayer(mc.thePlayer) && !armorstand) ||
+            (PatcherConfig.dontCullWithers && entity instanceof EntityWither) ||
+            (PatcherConfig.dontCullEnderDragons && entity instanceof EntityDragon)
             //#if MC==11202
             //$$ || entity.isGlowing()
             //#endif

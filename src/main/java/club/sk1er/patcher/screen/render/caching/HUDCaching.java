@@ -8,6 +8,7 @@ import club.sk1er.patcher.util.chat.ChatUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
+//import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
+//import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -24,23 +26,87 @@ import org.lwjgl.opengl.GL11;
 public class HUDCaching {
 
     private static final Minecraft mc = Minecraft.getMinecraft();
-    public static Framebuffer framebuffer;
-    private static boolean dirty = true;
+    public static Framebuffer hudFramebuffer;
+    //public static Framebuffer screenFramebuffer;
+    private static boolean hudDirty = true;
+    //private static boolean screenDirty = true;
     public static boolean renderingCacheOverride;
+
+    //private static long nextScreenRefresh;
+    private static long nextHudRefresh;
+
+    private static int lastHotbar;
+
+    private static boolean isChatOpen = false;
 
     @SubscribeEvent
     public void tick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END && PatcherConfig.hudCaching) {
-            if (!OpenGlHelper.isFramebufferEnabled() && mc.thePlayer != null) {
-                String statement = (!ClassTransformer.optifineVersion.equals("NONE") ?
-                    "\n&cTry to disable OptiFine's Fast Render/Anti-aliasing option." : "") + "\n&7Are Framebuffers supported?: &e&l" + OpenGlHelper.framebufferSupported;
-                ChatUtilities.sendMessage("&cFramebuffers appear to be disabled, automatically disabling HUDCaching." + statement);
-                PatcherConfig.hudCaching = false;
-            } else {
-                dirty = true;
+            if (mc.thePlayer != null) {
+                if (!OpenGlHelper.isFramebufferEnabled()) {
+                    String statement = (!ClassTransformer.optifineVersion.equals("NONE") ?
+                        "\n&cTry to disable OptiFine's Fast Render/Anti-aliasing option." : "") + "\n&7Are Framebuffers supported?: &e&l" + OpenGlHelper.framebufferSupported;
+                    ChatUtilities.sendMessage("&cFramebuffers appear to be disabled, automatically disabling HUDCaching." + statement);
+                    PatcherConfig.hudCaching = false;
+                } else {
+                    if (lastHotbar != mc.thePlayer.inventory.currentItem) {
+                        hudDirty = true;
+                        lastHotbar = mc.thePlayer.inventory.currentItem;
+                    }
+                    if (isChatOpen != mc.ingameGUI.getChatGUI().getChatOpen()) {
+                        hudDirty = true;
+                        isChatOpen = mc.ingameGUI.getChatGUI().getChatOpen();
+                    }
+                }
             }
         }
     }
+
+    //public static void renderCachedScreen(EntityRenderer renderer, GuiScreen screen, int mouseX, int mouseY, float partialTicks) {
+    //    if (!OpenGlHelper.isFramebufferEnabled() || !PatcherConfig.hudCaching || mc.theWorld == null) {
+    //        ForgeHooksClient.drawScreen(screen, mouseX, mouseY, partialTicks);
+    //        return;
+    //    }
+
+    //    GlStateManager.enableDepth();
+    //    ScaledResolution resolution = new ScaledResolution(mc);
+    //    renderer.setupOverlayRendering();
+    //    GlStateManager.enableBlend();
+
+    //    if (screenFramebuffer != null && System.currentTimeMillis() > nextScreenRefresh) {
+    //        screenDirty = true;
+    //    }
+
+    //    if (screenFramebuffer == null || screenDirty) {
+    //        nextScreenRefresh = System.currentTimeMillis() + (1000 / Math.max(30, PatcherConfig.cacheFPS));
+    //        screenDirty = false;
+    //        (screenFramebuffer = checkFramebufferSizes(screenFramebuffer, mc.displayWidth, mc.displayHeight)).framebufferClear();
+    //        screenFramebuffer.bindFramebuffer(false);
+    //        GlStateManager.disableBlend();
+    //        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    //        GlStateManager.color(1, 1, 1, 1);
+    //        GlStateManager.disableLighting();
+    //        GlStateManager.disableFog();
+    //        renderingCacheOverride = true;
+    //        ForgeHooksClient.drawScreen(mc.currentScreen, mouseX, mouseY, partialTicks);
+    //        renderingCacheOverride = false;
+    //        mc.getFramebuffer().bindFramebuffer(false);
+    //        GlStateManager.enableBlend();
+    //    }
+
+    //    if (screenFramebuffer != null) {
+    //        Tessellator tessellator = Tessellator.getInstance();
+    //        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+    //        GlStateManager.enableBlend();
+    //        GlStateManager.tryBlendFuncSeparate(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
+    //        GlStateManager.color(1, 1, 1, 1);
+    //        screenFramebuffer.bindFramebufferTexture();
+    //        drawTexturedRect(tessellator, worldRenderer, (float) resolution.getScaledWidth_double(), (float) resolution.getScaledHeight_double());
+    //        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+    //    }
+
+    //    GlStateManager.enableDepth();
+    //}
 
     @SuppressWarnings("unused")
     public static void renderCachedHud(EntityRenderer renderer, GuiIngame ingame, float partialTicks) {
@@ -54,7 +120,28 @@ public class HUDCaching {
             renderer.setupOverlayRendering();
             GlStateManager.enableBlend();
 
-            if (framebuffer != null) {
+            if (hudFramebuffer != null && System.currentTimeMillis() > nextHudRefresh) {
+                hudDirty = true;
+            }
+
+            if (hudFramebuffer == null || hudDirty) {
+                hudDirty = false;
+                nextHudRefresh = System.currentTimeMillis() + (1000 / PatcherConfig.cacheFPS);
+                (hudFramebuffer = checkFramebufferSizes(hudFramebuffer, mc.displayWidth, mc.displayHeight)).framebufferClear();
+                hudFramebuffer.bindFramebuffer(false);
+                GlStateManager.disableBlend();
+                GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                GlStateManager.color(1, 1, 1, 1);
+                GlStateManager.disableLighting();
+                GlStateManager.disableFog();
+                renderingCacheOverride = true;
+                ingame.renderGameOverlay(partialTicks);
+                renderingCacheOverride = false;
+                mc.getFramebuffer().bindFramebuffer(false);
+                GlStateManager.enableBlend();
+            }
+
+            if (hudFramebuffer != null) {
                 Tessellator tessellator = Tessellator.getInstance();
                 WorldRenderer worldRenderer = tessellator.getWorldRenderer();
                 if (ingame instanceof GuiIngameForge) {
@@ -82,25 +169,9 @@ public class HUDCaching {
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GlStateManager.color(1, 1, 1, 1);
-                framebuffer.bindFramebufferTexture();
+                hudFramebuffer.bindFramebufferTexture();
                 drawTexturedRect(tessellator, worldRenderer, (float) resolution.getScaledWidth_double(), (float) resolution.getScaledHeight_double());
                 GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-            }
-
-            if (framebuffer == null || dirty) {
-                dirty = false;
-                (framebuffer = checkFramebufferSizes(framebuffer, mc.displayWidth, mc.displayHeight)).framebufferClear();
-                framebuffer.bindFramebuffer(false);
-                GlStateManager.disableBlend();
-                GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                GlStateManager.color(1, 1, 1, 1);
-                GlStateManager.disableLighting();
-                GlStateManager.disableFog();
-                renderingCacheOverride = true;
-                ingame.renderGameOverlay(partialTicks);
-                renderingCacheOverride = false;
-                mc.getFramebuffer().bindFramebuffer(false);
-                GlStateManager.enableBlend();
             }
 
             GlStateManager.enableDepth();
@@ -111,6 +182,7 @@ public class HUDCaching {
         if (framebuffer == null || framebuffer.framebufferWidth != width || framebuffer.framebufferHeight != height) {
             if (framebuffer == null) {
                 framebuffer = new Framebuffer(width, height, true);
+                framebuffer.enableStencil();
                 framebuffer.framebufferColor[0] = 0.0f;
                 framebuffer.framebufferColor[1] = 0.0f;
                 framebuffer.framebufferColor[2] = 0.0f;

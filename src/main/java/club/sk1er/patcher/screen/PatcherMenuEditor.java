@@ -5,14 +5,14 @@ import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.GuiMainMenuAccessor;
 import club.sk1er.patcher.screen.disconnect.SmartDisconnectScreen;
 import club.sk1er.patcher.screen.quit.ConfirmQuitScreen;
+import cc.polyfrost.oneconfig.libs.elementa.ElementaVersion;
+import cc.polyfrost.oneconfig.libs.elementa.components.UIImage;
+import cc.polyfrost.oneconfig.libs.elementa.components.Window;
+import cc.polyfrost.oneconfig.libs.elementa.dsl.ComponentsKt;
+import cc.polyfrost.oneconfig.libs.elementa.dsl.UtilitiesKt;
+import cc.polyfrost.oneconfig.libs.universal.UMatrixStack;
 import gg.essential.api.EssentialAPI;
 import gg.essential.api.config.EssentialConfig;
-import gg.essential.elementa.ElementaVersion;
-import gg.essential.elementa.components.UIImage;
-import gg.essential.elementa.components.Window;
-import gg.essential.elementa.dsl.ComponentsKt;
-import gg.essential.elementa.dsl.UtilitiesKt;
-import gg.essential.universal.UMatrixStack;
 import kotlin.Unit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -46,7 +46,7 @@ public class PatcherMenuEditor {
         25, // tab
         72 // return
     };
-    private final Window window = (Window) new Window(ElementaVersion.V1).addChild(ComponentsKt.constrain(UIImage.ofResourceCached("/patcher.png"), uiConstraints -> {
+    private final Window window = (Window) new Window(ElementaVersion.V2).addChild(ComponentsKt.constrain(UIImage.ofResourceCached("/patcher.png"), uiConstraints -> {
         uiConstraints.setX(UtilitiesKt.pixels(0, true));
         uiConstraints.setWidth(UtilitiesKt.pixels(200));
         uiConstraints.setHeight(UtilitiesKt.pixels(200));
@@ -93,15 +93,13 @@ public class PatcherMenuEditor {
                 }
             }
         } else if (gui instanceof GuiIngameMenu) {
-            if (!mc.isSingleplayer() && PatcherConfig.openToLanReplacement > 0) {
-                EssentialConfig config = EssentialAPI.getConfig();
-                int buttonWidth = config.getOpenToFriends() && config.getEssentialFull() && EssentialAPI.getOnboardingData().hasAcceptedEssentialTOS() ? 98 : 200;
+            if (mc.getCurrentServerData() != null && PatcherConfig.openToLanReplacement > 0) {
                 mcButtonList.get(4).visible = false;
                 mcButtonList.get(4).enabled = false;
                 if (PatcherConfig.openToLanReplacement == 1) {
                     mcButtonList.add(new GuiButton(serverList,
                         (width >> 1) - 100, (height >> 2) + 56,
-                        buttonWidth, 20,
+                        200, 20,
                         "Server List"
                     ));
                 }
@@ -148,7 +146,7 @@ public class PatcherMenuEditor {
             mc.displayGuiScreen(new FakeMultiplayerMenu(gui));
         } else if (gui instanceof GuiScreenOptionsSounds) {
             if (buttonId == allSounds) {
-                mc.displayGuiScreen(Patcher.instance.getPatcherSoundConfig().gui());
+                Patcher.instance.getPatcherSoundConfig().openGui();
             } else if (buttonId == refreshSounds) {
                 mc.getSoundHandler().onResourceManagerReload(mc.getResourceManager());
             }
@@ -169,7 +167,7 @@ public class PatcherMenuEditor {
             }
         }
 
-        if (PatcherConfig.openToLanReplacement == 2 && gui instanceof GuiIngameMenu) {
+        if (PatcherConfig.openToLanReplacement == 2 && gui instanceof GuiIngameMenu && Patcher.instance.isEssential()) {
             EssentialConfig config = EssentialAPI.getConfig();
             if (config.getOpenToFriends() && config.getEssentialFull() && EssentialAPI.getOnboardingData().hasAcceptedEssentialTOS()) {
                 for (GuiButton button : mcButtonList) {
@@ -199,7 +197,7 @@ public class PatcherMenuEditor {
         //#endif
         if (gui instanceof GuiMainMenu) {
             int key = Keyboard.getEventKey();
-            if (Keyboard.isKeyDown(key) && !Keyboard.isRepeatEvent()) {
+            if (Keyboard.isCreated() && Keyboard.isKeyDown(key) && !Keyboard.isRepeatEvent()) {
                 int i = next + 1;
                 next = (key >> 3) * ((7 & key) + (i << 1)) == sequence[next] ? i : 0;
                 if (next > 9) {

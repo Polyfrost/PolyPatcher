@@ -1,10 +1,12 @@
 package club.sk1er.patcher.util.fov;
 
 import club.sk1er.patcher.config.PatcherConfig;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -97,6 +99,19 @@ public class FovHandler {
         //#else
         //$$ event.setNewfov(base);
         //#endif
+    }
+
+    @SubscribeEvent
+    public void fovModifier(EntityViewRenderEvent.FOVModifier event) {
+        if (!PatcherConfig.removeWaterFov) return;
+        if (event.
+            //#if MC==10809
+            block
+            //#else
+            //$$ getState()
+            //#endif
+            .getMaterial() != Material.water) return;
+        event.setFOV(event.getFOV() * 70.0F / 60.0F);
     }
 
     // Input the current state and modifier.
