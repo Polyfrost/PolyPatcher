@@ -44,6 +44,7 @@
     "bugfixes.EntityRendererMixin_PolygonOffset",
     "bugfixes.EntityRendererMixin_SpectatorShader",
     "bugfixes.EntityXPOrbMixin_AdjustHeight",
+    "bugfixes.FontRendererMixin_ResetBlend",
     "bugfixes.FontRendererMixin_ResetStyles",
     "bugfixes.GameSettingsMixin_MipmapSlider",
     "bugfixes.GuiContainerMixin_SplitRemnants",

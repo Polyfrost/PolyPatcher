@@ -1398,6 +1398,13 @@ public class PatcherConfig extends Config {
     )
     public static int cacheFPS = 20;
 
+    @Switch(
+        name = "Force Blend on Text",
+        description = "Forcefully applies blend to text rendering to attempt to fix black boxes.",
+        category = "Experimental", subcategory = "Text Rendering"
+    )
+    public static boolean forceTextBlending = false;
+
     // HIDDEN
 
     public static boolean labyModMoment = true;
