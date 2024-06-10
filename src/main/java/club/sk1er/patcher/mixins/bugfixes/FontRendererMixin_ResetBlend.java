@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class FontRendererMixin_ResetBlend {
     @Inject(method = "renderString", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;renderStringAtPos(Ljava/lang/String;Z)V", shift = At.Shift.BEFORE))
     private void patcher$renderStringPre(String text, float x, float y, int color, boolean dropShadow, CallbackInfoReturnable<Integer> cir) {
-        if (PatcherConfig.forceTextBlending) GlStateManager.enableBlend();
+        GlStateManager.enableBlend();
     }
 
 }
