@@ -15,8 +15,4 @@ public class FontRendererMixin_ResetBlend {
         if (PatcherConfig.forceTextBlending) GlStateManager.enableBlend();
     }
 
-    @Inject(method = "renderString", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;renderStringAtPos(Ljava/lang/String;Z)V", shift = At.Shift.AFTER))
-    private void patcher$renderStringPost(String text, float x, float y, int color, boolean dropShadow, CallbackInfoReturnable<Integer> cir) {
-        if (PatcherConfig.forceTextBlending) GlStateManager.disableBlend();
-    }
 }
