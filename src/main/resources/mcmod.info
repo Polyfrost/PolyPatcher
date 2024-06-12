@@ -4,7 +4,7 @@
     "name": "${name}",
     "description": "A Forge mod full of Vanilla bug fixes, Quality of Life improvements, and performance enhancements.",
     "version": "${version}",
-    "mcversion": "${mcVersionStr}",
+    "mcversion": "${mcVersion}",
     "url": "https://sk1er.club/mods/patcher",
     "updateUrl": "",
     "authorList": [
