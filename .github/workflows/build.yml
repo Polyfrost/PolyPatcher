@@ -30,3 +30,7 @@ jobs:
             ${{ runner.os }}-gradle-v2-
 
       - run: ./gradlew --no-daemon build
+
+      - uses: actions/upload-artifact@v2.2.3
+        with:
+          path: ./build/libs/
