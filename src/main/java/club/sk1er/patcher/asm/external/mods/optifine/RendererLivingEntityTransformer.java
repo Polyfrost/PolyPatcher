@@ -120,8 +120,6 @@ public class RendererLivingEntityTransformer implements CommonTransformer {
                         //#endif
                     }
                 }
-            } else if (methodName.equals("renderName") || methodName.equals("func_177067_a")) {
-                makeNametagTransparent(methodNode);
             } else if (methodName.equals("rotateCorpse") || methodName.equals("func_77043_a")) {
                 final ListIterator<AbstractInsnNode> iterator = methodNode.instructions.iterator();
                 while (iterator.hasNext()) {

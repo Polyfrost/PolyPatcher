@@ -23,13 +23,5 @@ public abstract class RendererLivingEntityMixin_NametagRendering<T extends Entit
     @Inject(method = "canRenderName(Lnet/minecraft/entity/EntityLivingBase;)Z", at = @At("HEAD"), cancellable = true)
     private void handleBetterF1AndShowOwnNametag(T entity, CallbackInfoReturnable<Boolean> cir) {
         if (PatcherConfig.betterHideGui && !Minecraft.isGuiEnabled()) cir.setReturnValue(false);
-        else if (entity == renderManager.livingPlayer && !entity.isInvisible() && PatcherConfig.showOwnNametag) cir.setReturnValue(true);
     }
-
-    //#if MC==10809
-    @Redirect(method = "renderName(Lnet/minecraft/entity/EntityLivingBase;DDD)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;drawString(Ljava/lang/String;III)I"))
-    private int patcher$useShadowedNametagRendering(FontRenderer instance, String text, int x, int y, int color) {
-        return NameTagRenderingHooks.drawNametagText(instance, text, x, y, color);
-    }
-    //#endif
 }

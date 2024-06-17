@@ -164,14 +164,14 @@ public class PatcherConfig extends Config {
 
     @Switch(
         name = "Disable Night Vision",
-        description = "Completely disables the effects of night vision.",
+        description = "Completely disable the effects of night vision.",
         category = "Miscellaneous", subcategory = "Overlays"
     )
     public static boolean disableNightVision = false;
 
     @Switch(
         name = "Cleaner Night Vision",
-        description = "Makes the night vision effect fade out instead of a flashing effect.",
+        description = "Make the night vision effect fade out instead of a flashing effect.",
         category = "Miscellaneous", subcategory = "Overlays"
     )
     public static boolean cleanerNightVision = false;
@@ -206,14 +206,6 @@ public class PatcherConfig extends Config {
     )
     public static int fireOverlayOpacity = 100;
 
-    @Slider(
-        name = "Pumpkin Overlay Opacity (%)",
-        description = "Change the opacity of the pumpkin overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
-        min = 0, max = 100
-    )
-    public static int pumpkinOverlayOpacity = 100;
-
     @Switch(
         name = "Hide Fire Overlay with Fire Resistance",
         description = "Hide the fire overlay when you have fire resistance active.\n" +
@@ -221,6 +213,14 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "Overlays"
     )
     public static boolean hideFireOverlayWithFireResistance;
+
+    @Slider(
+        name = "Pumpkin Overlay Opacity (%)",
+        description = "Change the opacity of the pumpkin overlay.",
+        category = "Miscellaneous", subcategory = "Overlays",
+        min = 0, max = 100
+    )
+    public static int pumpkinOverlayOpacity = 100;
 
     @VigilanceName(name = "Disable Titles", category = "Miscellaneous", subcategory = "Titles")
     public static boolean disableTitles;
@@ -247,7 +247,7 @@ public class PatcherConfig extends Config {
         description = "Remove FOV change when underwater.",
         category = "Miscellaneous", subcategory = "Field of View"
     )
-    public static boolean removeWaterFov;
+    public static boolean removeWaterFov = true;
 
     @Switch(
         name = "FOV Modifier",
@@ -288,6 +288,8 @@ public class PatcherConfig extends Config {
     )
     public static float slownessFovModifierFloat = 1;
 
+    public static boolean toggleTab;
+
     @Switch(
         name = "Disable Hotbar Scrolling",
         description = "Remove the ability to scroll through your hotbar.",
@@ -297,17 +299,19 @@ public class PatcherConfig extends Config {
 
     @Switch(
         name = "Invert Hotbar Scrolling",
-        description = "Changes the direction of scrolling in your hotbar.",
+        description = "Change the direction of scrolling in your hotbar.",
         category = "Miscellaneous", subcategory = "General"
     )
     public static boolean invertHotbarScrolling;
 
     @Switch(
         name = "Prevent Overflow Hotbar Scrolling",
-        description = "Prevents from directly scrolling between the first and last hotbar slot.",
+        description = "Prevent from directly scrolling between the first and last hotbar slot.",
         category = "Miscellaneous", subcategory = "General"
     )
     public static boolean preventOverflowHotbarScrolling;
+
+    public static boolean crosshairPerspective;
 
     @Slider(
         name = "Unfocused Sounds",
@@ -466,6 +470,8 @@ public class PatcherConfig extends Config {
     )
     public static boolean useVanillaMetricsRenderer = true;
 
+    public static boolean numberPing;
+
     @Switch(
         name = "Numerical Enchantments",
         description = "Use readable numbers instead of Roman numerals on enchants.",
@@ -479,6 +485,8 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "Rendering"
     )
     public static boolean betterRomanNumerals = true;
+
+    public static boolean cleanView;
 
     @Switch(
         name = "Windowed Fullscreen",
@@ -500,6 +508,8 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "Overlays"
     )
     public static boolean removeWaterOverlay;
+
+    public static boolean disableBlockBreakParticles;
 
     @Switch(
         name = "Disable Lightning Bolts",
@@ -529,6 +539,8 @@ public class PatcherConfig extends Config {
         min = 1, max = 90
     )
     public static int logOptimizerLength = 30;
+
+    public static boolean removeInvertFromCrosshair;
 
     @Info(
         text = "1.12 Farm Selection Boxes only works on Hypixel & Singleplayer.",
@@ -600,6 +612,8 @@ public class PatcherConfig extends Config {
     )
     public static boolean removeViewBobbing;
 
+    public static boolean removeVerticalViewBobbing;
+
     @Switch(
         name = "Remove Map Bobbing",
         description = "While using View Bobbing, remove the hand bobbing when holding a map.",
@@ -633,6 +647,7 @@ public class PatcherConfig extends Config {
 
     @Switch(
         name = "Smooth Scrolling",
+        description = "Smoothly scrolls through vanilla Minecraft GUIs.",
         category = "Miscellaneous", subcategory = "Rendering"
     )
     public static boolean smoothScrolling;
@@ -681,6 +696,10 @@ public class PatcherConfig extends Config {
         category = "Performance", subcategory = "World"
     )
     public static boolean batchModelRendering = true;
+
+    public static boolean staticParticleColor = false;
+
+    public static int maxParticleLimit = 4000;
 
     @Switch(
         name = "Optimized Font Renderer",
@@ -788,11 +807,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean disableEndPortals;
 
-    @Switch(
-        name = "Disable Nametag Boxes",
-        description = "Remove the transparent box around the nametag.",
-        category = "Performance", subcategory = "Entity Rendering"
-    )
     public static boolean disableNametagBoxes;
 
     @Switch(
@@ -939,14 +953,6 @@ public class PatcherConfig extends Config {
     public static int playerRenderDistance = 64;
 
     @Slider(
-        name = "Tile Entity Render Distance",
-        description = "Stop rendering tile entities outside of a specified radius.",
-        category = "Performance", subcategory = "Entity Rendering",
-        min = 1, max = 64
-    )
-    public static int tileEntityRenderDistance = 64;
-
-    @Slider(
         name = "Passive Entity Render Distance",
         description = "Stop rendering passive entities outside of a specified radius.",
         category = "Performance", subcategory = "Entity Rendering",
@@ -961,6 +967,14 @@ public class PatcherConfig extends Config {
         min = 1, max = 64
     )
     public static int hostileEntityRenderDistance = 64;
+
+    @Slider(
+        name = "Tile Entity Render Distance",
+        description = "Stop rendering tile entities outside of a specified radius.",
+        category = "Performance", subcategory = "Entity Rendering",
+        min = 1, max = 64
+    )
+    public static int tileEntityRenderDistance = 64;
 
     // SCREENS
 
@@ -998,8 +1012,8 @@ public class PatcherConfig extends Config {
     public static boolean removeContainerBackground = false;
 
     @Slider(
-        name = "Change Container Background Opacity (%)",
-        description = "Remove the dark background inside a container.",
+        name = "Container Background Opacity (%)",
+        description = "Change the opacity of the dark background inside a container, or remove it completely.",
         category = "Screens", subcategory = "General",
         min = 0F, max = 100F
     )
@@ -1012,6 +1026,12 @@ public class PatcherConfig extends Config {
         min = 0F, max = 100F
     )
     public static float containerOpacity = 100F;
+
+    public static boolean guiCrosshair;
+
+    public static float tabOpacity = 1.0F;
+
+    public static int tabPlayerCount = 80;
 
     @Info(
         text = "Supported servers for 1.11 chat length are servers that support 1.11 or above.",
@@ -1085,6 +1105,10 @@ public class PatcherConfig extends Config {
         category = "Screens", subcategory = "Chat"
     )
     public static boolean extendChatBackground = true;
+
+    public static boolean tabHeightAllow = true;
+
+    public static int tabHeight = 10;
 
     @Switch(
         name = "Compact Chat",
@@ -1409,8 +1433,6 @@ public class PatcherConfig extends Config {
 
     public static boolean labyModMoment = true;
     public static String selectedAudioDevice = "";
-    public static boolean tabHeightAllow = false;
-    public static int tabHeight = 0;
 
     public static PatcherConfig INSTANCE = new PatcherConfig(); // Needs to be at the bottom or the default values take priority
 
@@ -1450,6 +1472,80 @@ public class PatcherConfig extends Config {
         }
         if (removeContainerBackground) {
             containerBackgroundOpacity = 0F;
+            modified = true;
+        }
+        if (disableNametagBoxes) {
+            disableNametagBoxes = false;
+            modified = true;
+        }
+
+        if (toggleTab) {
+            toggleTab = false;
+            modified = true;
+        }
+
+        if (numberPing) {
+            numberPing = false;
+            modified = true;
+        }
+
+        if (tabOpacity != 1.0F) {
+            tabOpacity = 1.0F;
+            modified = true;
+        }
+
+        if (tabPlayerCount != 80) {
+            tabPlayerCount = 80;
+            modified = true;
+        }
+
+        if (tabHeightAllow) {
+            tabHeightAllow = false;
+            modified = true;
+        }
+
+        if (tabHeight != 10) {
+            tabHeight = 10;
+            modified = true;
+        }
+
+        if (removeVerticalViewBobbing) {
+            removeVerticalViewBobbing = false;
+            modified = true;
+        }
+
+        if (cleanView) {
+            cleanView = false;
+            modified = true;
+        }
+
+        if (disableBlockBreakParticles) {
+            disableBlockBreakParticles = false;
+            modified = true;
+        }
+
+        if (staticParticleColor) {
+            staticParticleColor = false;
+            modified = true;
+        }
+
+        if (maxParticleLimit != 4000) {
+            maxParticleLimit = 4000;
+            modified = true;
+        }
+
+        if (crosshairPerspective) {
+            crosshairPerspective = false;
+            modified = true;
+        }
+
+        if (removeInvertFromCrosshair) {
+            removeInvertFromCrosshair = false;
+            modified = true;
+        }
+
+        if (guiCrosshair) {
+            guiCrosshair = false;
             modified = true;
         }
 

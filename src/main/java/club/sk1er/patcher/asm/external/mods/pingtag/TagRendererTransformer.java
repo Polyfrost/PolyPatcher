@@ -45,10 +45,6 @@ public class TagRendererTransformer implements CommonTransformer {
                         }
                     }
                 }
-
-                this.makeNametagTransparent(methodNode);
-            } else if (methodName.equals("renderTextPrefix") || methodName.equals("renderPingText")) {
-                this.makeNametagShadowed(methodNode);
             }
         }
     }
