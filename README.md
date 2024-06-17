@@ -121,6 +121,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Disable Grounded Arrows** - Stop arrows that are in the ground from rendering.
 - **Disable Attached Arrows** - Stop arrows that are attached to a player from Rendering.
 - **Disable Skulls** - Stop skulls from rendering.
+- **Disable Falling Blocks** - Stops falling blocks from rendering.
 - **Disable Nametags Boxes** - Remove the transparent box around the nametag.
 - **Unstacked Items** - Render stacks of items on the ground as just one instead of having up to 5 copies in one stack.
 - **Entity Render Distance Toggle** - Toggle allowing a custom entity render distance.
