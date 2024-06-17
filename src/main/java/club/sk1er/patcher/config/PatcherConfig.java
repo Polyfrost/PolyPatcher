@@ -775,6 +775,13 @@ public class PatcherConfig extends Config {
     public static boolean disableSkulls;
 
     @Switch(
+        name = "Disable Falling Blocks",
+        description = "Stop falling blocks from rendering.",
+        category = "Performance", subcategory = "Entity Rendering"
+    )
+    public static boolean disableFallingBlocks;
+
+    @Switch(
         name = "Disable End Portals",
         description = "Stop end portals from rendering.",
         category = "Performance", subcategory = "General"
