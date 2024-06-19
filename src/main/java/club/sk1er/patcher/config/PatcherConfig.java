@@ -1670,6 +1670,34 @@ public class PatcherConfig extends Config {
         hideIf("tabHeightOld", () -> true);
         hideIf("fixActionbarOverlapOld", () -> true);
 
+        OldPatcherConfig.nauseaEffect = nauseaEffectOld;
+        OldPatcherConfig.fireOverlayOpacity = fireOverlayOpacityOld;
+        OldPatcherConfig.disableTitles = disableTitlesOld;
+        OldPatcherConfig.titleScale = titleScaleOld;
+        OldPatcherConfig.titleOpacity = titleOpacityOld;
+        OldPatcherConfig.toggleTab = toggleTabOld;
+        OldPatcherConfig.crosshairPerspective = crosshairPerspectiveOld;
+        OldPatcherConfig.showOwnNametag = showOwnNametagOld;
+        OldPatcherConfig.riddenHorseOpacity = riddenHorseOpacityOld;
+        OldPatcherConfig.numberPing = numberPingOld;
+        OldPatcherConfig.cleanView = cleanViewOld;
+        OldPatcherConfig.disableBlockBreakParticles = disableBlockBreakParticlesOld;
+        OldPatcherConfig.removeInvertFromCrosshair = removeInvertFromCrosshairOld;
+        OldPatcherConfig.shadowedNametagText = shadowedNametagTextOld;
+        OldPatcherConfig.shadowedActionbarText = shadowedActionbarTextOld;
+        OldPatcherConfig.actionbarBackground = actionbarBackgroundOld;
+        OldPatcherConfig.removeVerticalViewBobbing = removeVerticalViewBobbingOld;
+        OldPatcherConfig.staticParticleColor = staticParticleColorOld;
+        OldPatcherConfig.maxParticleLimit = maxParticleLimitOld;
+        OldPatcherConfig.disableNametagBoxes = disableNametagBoxesOld;
+        OldPatcherConfig.removeContainerBackground = removeContainerBackgroundOld;
+        OldPatcherConfig.guiCrosshair = guiCrosshairOld;
+        OldPatcherConfig.tabOpacity = tabOpacityOld;
+        OldPatcherConfig.tabPlayerCount = tabPlayerCountOld;
+        OldPatcherConfig.tabHeightAllow = tabHeightAllowOld;
+        OldPatcherConfig.tabHeight = tabHeightOld;
+        OldPatcherConfig.fixActionbarOverlap = fixActionbarOverlapOld;
+
         try {
             addDependency("smartFullbright", "fullbright");
             addDependency("cleanerNightVision", "disableNightVision", () -> !disableNightVision);
@@ -1747,5 +1775,14 @@ public class PatcherConfig extends Config {
         } catch (Exception e) {
             Patcher.instance.getLogger().error("Failed to access property.", e);
         }
+    }
+
+    // compat with vigilance
+    public void markDirty() {
+
+    }
+
+    public void writeData() {
+        save();
     }
 }
