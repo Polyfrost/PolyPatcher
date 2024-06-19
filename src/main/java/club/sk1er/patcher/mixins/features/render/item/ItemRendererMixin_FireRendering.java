@@ -55,7 +55,7 @@ public class ItemRendererMixin_FireRendering {
     }
 
     private float patcher$getFireOpacity() {
-        float fireOpacity = PatcherConfig.fireOverlayOpacity / 100f;
+        float fireOpacity = PatcherConfig.fireOverlayOpacityI / 100f;
         if (PatcherConfig.hideFireOverlayWithFireResistance && mc.thePlayer.isPotionActive(Potion.fireResistance)) {
             int duration = mc.thePlayer.getActivePotionEffect(Potion.fireResistance).getDuration();
             fireOpacity *= duration > 100 ? 0.0F : 0.5F - MathHelper.sin(((float)duration - this.patcher$partialTicksCopy) * (float)Math.PI * 0.2F) * 0.5F;

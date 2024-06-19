@@ -158,7 +158,7 @@ public class ImagePreview {
             connection.setRequestMethod("GET");
             connection.setUseCaches(true);
             connection.setInstanceFollowRedirects(true);
-            connection.addRequestProperty("User-Agent", "Patcher Image Previewer");
+            connection.addRequestProperty("User-Agent", "PolyPatcher Image Previewer");
             if (url.contains("imgur")) {
                 // Prevents redirect to main website
                 connection.addRequestProperty("Referer", "https://imgur.com/");

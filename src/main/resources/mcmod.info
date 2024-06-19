@@ -5,7 +5,7 @@
     "description": "A Forge mod full of Vanilla bug fixes, Quality of Life improvements, and performance enhancements.",
     "version": "${version}",
     "mcversion": "${mcVersionStr}",
-    "url": "https://sk1er.club/mods/patcher",
+    "url": "https://modrinth.com/mod/patcher",
     "updateUrl": "",
     "authorList": [
       "Sk1er LLC",

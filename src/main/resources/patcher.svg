@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="7.07107" y="64" width="80.5097" height="80.5097" rx="13" transform="rotate(-45 7.07107 64)" stroke="#E0E9FB" stroke-width="10"/>
+<path d="M27 73L15 85" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M85 15L73 27" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M100 28L88 40" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M40 88L28 100" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M113 43L101 55" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M55 101L43 113" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M101 73L113 85" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M43 15L55 27" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M28 28L40 40" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M88 88L100 100" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M15 43L27 55" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+<path d="M73 101L85 113" stroke="#A7AFBC" stroke-width="10" stroke-linecap="round"/>
+</svg>

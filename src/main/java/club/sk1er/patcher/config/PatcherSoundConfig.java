@@ -8,6 +8,7 @@ import cc.polyfrost.oneconfig.config.elements.BasicOption;
 import cc.polyfrost.oneconfig.config.elements.OptionSubcategory;
 import cc.polyfrost.oneconfig.config.migration.VigilanceMigrator;
 import cc.polyfrost.oneconfig.gui.elements.config.ConfigSlider;
+import club.sk1er.patcher.Patcher;
 import com.google.gson.JsonObject;
 import net.minecraft.client.audio.SoundEventAccessorComposite;
 import net.minecraft.util.ResourceLocation;
@@ -27,8 +28,10 @@ public class PatcherSoundConfig extends Config {
         //#else
         //$$ "patcher_sounds-112.json";
         //#endif
-    public transient static final Mod soundModImpl = new Mod("Patcher Sounds", ModType.UTIL_QOL, "/patcher.png", new VigilanceMigrator(CONFIG_NAME));
+    public transient static final Mod soundModImpl = new Mod("Patcher Sounds", ModType.UTIL_QOL, "/patcher.svg", new VigilanceMigrator("./config/" + CONFIG_NAME.replace(".json", ".toml")));
     public transient final Map<ResourceLocation, BasicOption> data;
+
+    public static boolean dummyBooleanForMigratorDONTTOUCH = false; // this is used by vigilance migrator, but only to check if an annotation exists. so we can just pass it a random field
 
     public PatcherSoundConfig(Map<ResourceLocation, BasicOption> data, Map<ResourceLocation, SoundEventAccessorComposite> soundRegistry) {
         super(soundModImpl, CONFIG_NAME);
@@ -39,8 +42,17 @@ public class PatcherSoundConfig extends Config {
     }
 
     public void initialize(Map<ResourceLocation, BasicOption> data, Map<ResourceLocation, SoundEventAccessorComposite> soundRegistry) {
+        File profileFile = ConfigUtils.getProfileFile(configFile);
+        Field dummyField = null;
+        try {
+            dummyField = getClass().getDeclaredField("dummyBooleanForMigratorDONTTOUCH");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Patcher.instance.getLogger().error("Failed to get dummy field for migrator, this is a bug!");
+        }
         try {
             for (Map.Entry<ResourceLocation, SoundEventAccessorComposite> entry : soundRegistry.entrySet()) {
+                Field finalDummyField = dummyField;
                 data.computeIfAbsent(entry.getKey(), location -> {
                     String name = getName(location);
                     //#if MC==11202
@@ -61,6 +73,10 @@ public class PatcherSoundConfig extends Config {
                     OptionSubcategory subCategory = ConfigUtils.getSubCategory(mod.defaultPage, category, subcategory);
                     DummySlider slider = new DummySlider(name, category, subcategory);
                     subCategory.options.add(slider);
+                    if (!profileFile.exists() && mod.migrator != null && finalDummyField != null) {
+                        Object value = mod.migrator.getValue(finalDummyField, name, category, subcategory);
+                        if (value != null) slider.value = (int) value;
+                    }
                     return slider;
                 });
             }
@@ -68,16 +84,10 @@ public class PatcherSoundConfig extends Config {
             e.printStackTrace();
         }
 
-        boolean migrate = false;
-        File profileFile = ConfigUtils.getProfileFile(configFile);
         if (profileFile.exists()) load();
-        if (!profileFile.exists()) {
-            if (mod.migrator != null) migrate = true;
-            else save();
-        }
+        else save();
         mod.config = this;
-        generateOptionList(this, mod.defaultPage, mod, migrate);
-        if (migrate) save();
+        generateOptionList(this, mod.defaultPage, mod, false);
         Config.register(mod);
     }
 

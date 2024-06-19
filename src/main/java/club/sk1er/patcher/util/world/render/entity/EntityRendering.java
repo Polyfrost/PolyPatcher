@@ -49,7 +49,7 @@ public class EntityRendering {
 
     @SubscribeEvent
     public void setHorseTransparentPre(RenderLivingEvent.Pre<EntityHorse> event) {
-        if (PatcherConfig.riddenHorseOpacity >= 100) {
+        if (PatcherConfig.riddenHorseOpacityI >= 100) {
             return;
         }
 
@@ -73,7 +73,7 @@ public class EntityRendering {
             GlStateManager.enableAlpha();
             GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
             GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-            GlStateManager.color(1, 1, 1, PatcherConfig.riddenHorseOpacity / 100f);
+            GlStateManager.color(1, 1, 1, PatcherConfig.riddenHorseOpacityI / 100f);
         }
     }
 

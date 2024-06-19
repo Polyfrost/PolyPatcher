@@ -1,6 +1,7 @@
 package club.sk1er.patcher;
 
 import cc.polyfrost.oneconfig.libs.universal.UDesktop;
+import cc.polyfrost.oneconfig.utils.Multithreading;
 import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import cc.polyfrost.oneconfig.utils.Notifications;
 import cc.polyfrost.oneconfig.utils.commands.CommandManager;
@@ -321,13 +322,13 @@ public class Patcher {
     }
 
     private void fixSettings() {
+        if (PatcherConfig.fireOverlayHeight < -0.5F || PatcherConfig.fireOverlayHeight > 1.5F) {
+            PatcherConfig.fireOverlayHeight = 0.0F;
+        }
         if (PatcherConfig.customZoomSensitivity > 1.0F) PatcherConfig.customZoomSensitivity = 1.0F;
         if (PatcherConfig.imagePreviewWidth > 1.0F) PatcherConfig.imagePreviewWidth = 0.5F;
         if (PatcherConfig.previewScale > 1.0F) PatcherConfig.previewScale = 1.0F;
         if (PatcherConfig.unfocusedFPSAmount < 15) PatcherConfig.unfocusedFPSAmount = 15;
-        if (PatcherConfig.fireOverlayHeight < -0.5F || PatcherConfig.fireOverlayHeight > 1.5F) {
-            PatcherConfig.fireOverlayHeight = 0.0F;
-        }
 
         this.forceSaveConfig();
     }
@@ -370,28 +371,34 @@ public class Patcher {
     }
 
     private void detectReplacements(List<ModContainer> activeModList, Notifications notifications) {
-        JsonObject replacedMods;
-        try { // todo: replaced an async thing but i think its fine because get() pauses the game thread anyways i think???
-            replacedMods = NetworkUtils.getJsonElement("https://static.sk1er.club/patcher/duplicate_mods.json").getAsJsonObject();
-        } catch (Exception e) {
-            logger.error("Failed to fetch list of replaced mods at \"https://static.sk1er.club/patcher/duplicate_mods.json\".", e);
-            return;
-        }
-
-        if (replacedMods == null) return;
-        Set<String> replacements = new HashSet<>();
-        Set<String> modids = replacedMods.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet());
-        for (ModContainer modContainer : activeModList) {
-            if (modids.contains(modContainer.getModId())) {
-                replacements.add(modContainer.getName());
+        Multithreading.runAsync(() -> {
+            JsonObject replacedMods;
+            try { // todo: replaced an async thing but i think its fine because get() pauses the game thread anyways i think???
+                replacedMods = NetworkUtils.getJsonElement("https://static.sk1er.club/patcher/duplicate_mods.json").getAsJsonObject();
+            } catch (Exception e) {
+                logger.error("Failed to fetch list of replaced mods at \"https://static.sk1er.club/patcher/duplicate_mods.json\".", e);
+                return;
             }
-        }
 
-        if (!replacements.isEmpty()) {
-            for (String replacement : replacements) {
-                notifications.send("Patcher", replacement + " can be removed as it is replaced by Patcher.", 6f);
+            if (replacedMods == null) return;
+            Set<String> replacements = new HashSet<>();
+            Set<String> modids = replacedMods.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet());
+            for (ModContainer modContainer : activeModList) {
+                if (modids.contains(modContainer.getModId())) {
+                    replacements.add(modContainer.getName());
+                }
             }
-        }
+
+            if (!replacements.isEmpty()) {
+                for (String replacement : replacements) {
+                    if (replacement.equals("Clean View")) {
+                        notifications.send("PolyPatcher", replacement + " can be removed as it is replaced by OverflowParticles. Click here to download OverflowParticles", 6f, () -> UDesktop.browse(URI.create("https://modrinth.com/mod/overflowparticles")));
+                        continue;
+                    }
+                    notifications.send("PolyPatcher", replacement + " can be removed as it is replaced by PolyPatcher.", 6f);
+                }
+            }
+        });
     }
 
     public PatcherConfig getPatcherConfig() {

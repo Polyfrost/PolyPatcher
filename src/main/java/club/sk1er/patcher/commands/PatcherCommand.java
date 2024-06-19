@@ -8,8 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-@Command("patcher")
+@Command(value = "polypatcher", aliases = "patcher")
 public class PatcherCommand {
 
     private final Minecraft mc = Minecraft.getMinecraft();
