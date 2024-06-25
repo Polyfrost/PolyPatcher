@@ -34,17 +34,10 @@ public class PatcherConfig extends Config {
     )
     public static boolean keepShadersOnPerspectiveChange = true;
 
-    @Info(
-        text = "Parallax Fix currently makes the F3 crosshair disappear.",
-        category = "Bug Fixes", subcategory = "General",
-        type = InfoType.ERROR
-    )
-    private static String parallaxFixInfo = "";
-
     @Switch(
         name = "Parallax Fix",
         description = "Resolve the camera being too far back, seemingly making your eyes be in the back of your head.",
-        category = "Bug Fixes", subcategory = "General"
+        category = "Bug Fixes", subcategory = "General", size = 2
     )
     public static boolean parallaxFix;
 
