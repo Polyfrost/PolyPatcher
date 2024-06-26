@@ -31,7 +31,7 @@ public class MinecraftMixin_FpsLimit {
         }
 
         if (!Display.isActive() && PatcherConfig.unfocusedFPS) {
-            cir.setReturnValue(PatcherConfig.unfocusedFPSAmount);
+            cir.setReturnValue(2);
         } else if (PatcherConfig.customFpsLimit > 0) {
             cir.setReturnValue(PatcherConfig.customFpsLimit);
         }
