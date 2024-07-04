@@ -1307,7 +1307,7 @@ public class PatcherConfig extends Config {
         description = "Remove transparent pixels on heads instead of turning them black.",
         category = "Experimental", subcategory = "Head Rendering"
     )
-    public static boolean improvedHeadRendering = true;
+    public static boolean improvedHeadRendering = false;
 
     @Info(
         text = "This may cause stuff with animations to feel \"choppy\".",
