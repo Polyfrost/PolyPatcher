@@ -30,7 +30,7 @@ public abstract class ImageBufferDownloadMixin_ImprovedHeadRendering {
     protected abstract void setAreaTransparent(int x, int y, int width, int height);
 
     @Inject(method = "parseUserSkin", at = @At("HEAD"), cancellable = true)
-    private void removeTransparentPixels(BufferedImage image, CallbackInfoReturnable<BufferedImage> cir) {
+    private void patcher$removeTransparentPixels(BufferedImage image, CallbackInfoReturnable<BufferedImage> cir) {
         if (image == null) {
             cir.setReturnValue(null);
             return;
