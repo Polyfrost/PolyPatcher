@@ -91,6 +91,12 @@ public class PatcherConfig extends Config {
     )
     public static boolean fixedAlexArms = true;
 
+    @Switch(
+        name = "Add Background to Book GUI",
+        category = "Bug Fixes", subcategory = "Rendering"
+    )
+    public static boolean bookBackground = false;
+
     @Dropdown(
         name = "Keyboard Layout",
         description = "The layout of your keyboard, used to fix input bugs accordingly.",
