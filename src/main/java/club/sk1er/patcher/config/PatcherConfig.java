@@ -95,7 +95,7 @@ public class PatcherConfig extends Config {
         name = "Add Background to Book GUI",
         category = "Bug Fixes", subcategory = "Rendering"
     )
-    public static boolean bookBackground = true;
+    public static boolean bookBackground = false;
 
     @Dropdown(
         name = "Keyboard Layout",
