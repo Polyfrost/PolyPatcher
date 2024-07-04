@@ -151,6 +151,7 @@
     "features.GuiNewChatMixin_CompactChat",
     "features.GuiScreenMixin_BackgroundRendering",
     "features.GuiScreenServerListMixin_FakeServerListDirectConnect",
+    "features.ImageBufferDownload_EarsMod",
     "features.ImageBufferDownloadMixin_ImprovedHeadRendering",
     "features.InventoryPlayerTransformer_HotbarScrolling",
     "features.LayerArrowMixin_CancelRender",
@@ -253,6 +254,7 @@
     "performance.hudcaching.GuiIngameMixin_HUDCaching",
     "performance.network.packet.C17PacketCustomPayloadMixin_MemoryLeak",
     "performance.network.packet.S3FPacketCustomPayloadMixin_MemoryLeak",
+    "performance.optifine.GameSettingsMixin_RefreshOFMipmaps",
     "performance.render.item.ItemStackMixin_CacheDisplayName"
   ]
 }
