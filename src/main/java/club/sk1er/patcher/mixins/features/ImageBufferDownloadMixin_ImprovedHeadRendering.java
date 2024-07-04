@@ -1,14 +1,16 @@
 package club.sk1er.patcher.mixins.features;
 
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.hooks.EarsModHook;
 import net.minecraft.client.renderer.ImageBufferDownload;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
@@ -31,12 +33,7 @@ public abstract class ImageBufferDownloadMixin_ImprovedHeadRendering {
 
     @Inject(method = "parseUserSkin", at = @At("HEAD"), cancellable = true)
     private void patcher$removeTransparentPixels(BufferedImage image, CallbackInfoReturnable<BufferedImage> cir) {
-        if (image == null) {
-            cir.setReturnValue(null);
-            return;
-        }
-
-        if (PatcherConfig.improvedHeadRendering) {
+        if (image != null && PatcherConfig.improvedHeadRendering) {
             this.imageWidth = 64;
             this.imageHeight = 64;
             BufferedImage bufferedImage = new BufferedImage(this.imageWidth, this.imageHeight, 2);
@@ -69,8 +66,18 @@ public abstract class ImageBufferDownloadMixin_ImprovedHeadRendering {
                 this.setAreaTransparent(48, 48, 64, 64);
                 cir.setReturnValue(bufferedImage);
             } else {
+                graphics.dispose();
+                this.imageData = ((DataBufferInt) bufferedImage.getRaster().getDataBuffer()).getData();
                 cir.setReturnValue(image);
             }
+            EarsModHook.preprocessSkin((ImageBufferDownload) (Object) this, image, bufferedImage);
+        }
+    }
+
+    @Inject(method = "parseUserSkin", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
+    private void callPreprocess(BufferedImage image, CallbackInfoReturnable<BufferedImage> cir, BufferedImage bufferedImage, Graphics var3) {
+        if (!PatcherConfig.improvedHeadRendering) {
+            EarsModHook.preprocessSkin((ImageBufferDownload) (Object) this, image, bufferedImage);
         }
     }
 

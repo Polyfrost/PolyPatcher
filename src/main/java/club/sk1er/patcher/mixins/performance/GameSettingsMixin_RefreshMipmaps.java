@@ -2,7 +2,6 @@ package club.sk1er.patcher.mixins.performance;
 
 import club.sk1er.patcher.hooks.ResourceReloadHooks;
 import net.minecraft.client.settings.GameSettings;
-import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,18 +17,6 @@ public class GameSettingsMixin_RefreshMipmaps {
 
     @Inject(method = "setOptionFloatValue", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;scheduleResourcesRefresh()Lcom/google/common/util/concurrent/ListenableFuture;", shift = At.Shift.AFTER))
     private void onMipmapChangeAfter(GameSettings.Options settingsOption, float value, CallbackInfo ci) {
-        ResourceReloadHooks.setLoadMipmaps(false);
-    }
-
-    @Dynamic("OptiFine")
-    @Inject(method = "setOptionFloatValueOF", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;refreshResources()V"))
-    private void onMipmapTypeChange(GameSettings.Options settingsOption, float value, CallbackInfo ci) {
-        ResourceReloadHooks.setLoadMipmaps(true);
-    }
-
-    @Dynamic("OptiFine")
-    @Inject(method = "setOptionFloatValueOF", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;refreshResources()V", shift = At.Shift.AFTER))
-    private void onMipmapTypeChangeAfter(GameSettings.Options settingsOption, float value, CallbackInfo ci) {
         ResourceReloadHooks.setLoadMipmaps(false);
     }
 }
