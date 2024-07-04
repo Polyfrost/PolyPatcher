@@ -57,6 +57,7 @@
     "bugfixes.GuiNewChatMixin_ChatComponentBoundary",
     "bugfixes.GuiNewChatMixin_NullChatLineFix",
     "bugfixes.GuiOptionsMixin_SaveSettings",
+    "bugfixes.GuiScreenBookMixin_AddBackground",
     "bugfixes.GuiScreenBookMixin_ResolveRenderLayer",
     "bugfixes.GuiScreenMixin_FixWindowsIME",
     "bugfixes.GuiScreenOptionsSoundsMixin_PacketSpam",
