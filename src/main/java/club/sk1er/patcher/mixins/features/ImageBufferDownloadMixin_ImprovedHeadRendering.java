@@ -33,7 +33,7 @@ public abstract class ImageBufferDownloadMixin_ImprovedHeadRendering {
 
     @Inject(method = "parseUserSkin", at = @At("HEAD"), cancellable = true)
     private void patcher$removeTransparentPixels(BufferedImage image, CallbackInfoReturnable<BufferedImage> cir) {
-        if (image != null && PatcherConfig.improvedHeadRendering) {
+        if (image != null && PatcherConfig.improvedSkinRendering) {
             this.imageWidth = 64;
             this.imageHeight = 64;
             BufferedImage bufferedImage = new BufferedImage(this.imageWidth, this.imageHeight, 2);
@@ -76,7 +76,7 @@ public abstract class ImageBufferDownloadMixin_ImprovedHeadRendering {
 
     @Inject(method = "parseUserSkin", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void callPreprocess(BufferedImage image, CallbackInfoReturnable<BufferedImage> cir, BufferedImage bufferedImage, Graphics var3) {
-        if (!PatcherConfig.improvedHeadRendering) {
+        if (!PatcherConfig.improvedSkinRendering) {
             EarsModHook.preprocessSkin((ImageBufferDownload) (Object) this, image, bufferedImage);
         }
     }

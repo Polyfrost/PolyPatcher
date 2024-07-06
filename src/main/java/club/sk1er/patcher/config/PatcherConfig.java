@@ -93,6 +93,7 @@ public class PatcherConfig extends Config {
 
     @Switch(
         name = "Add Background to Book GUI",
+        description = "Adds the dark background to the book GUI like all other containers/menus.",
         category = "Bug Fixes", subcategory = "Rendering"
     )
     public static boolean bookBackground = false;
@@ -355,6 +356,7 @@ public class PatcherConfig extends Config {
 
     @Slider(
         name = "Water Fog Density (%)",
+        description = "Changes the fog density in water to improve visibility.",
         category = "Miscellaneous", subcategory = "Fog",
         min = 0, max = 100
     )
@@ -1302,18 +1304,18 @@ public class PatcherConfig extends Config {
     public static boolean cacheEntrypoints = true;*/
 
     @Info(
-        text = "Improved Head Rendering requires a restart once toggled.",
-        category = "Experimental", subcategory = "Head Rendering",
-        type = InfoType.WARNING
+        text = "Improved Skin Rendering can make some skins invisible. It requires a restart once toggled.",
+        category = "Experimental", subcategory = "Skin Rendering",
+        type = InfoType.WARNING, size = 2
     )
-    private static boolean improvedHeadRenderingInfo;
+    private static boolean improvedSkinRenderingInfo;
 
     @Switch(
-        name = "Improved Head Rendering",
-        description = "Remove transparent pixels on heads instead of turning them black.",
-        category = "Experimental", subcategory = "Head Rendering"
+        name = "Improved Skin Rendering",
+        description = "Remove transparent pixels on skins instead of turning them black.",
+        category = "Experimental", subcategory = "Skin Rendering"
     )
-    public static boolean improvedHeadRendering = false;
+    public static boolean improvedSkinRendering = false;
 
     @Info(
         text = "This may cause stuff with animations to feel \"choppy\".",

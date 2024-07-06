@@ -17,6 +17,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Layers In Tab** - Resolve players sometimes not having a hat layer in Tab. *default
 - **Player Void Rendering** - Resolve the black box around the player while in the void. *default
 - **Alex Arm Position** - Resolve Alex-model arms being shifted down further than Steve-model arms. *default
+- **Add Background to Book GUI** - Adds the dark background to the book GUI like all other containers/menus.
 - **Resource Exploit Fix** - Resolve an exploit in 1.8 allowing servers to look through directories. *default
 - **Forge Chest Behavior** - Resolve forge changing vanilla chest behavior. *default
 </details>
@@ -24,6 +25,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
   <summary>Experimental</summary>
 
 # Experimental
+- **Improved Skin Rendering** - Remove transparent pixels on skins instead of turning them black.
 - **HUD Caching** - Reuse frames from the HUD instead of constantly recreating them every frame, as most HUD elements will stay the same for a long amount of time. (This may cause stuff with animations to feel "choppy".)
 - **Cache FPS** *(not in original)* - The amount of frames to cache for the HUD.
 
@@ -85,6 +87,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - ~~**Show Own Nametag** - See your nametag in third person.~~ (replaced by [PolyNametag](https://modrinth.com/mod/polynametag))
 - **Clean Projectiles** - Show projectiles 2 ticks after they're shot up to stop them from obstructing your view. (Includes eggs, snowballs, and fishing hooks)
 - **Ridden Horse Opacity** - Change the opacity of the horse you're currently riding for visibility.
+- **Water Fog Density** - Changes the fog density in water to improve visibility.
 - **Hide Aura on Invisible Withers** - Don't render the aura around a wither when it is invisible.
 - **Numerical Enchantments** - Use readable numbers instead of Roman numerals on enchants.
 - **Translate Unknown Roman Numerals** - Generate Roman Numeral from enchantment/potion level instead of using language file. *default
@@ -225,18 +228,23 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Replace Essential with OneConfig
 - Boost performance by batch-drawing tile entities
 - Boost performance by reducing quad counts in item models
+- Improve speed when changing language, mipmap level, and anisotropic filtering level
 - Fix Forge held item lighting to match vanilla
 - Fix vanilla bug where entering an entity in spectator mode while in third person applies shaders
 - Fix vanilla bug where enchantment glint takes up the whole slot
 - Fix vanilla bug where items glitch out when using negative scale
 - Fix vanilla sky lighting calculation
+- Fix compatability with LoliASM/CensoredASM
 - Add ability to change HUD Caching FPS
 - Add "Natural Capes" feature
 - Add "Pumpkin Overlay Opacity"
 - Add "Cleaner Night Vision" and "Disable Night Vision"
-- Add Invert Hotbar Scrolling
-- Add Prevent Overflow Hotbar Scrolling
+- Add "Invert Hotbar Scrolling"
+- Add "Prevent Overflow Hotbar Scrolling"
 - Add "Disable Falling Blocks"
+- Add "Exclude Cacti from 1.12 Boxes"
+- Add "Improved Skin Rendering"
+- Add "Add Background to Book GUI"
 - Replace "Remove Container Background" with "Container Background Opacity"
 - Replace "Nausea Effect" toggle to "Distortion Effects" slider
 - Split "Disable Grounded Arrows" into two settings ("Disable Unpickable Grounded Arrows" and "Disable All Grounded Arrows")
