@@ -17,7 +17,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Layers In Tab** - Resolve players sometimes not having a hat layer in Tab. *default
 - **Player Void Rendering** - Resolve the black box around the player while in the void. *default
 - **Alex Arm Position** - Resolve Alex-model arms being shifted down further than Steve-model arms. *default
-- **Add Background to Book GUI** - Adds the dark background to the book GUI like all other containers/menus.
+- **Add Background to Book GUI** *(not in original)* - Adds the dark background to the book GUI like all other containers/menus.
 - **Resource Exploit Fix** - Resolve an exploit in 1.8 allowing servers to look through directories. *default
 - **Forge Chest Behavior** - Resolve forge changing vanilla chest behavior. *default
 </details>
@@ -25,7 +25,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
   <summary>Experimental</summary>
 
 # Experimental
-- **Improved Skin Rendering** - Remove transparent pixels on skins instead of turning them black.
+- **Improved Skin Rendering** *(not in original)* - Remove transparent pixels on skins instead of turning them black.
 - **HUD Caching** - Reuse frames from the HUD instead of constantly recreating them every frame, as most HUD elements will stay the same for a long amount of time. (This may cause stuff with animations to feel "choppy".)
 - **Cache FPS** *(not in original)* - The amount of frames to cache for the HUD.
 
@@ -36,6 +36,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 # Miscellaneous
 - **Remove Ground Foliage** - Stop plants/flower from rendering.
 - **1.12 Farm Selection Boxes** - Replace the selection box for crops with the 1.12 variant. (Only works on Hypixel & Singleplayer) *default
+- **Exclude Cacti from 1.12 Boxes** *(not in original)* - Exclude cacti from the 1.12 selection box changes, as it would actually shrink rather than increase in size. *default
 - **Remove Water FOV** *(not in original)* - Remove FOV change when underwater. *default
 - **FOV Modifier** - Allow for modifying FOV change states.
 - **Sprinting FOV** - Modify your FOV when sprinting.
@@ -87,7 +88,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - ~~**Show Own Nametag** - See your nametag in third person.~~ (replaced by [PolyNametag](https://modrinth.com/mod/polynametag))
 - **Clean Projectiles** - Show projectiles 2 ticks after they're shot up to stop them from obstructing your view. (Includes eggs, snowballs, and fishing hooks)
 - **Ridden Horse Opacity** - Change the opacity of the horse you're currently riding for visibility.
-- **Water Fog Density** - Changes the fog density in water to improve visibility.
+- **Water Fog Density** *(not in original)* - Changes the fog density in water to improve visibility.
 - **Hide Aura on Invisible Withers** - Don't render the aura around a wither when it is invisible.
 - **Numerical Enchantments** - Use readable numbers instead of Roman numerals on enchants.
 - **Translate Unknown Roman Numerals** - Generate Roman Numeral from enchantment/potion level instead of using language file. *default
@@ -108,8 +109,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - ~~**Title Opacity** - Change the opacity of titles.~~ (replaced by [VanillaHUD](https://modrinth.com/mod/vanillahud))
 - **Windowed Fullscreen** - Implement Windowed Fullscreen in Minecraft, allowing you to drag your mouse outside the window.
 - **Instant Fullscreen** - Instant switching between fullscreen and non-fullscreen modes.
-- **Natural Capes** - Changes some physics in capes to fix rotation bugs and look more natural.
-- **Fix Action Bar Overlap** - Prevents action bar text from overlapping with armor or health bars.
+- ~~**Fix Action Bar Overlap** - Prevents action bar text from overlapping with armor or health bars.~~ (replaced by [VanillaHUD](https://modrinth.com/mod/vanillahud))
 
 </details>
 <details>
@@ -228,6 +228,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Replace Essential with OneConfig
 - Boost performance by batch-drawing tile entities
 - Boost performance by reducing quad counts in item models
+- Boost performance by decreasing size of sine and cosine lookup tables
 - Improve speed when changing language, mipmap level, and anisotropic filtering level
 - Fix Forge held item lighting to match vanilla
 - Fix vanilla bug where entering an entity in spectator mode while in third person applies shaders
