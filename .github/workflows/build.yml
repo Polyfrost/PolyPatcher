@@ -33,5 +33,4 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: patcher-1122
           path: versions/**/*
