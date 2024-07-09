@@ -33,10 +33,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: patcher-189
-          path: versions/1.8.9-forge/*
-
-      - uses: actions/upload-artifact@v4
-        with:
           name: patcher-1122
-          path: versions/1.12.2-forge/*
+          path: versions/**/*
