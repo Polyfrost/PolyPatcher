@@ -235,6 +235,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Fix vanilla bug where entering an entity in spectator mode while in third person applies shaders
 - Fix vanilla bug where enchantment glint takes up the whole slot
 - Fix vanilla bug where items glitch out when using negative scale
+- Fix vanilla bug where pumpkin overlay shows in spectator mode
 - Fix vanilla sky lighting calculation
 - Fix compatability with LoliASM/CensoredASM
 - Add ability to change HUD Caching FPS
