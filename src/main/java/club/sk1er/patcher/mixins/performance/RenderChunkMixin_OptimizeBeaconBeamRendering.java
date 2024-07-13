@@ -11,7 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(RenderChunk.class)
+//#endif
 public class RenderChunkMixin_OptimizeBeaconBeamRendering {
+//#if MC==10809
     /**
      * Minecraft typically renders the beacon beam twice per frame. This is noticeable by comparing the opacity of the
      * beacon beam when the beacon is in view versus when it's out of view (fly 50 blocks above, for instance).
@@ -24,5 +26,6 @@ public class RenderChunkMixin_OptimizeBeaconBeamRendering {
         TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(tileEntityIn);
         if (!tileentityspecialrenderer.forceTileEntityRender()) instance.addTileEntity(tileEntityIn);
     }
-}
 //#endif
+}
+
