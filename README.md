@@ -229,7 +229,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Boost performance by batch-drawing tile entities
 - Boost performance by reducing quad counts in item models
 - Boost performance by decreasing size of sine and cosine lookup tables
-- Boost performance by only rendering special tile entities (such as beacon beams) once instead of twice per frame
+- Boost performance by only rendering special tile entities once instead of twice per frame
 - Improve speed when changing language, mipmap level, and anisotropic filtering level
 - Fix Forge held item lighting to match vanilla
 - Fix vanilla bug where entering an entity in spectator mode while in third person applies shaders
