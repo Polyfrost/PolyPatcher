@@ -238,6 +238,7 @@
     "performance.NBTTagStringMixin_DataCache",
     "performance.NetHandlerPlayClientMixin_InstantDimensionSwapping",
     "performance.NodeProcessorMixin_MemoryLeak",
+    "performance.RenderChunkMixin_OptimizeBeaconBeamRendering",
     "performance.RenderEntityItemMixin_EntityCulling",
     "performance.RenderGlobalMixin_LimitVisGraphScan",
     "performance.ResourcePackRepositoryMixin_FasterSearching",
