@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
  */
 @Mixin(BlockPane.class)
 public class BlockPaneMixin_VanillaPanes {
-
     //#if MC==10809
     @Redirect(method = "canPaneConnectTo", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;isSideSolid(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/BlockPos;Lnet/minecraft/util/EnumFacing;)Z"), remap = false)
     private boolean patcher$vanillaPanes(Block block, IBlockAccess world, BlockPos pos, EnumFacing side) {
@@ -27,5 +26,4 @@ public class BlockPaneMixin_VanillaPanes {
         return block.isSideSolid(world, pos, side);
     }
     //#endif
-
 }

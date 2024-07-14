@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import java.util.List;
 
 @Mixin(World.class)
-public class WorldMixin_Optimization {
+public class WorldMixin_EntityOptimization {
     //#if MC==10809
     @Shadow @Final public boolean isRemote;
 

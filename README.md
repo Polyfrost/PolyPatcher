@@ -232,11 +232,13 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Boost performance by only rendering special tile entities once instead of twice per frame
 - Improve speed when changing language, mipmap level, and anisotropic filtering level
 - Fix Forge held item lighting to match vanilla
+- Fix several Forge memory leaks
 - Fix vanilla bug where entering an entity in spectator mode while in third person applies shaders
 - Fix vanilla bug where enchantment glint takes up the whole slot
 - Fix vanilla bug where items glitch out when using negative scale
 - Fix vanilla bug where pumpkin overlay shows in spectator mode
 - Fix vanilla sky lighting calculation
+- Fix vanilla light initializing too early
 - Fix texture manager memory leak
 - Fix compatability with LoliASM/CensoredASM
 - Add ability to change HUD Caching FPS

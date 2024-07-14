@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin_MemoryLeak {
-
     //#if MC==10809
     @Shadow
     @Final
@@ -35,26 +34,25 @@ public class EnchantmentHelperMixin_MemoryLeak {
     private static EnchantmentHelper.ModifierLiving enchantmentModifierLiving;
 
     @Inject(method = "getEnchantmentModifierDamage", at = @At("TAIL"))
-    private static void fixMemoryLeak(ItemStack[] stack, DamageSource source, CallbackInfoReturnable<Integer> cir) {
+    private static void patcher$fixMemoryLeak(ItemStack[] stack, DamageSource source, CallbackInfoReturnable<Integer> cir) {
         enchantmentModifierDamage.source = null;
     }
 
     @Inject(method = "getModifierForCreature", at = @At("TAIL"))
-    private static void fixMemoryLeak(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_, CallbackInfoReturnable<Float> cir) {
+    private static void patcher$fixMemoryLeak(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_, CallbackInfoReturnable<Float> cir) {
         enchantmentModifierLiving.entityLiving = null;
     }
 
     @Inject(method = "applyThornEnchantments", at = @At("TAIL"))
-    private static void fixMemoryLeak(EntityLivingBase p_151384_0_, Entity p_151384_1_, CallbackInfo ci) {
+    private static void patcher$fixMemoryLeak(EntityLivingBase p_151384_0_, Entity p_151384_1_, CallbackInfo ci) {
         ENCHANTMENT_ITERATOR_HURT.attacker = null;
         ENCHANTMENT_ITERATOR_HURT.user = null;
     }
 
     @Inject(method = "applyArthropodEnchantments", at = @At("TAIL"))
-    private static void fixMemoryLeak2(EntityLivingBase p_151385_0_, Entity p_151385_1_, CallbackInfo ci) {
+    private static void patcher$fixMemoryLeak2(EntityLivingBase p_151385_0_, Entity p_151385_1_, CallbackInfo ci) {
         ENCHANTMENT_ITERATOR_DAMAGE.target = null;
         ENCHANTMENT_ITERATOR_DAMAGE.user = null;
     }
-
     //#endif
 }
