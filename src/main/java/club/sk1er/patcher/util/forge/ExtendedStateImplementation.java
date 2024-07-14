@@ -42,8 +42,7 @@ public class ExtendedStateImplementation extends BlockState.StateImplementation 
     }
 
     @Override
-    public <V> IExtendedBlockState withProperty(IUnlistedProperty<V> property, @Nullable V value)
-    {
+    public <V> IExtendedBlockState withProperty(IUnlistedProperty<V> property, @Nullable V value) {
         Optional<?> oldValue = unlistedProperties.get(property);
         if (oldValue == null) {
             throw new IllegalArgumentException("Cannot set unlisted property " + property + " as it does not exist in " + getBlock().getBlockState());
