@@ -14,7 +14,6 @@ import java.util.Map;
 
 @Mixin(TextureManager.class)
 public class TextureManagerMixin_MemoryLeak {
-    //#if MC==10809
     @Shadow
     @Final
     private Map<ResourceLocation, ITextureObject> mapTextureObjects;
@@ -23,5 +22,4 @@ public class TextureManagerMixin_MemoryLeak {
     private void patcher$removeEntry(ResourceLocation textureLocation, CallbackInfo ci) {
         this.mapTextureObjects.remove(textureLocation);
     }
-    //#endif
 }
