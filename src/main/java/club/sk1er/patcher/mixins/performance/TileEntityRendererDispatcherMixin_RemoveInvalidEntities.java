@@ -1,6 +1,5 @@
 package club.sk1er.patcher.mixins.performance;
 
-//#if MC==10809
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TileEntityRendererDispatcher.class)
-//#endif
 public class TileEntityRendererDispatcherMixin_RemoveInvalidEntities {
     //#if MC==10809
     @Inject(method = "getSpecialRenderer", at = @At("HEAD"), cancellable = true)
