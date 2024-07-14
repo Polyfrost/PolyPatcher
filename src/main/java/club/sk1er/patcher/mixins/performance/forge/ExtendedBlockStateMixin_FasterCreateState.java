@@ -19,6 +19,7 @@ public class ExtendedBlockStateMixin_FasterCreateState extends BlockState {
         super(blockIn, properties);
     }
 
+    //#if MC==10809
     @Inject(method = "createState", at = @At("HEAD"), cancellable = true)
     private void patcher$fasterCreateState(Block block, ImmutableMap<IProperty, Comparable> properties, ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties, CallbackInfoReturnable<StateImplementation> cir) {
         if (unlistedProperties == null || unlistedProperties.isEmpty()) {
@@ -28,4 +29,5 @@ public class ExtendedBlockStateMixin_FasterCreateState extends BlockState {
             cir.setReturnValue(new ExtendedStateImplementation(block, properties, unlistedProperties, null, null));
         }
     }
+    //#endif
 }
