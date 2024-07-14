@@ -1,6 +1,5 @@
 package club.sk1er.patcher.mixins.performance;
 
-//#if MC==10809
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -14,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
-//#endif
 public abstract class WorldMixin_FixEarlyLightInitialization {
     //#if MC==10809
     @Shadow

@@ -1,6 +1,5 @@
 package club.sk1er.patcher.mixins.performance.forge;
 
-//#if MC==10809
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.obj.OBJModel;
@@ -15,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 @Mixin(value = OBJModel.MaterialLibrary.class, remap = false)
-//#endif
 public class OBJModelMixin_UnclosedStreams {
     //#if MC==10809
     @Shadow
