@@ -1,6 +1,5 @@
 package club.sk1er.patcher.mixins.performance;
 
-//#if MC==10809
 import net.minecraft.client.renderer.chunk.CompiledChunk;
 import net.minecraft.client.renderer.chunk.RenderChunk;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -11,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(RenderChunk.class)
-//#endif
 public class RenderChunkMixin_OptimizeSpecialTileEntities {
 //#if MC==10809
     /**
