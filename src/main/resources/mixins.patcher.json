@@ -261,6 +261,7 @@
     "performance.forge.JarDiscovererMixin_ReplaceRegex",
     "performance.forge.ModDiscovererMixin_Logging",
     "performance.forge.ModDiscovererMixin_ReplaceRegex",
+    "performance.forge.OBJLoaderMixin_UnclosedStream",
     "performance.forge.OBJModelMixin_UnclosedStreams",
     "performance.hudcaching.EntityRendererMixin_HUDCaching",
     "performance.hudcaching.FramebufferMixin_HUDCaching",
