@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(RenderGlobal.class)
 public class RenderGlobalMixin_RenderOobEntities {
     //#if MC==10809
+    // fixes entities outside the world (such as below y0 or above y255) not rendering at specific camera angles
     @Redirect(method = "setupTerrain", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/chunk/RenderChunk;boundingBox:Lnet/minecraft/util/AxisAlignedBB;", opcode = Opcodes.GETFIELD))
     private AxisAlignedBB patcher$fixOobEntityRendering(RenderChunk instance, Entity viewEntity, double partialTicks, ICamera camera, int frameCount, boolean playerSpectator) {
         double d3 = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
