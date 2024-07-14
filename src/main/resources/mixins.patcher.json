@@ -253,6 +253,7 @@
     "performance.WorldMixin_EntityOptimization",
     "performance.WorldMixin_FixEarlyLightInitialization",
     "performance.forge.ASMDataTableMixin_ComputeParallel",
+    "performance.forge.B3DLoaderMixin_UnclosedStream",
     "performance.forge.FluidRegistryMixin_Optimization",
     "performance.forge.FMLClientHandlerMixin_Optimization",
     "performance.forge.FMLControlledNamespacedRegistryMixin_TrimAvailabilityMap",
