@@ -9,10 +9,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.io.InputStream;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(value = B3DLoader.class, remap = false)
 public class B3DLoaderMixin_UnclosedStream {
@@ -21,10 +20,9 @@ public class B3DLoaderMixin_UnclosedStream {
     private IResource patcher$leakingResource;
 
     // for some reason localcapture doesn't work here, so let's just store it locally like this
-    @Redirect(method = "loadModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/IResource;getInputStream()Ljava/io/InputStream;"))
-    private InputStream patcher$getStream(IResource instance) {
-        this.patcher$leakingResource = instance;
-        return instance.getInputStream();
+    @ModifyArgs(method = "loadModel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/IResource;getInputStream()Ljava/io/InputStream;"))
+    private void patcher$getStream(Args args) {
+        this.patcher$leakingResource = args.get(0);
     }
 
     @Inject(method = "loadModel", at = @At(value = "INVOKE", target = "Ljava/util/Map;put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"))
