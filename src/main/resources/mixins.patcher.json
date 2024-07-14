@@ -248,6 +248,7 @@
     "performance.TextureManagerMixin_MemoryLeak",
     "performance.TileEntityMobSpawnerRendererMixin_EntityCulling",
     "performance.TileEntityRendererDispatcherMixin_BatchDraw",
+    "performance.TileEntityRendererDispatcherMixin_RemoveInvalidEntities",
     "performance.VisGraphMixin_LimitScan",
     "performance.WorldClientMixin_AnimationTick",
     "performance.WorldMixin_Optimization",
