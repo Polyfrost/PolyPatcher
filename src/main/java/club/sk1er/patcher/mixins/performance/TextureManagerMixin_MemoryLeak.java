@@ -1,6 +1,5 @@
 package club.sk1er.patcher.mixins.performance;
 
-//#if MC==10809
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 
 @Mixin(TextureManager.class)
-//#endif
 public class TextureManagerMixin_MemoryLeak {
     //#if MC==10809
     @Shadow
