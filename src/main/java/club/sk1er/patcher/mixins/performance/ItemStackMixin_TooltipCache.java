@@ -12,23 +12,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(ItemStack.class)
-public abstract class ItemStackMixin_TooltipCache
-{
-
+public abstract class ItemStackMixin_TooltipCache {
     @Inject(
             method = "getTooltip",
             at = @At(
                     value = "HEAD"
             ),
             cancellable = true)
-    public void patcher$useCachedTooltip(EntityPlayer playerIn, boolean advanced, CallbackInfoReturnable<List<String>> cir)
-    {
-        if (!PatcherConfig.tooltipCache)
-        {
+    public void patcher$useCachedTooltip(EntityPlayer playerIn, boolean advanced, CallbackInfoReturnable<List<String>> cir) {
+        if (!PatcherConfig.tooltipCache) {
             return;
         }
-        if (TooltipHandler.INSTANCE.tooltipCache != null)
-        {
+        if (TooltipHandler.INSTANCE.tooltipCache != null) {
             TooltipHandler.INSTANCE.shouldToolTipRender = false;
             cir.setReturnValue(TooltipHandler.INSTANCE.tooltipCache);
         }
@@ -41,14 +36,11 @@ public abstract class ItemStackMixin_TooltipCache
                     value = "RETURN"
             )
     )
-    public void patcher$cacheTooltip(EntityPlayer playerIn, boolean advanced, CallbackInfoReturnable<List<String>> cir)
-    {
-        if (!PatcherConfig.tooltipCache)
-        {
+    public void patcher$cacheTooltip(EntityPlayer playerIn, boolean advanced, CallbackInfoReturnable<List<String>> cir) {
+        if (!PatcherConfig.tooltipCache) {
             return;
         }
         TooltipHandler.INSTANCE.tooltipCache = cir.getReturnValue();
         TooltipHandler.INSTANCE.shouldToolTipRender = false;
     }
-
 }

@@ -1,5 +1,5 @@
 # PolyPatcher
-<img src="https://wsrv.nl/?url=https%3A%2F%2Fpolyfrost.org%2Fimg%2Fcompact_vector.svg&n=-1&w=1000" width=56 /> ![Dev Workflow Status](https://img.shields.io/github/v/release/Polyfrost/PolyPatcher.svg?style=for-the-badge&color=1452cc&label=release)
+<img src="https://wsrv.nl/?url=https%3A%2F%2Fpolyfrost.org%2Fimg%2Fcompact_vector.svg&n=-1&w=1000" width=56  alt="oneconfig logo"/> ![Dev Workflow Status](https://img.shields.io/github/v/release/Polyfrost/PolyPatcher.svg?style=for-the-badge&color=1452cc&label=release)
 
 PolyPatcher is a Forge mod for 1.8.9 & 1.12.2 created to improve your all-around Minecraft experience, bringing tons of Quality of Life additions, performance improvements, and tons of Vanilla bug fixes.
 
@@ -237,6 +237,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Fix vanilla bug where items glitch out when using negative scale
 - Fix vanilla bug where pumpkin overlay shows in spectator mode
 - Fix vanilla sky lighting calculation
+- Fix texture manager memory leak
 - Fix compatability with LoliASM/CensoredASM
 - Add ability to change HUD Caching FPS
 - Add "Natural Capes" feature
@@ -254,7 +255,8 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Add ability to change tile entity render distance
 - Add ability not to cull ender dragons and withers from Entity Culling
 - Fix very rare crash on Minecraft's main menu
-- Re-add "Remove Water FOV"
+- Re-add "Tooltip Cache" feature
+- Re-add "Remove Water FOV" feature
 - Re-add "Remove Chat Message Limit" feature
 - Remove features replaced by various Polyfrost mods
   - Please install VanillaHUD for any title-related, actionbar-related, or tablist-related features

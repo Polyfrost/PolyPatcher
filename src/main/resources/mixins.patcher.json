@@ -245,6 +245,7 @@
     "performance.ResourcePackRepositoryMixin_FasterSearching",
     "performance.SimpleReloadableResourceManager_OnlyRefreshNecessaryListeners",
     "performance.TexturedQuadMixin_BatchDraw",
+    "performance.TextureManagerMixin_MemoryLeak",
     "performance.TileEntityMobSpawnerRendererMixin_EntityCulling",
     "performance.TileEntityRendererDispatcherMixin_BatchDraw",
     "performance.VisGraphMixin_LimitScan",
