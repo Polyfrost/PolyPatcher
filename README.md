@@ -1,5 +1,5 @@
 # PolyPatcher
-<img src="https://wsrv.nl/?url=https%3A%2F%2Fpolyfrost.org%2Fimg%2Fcompact_vector.svg&n=-1&w=1000" width=56 /> ![Dev Workflow Status](https://img.shields.io/github/v/release/Polyfrost/PolyPatcher.svg?style=for-the-badge&color=1452cc&label=release)
+<img src="https://wsrv.nl/?url=https%3A%2F%2Fpolyfrost.org%2Fimg%2Fcompact_vector.svg&n=-1&w=1000" width=56  alt="oneconfig logo"/> ![Dev Workflow Status](https://img.shields.io/github/v/release/Polyfrost/PolyPatcher.svg?style=for-the-badge&color=1452cc&label=release)
 
 PolyPatcher is a Forge mod for 1.8.9 & 1.12.2 created to improve your all-around Minecraft experience, bringing tons of Quality of Life additions, performance improvements, and tons of Vanilla bug fixes.
 
@@ -17,6 +17,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Layers In Tab** - Resolve players sometimes not having a hat layer in Tab. *default
 - **Player Void Rendering** - Resolve the black box around the player while in the void. *default
 - **Alex Arm Position** - Resolve Alex-model arms being shifted down further than Steve-model arms. *default
+- **Add Background to Book GUI** *(not in original)* - Adds the dark background to the book GUI like all other containers/menus.
 - **Resource Exploit Fix** - Resolve an exploit in 1.8 allowing servers to look through directories. *default
 - **Forge Chest Behavior** - Resolve forge changing vanilla chest behavior. *default
 </details>
@@ -24,6 +25,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
   <summary>Experimental</summary>
 
 # Experimental
+- **Improved Skin Rendering** *(not in original)* - Remove transparent pixels on skins instead of turning them black.
 - **HUD Caching** - Reuse frames from the HUD instead of constantly recreating them every frame, as most HUD elements will stay the same for a long amount of time. (This may cause stuff with animations to feel "choppy".)
 - **Cache FPS** *(not in original)* - The amount of frames to cache for the HUD.
 
@@ -34,6 +36,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 # Miscellaneous
 - **Remove Ground Foliage** - Stop plants/flower from rendering.
 - **1.12 Farm Selection Boxes** - Replace the selection box for crops with the 1.12 variant. (Only works on Hypixel & Singleplayer) *default
+- **Exclude Cacti from 1.12 Boxes** *(not in original)* - Exclude cacti from the 1.12 selection box changes, as it would actually shrink rather than increase in size. *default
 - **Remove Water FOV** *(not in original)* - Remove FOV change when underwater. *default
 - **FOV Modifier** - Allow for modifying FOV change states.
 - **Sprinting FOV** - Modify your FOV when sprinting.
@@ -45,7 +48,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Disable Hotbar Scrolling** - Remove the ability to scroll through your hotbar.
 - **Invert Hotbar Scrolling** *(not in original)* - Change the direction of scrolling in your hotbar.
 - **Prevent Overflow Hotbar Scrolling** *(not in original)* - Prevent from directly scrolling between the first and last hotbar slot.
-- ~~**Crosshair Perspective** - Remove the crosshair when in third person.~~ (replaced by [PolyCrosshair](https://modrinth.com/mod/polycrosshair))
+- ~~**Crosshair Perspective** - Remove the crosshair when in third person.~~ (replaced by [PolyCrosshair](https://modrinth.com/mod/crosshair))
 - **Unfocused Sounds** - Change the volume of sounds when you're not tabbed into the window.
 - **Unfocused FPS** - Toggle changing your FPS to whatever Unfocused FPS is set to when not tabbed into the window.**
 - **Unfocused FPS Amount** - Change the maximum FPS when you're not tabbed into the window, saving resources.
@@ -77,7 +80,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Hide Fire Overlay with Fire Resistance** - Hide the fire overlay when you have fire resistance active. The overlay will blink 5 seconds before your fire resistance is about to run out.
 - **Pumpkin Overlay Opacity** *(not in original)* - Change the opacity of the pumpkin overlay.
 - **Remove Water Overlay** - Remove the water texture overlay when underwater.
-- ~~**Remove Inverted Colors from Crosshair** - Remove the inverted color effect on the crosshair.~~ (replaced by [PolyCrosshair](https://modrinth.com/mod/polycrosshair))
+- ~~**Remove Inverted Colors from Crosshair** - Remove the inverted color effect on the crosshair.~~ (replaced by [PolyCrosshair](https://modrinth.com/mod/crosshair))
 - **Fullbright** - Remove lighting updates, increasing visibility. (Can positively impact performance. May conflict with minimaps) *default
 - **Smart Fullbright** - Automatically Disable the Fullbright Effect when using OptiFine Shaders. (Requires Fullbright) *default
 - **Disable Night Vision** *(not in original)* - Completely disables the effects of night vision.
@@ -85,6 +88,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - ~~**Show Own Nametag** - See your nametag in third person.~~ (replaced by [PolyNametag](https://modrinth.com/mod/polynametag))
 - **Clean Projectiles** - Show projectiles 2 ticks after they're shot up to stop them from obstructing your view. (Includes eggs, snowballs, and fishing hooks)
 - **Ridden Horse Opacity** - Change the opacity of the horse you're currently riding for visibility.
+- **Water Fog Density** *(not in original)* - Changes the fog density in water to improve visibility.
 - **Hide Aura on Invisible Withers** - Don't render the aura around a wither when it is invisible.
 - **Numerical Enchantments** - Use readable numbers instead of Roman numerals on enchants.
 - **Translate Unknown Roman Numerals** - Generate Roman Numeral from enchantment/potion level instead of using language file. *default
@@ -105,8 +109,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - ~~**Title Opacity** - Change the opacity of titles.~~ (replaced by [VanillaHUD](https://modrinth.com/mod/vanillahud))
 - **Windowed Fullscreen** - Implement Windowed Fullscreen in Minecraft, allowing you to drag your mouse outside the window.
 - **Instant Fullscreen** - Instant switching between fullscreen and non-fullscreen modes.
-- **Natural Capes** - Changes some physics in capes to fix rotation bugs and look more natural.
-- **Fix Action Bar Overlap** - Prevents action bar text from overlapping with armor or health bars.
+- ~~**Fix Action Bar Overlap** - Prevents action bar text from overlapping with armor or health bars.~~ (replaced by [VanillaHUD](https://modrinth.com/mod/vanillahud))
 
 </details>
 <details>
@@ -162,16 +165,16 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 # Screens
 - **1.11 Chat Length** - Extend the number of characters you can type from 100 to 256 on supported servers. (Supported servers are servers that support 1.11 or above. Some servers may kick you for this despite supporting 1.11 or above) *default
 - **Remove Chat Message Limit** *(not in original)* - Remove the limit on how many messages can show up in chat. *default
-- **Transparent Chat** - Remove the background from chat. (Can positively impact performance).
-- **Transparent Chat Input Field** - Remove the background from chat's input field. (Can positively impact performance).
-- **Extend Chat Background** - Extend the chat background all the way to the left of the screen. *default
+- ~~**Transparent Chat** - Remove the background from chat. (Can positively impact performance).~~ (replaced by [Chatting](https://modrinth.com/mod/chatting))
+- ~~**Transparent Chat Input Field** - Remove the background from chat's input field. (Can positively impact performance).~~ (replaced by [Chatting](https://modrinth.com/mod/chatting))
+- ~~**Extend Chat Background** - Extend the chat background all the way to the left of the screen. *default~~ (replaced by [Chatting](https://modrinth.com/mod/chatting))
 - **Compact Chat** - Clean up the chat by stacking duplicate messages (Does not work with Labymod) *default
 - **Consecutive Compact Chat** - Only compact messages if they're consecutive.
 - **Compact Chat Time** - Change the amount of time old messages take to stop being compacted. (Measured in seconds)
 - **Remove Blank Messages** - Stop messages with no content from showing up in chat.
 - **Shift Chat** - Keep chat open while sending a message if Shift is held while pressing Enter.
 - **Chat Delay** - Delay chat messages if they're sent within the selected timeframe after the previous message. (Measured in seconds)
-- **Chat Position** - Move the chat up 12 pixels to stop it from overlapping the health bar, as done in 1.12+. *default
+- ~~**Chat Position** - Move the chat up 12 pixels to stop it from overlapping the health bar, as done in 1.12+. *default~~ (replaced by [Chatting](https://modrinth.com/mod/chatting))
 - **Chat Timestamps** - Add timestamps before a message.
 - **Chat Timestamps Style** - Choose how Chat Timestamps should appear.
 - **Chat Timestamps Format** - Change the time format of Chat Timestamps.
@@ -184,7 +187,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Projectile Protection Percentage** - View how much total projectile protection you have inside your inventory.
 - **Container Background Opacity** *(not in original)* - Change the opacity of the dark background inside a container, or remove it completely.
 - **Container Opacity** - Change the opacity of supported containers. Includes Chests & Survival inventory.
-- ~~**GUI Crosshair** - Stop rendering the crosshair when in a GUI.~~ (replaced by [PolyCrosshair](https://modrinth.com/mod/polycrosshair))
+- ~~**GUI Crosshair** - Stop rendering the crosshair when in a GUI.~~ (replaced by [PolyCrosshair](https://modrinth.com/mod/crosshair))
 - **Startup Notification** - Notify how long the game took to start. *default
 - **Clean Main Menu** - Remove the Realms button on the main menu as it's useless on 1.8.9. *default
 - **Open to LAN Replacement** - Modify the Open to LAN button to either redirect to the server list or be removed.
@@ -222,27 +225,38 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
   <summary>Changes from original mod</summary>
 
 # Changes from original mod
+- Replace Essential with OneConfig
 - Boost performance by batch-drawing tile entities
 - Boost performance by reducing quad counts in item models
+- Boost performance by decreasing size of sine and cosine lookup tables
+- Boost performance by only rendering special tile entities once instead of twice per frame
+- Improve speed when changing language, mipmap level, and anisotropic filtering level
 - Fix Forge held item lighting to match vanilla
 - Fix vanilla bug where entering an entity in spectator mode while in third person applies shaders
 - Fix vanilla bug where enchantment glint takes up the whole slot
 - Fix vanilla bug where items glitch out when using negative scale
+- Fix vanilla bug where pumpkin overlay shows in spectator mode
 - Fix vanilla sky lighting calculation
+- Fix texture manager memory leak
+- Fix compatability with LoliASM/CensoredASM
 - Add ability to change HUD Caching FPS
 - Add "Natural Capes" feature
 - Add "Pumpkin Overlay Opacity"
 - Add "Cleaner Night Vision" and "Disable Night Vision"
-- Add Invert Hotbar Scrolling
-- Add Prevent Overflow Hotbar Scrolling
+- Add "Invert Hotbar Scrolling"
+- Add "Prevent Overflow Hotbar Scrolling"
 - Add "Disable Falling Blocks"
+- Add "Exclude Cacti from 1.12 Boxes"
+- Add "Improved Skin Rendering"
+- Add "Add Background to Book GUI"
 - Replace "Remove Container Background" with "Container Background Opacity"
 - Replace "Nausea Effect" toggle to "Distortion Effects" slider
 - Split "Disable Grounded Arrows" into two settings ("Disable Unpickable Grounded Arrows" and "Disable All Grounded Arrows")
 - Add ability to change tile entity render distance
 - Add ability not to cull ender dragons and withers from Entity Culling
 - Fix very rare crash on Minecraft's main menu
-- Re-add "Remove Water FOV"
+- Re-add "Tooltip Cache" feature
+- Re-add "Remove Water FOV" feature
 - Re-add "Remove Chat Message Limit" feature
 - Remove features replaced by various Polyfrost mods
   - Please install VanillaHUD for any title-related, actionbar-related, or tablist-related features
@@ -283,5 +297,13 @@ This list may not always be up-to-date. To view an updated list, click [here](ht
 - **InputFix**
 - **HUDCaching**
 - **NoScroll**
+
+</details>
+<details>
+    <summary>License disclaimers</summary>
+
+This work, "PolyPatcher", uses code from CaffeineMC's "lithium-fabric", licensed under the LGPL-3.0 license. The original license is included in the repository.
+https://github.com/CaffeineMC/lithium-fabric/tree/develop
+https://github.com/CaffeineMC/lithium-fabric/blob/develop/LICENSE.txt
 
 </details>

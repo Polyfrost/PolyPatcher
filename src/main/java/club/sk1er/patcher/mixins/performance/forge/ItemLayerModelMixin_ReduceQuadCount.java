@@ -1,5 +1,6 @@
 package club.sk1er.patcher.mixins.performance.forge;
 
+import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.hooks.FaceDataHook;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -26,7 +27,7 @@ public abstract class ItemLayerModelMixin_ReduceQuadCount {
     
     //#if MC==10809
     @Unique
-    private static final EnumFacing[] patcher$HORIZONTALS = new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN };;
+    private static final EnumFacing[] patcher$HORIZONTALS = new EnumFacing[] { EnumFacing.UP, EnumFacing.DOWN };
     @Unique
     private static final EnumFacing[] patcher$VERTICALS = new EnumFacing[] { EnumFacing.WEST, EnumFacing.EAST };
 
@@ -200,12 +201,12 @@ public abstract class ItemLayerModelMixin_ReduceQuadCount {
         float u3 = 16.0f * (x2 - dx);
         float v2 = 16.0f * (1.0f - y0 - dy);
         float v3 = 16.0f * (1.0f - y2 - dy);
-        cir.setReturnValue(buildQuad(format, transform, patcher$remap(side), tint, x0, y0, z0, sprite.getInterpolatedU((double)u2), sprite.getInterpolatedV((double)v2), x2, y2, z0, sprite.getInterpolatedU((double)u3), sprite.getInterpolatedV((double)v3), x2, y2, z2, sprite.getInterpolatedU((double)u3), sprite.getInterpolatedV((double)v3), x0, y0, z2, sprite.getInterpolatedU((double)u2), sprite.getInterpolatedV((double)v2)));
+        cir.setReturnValue(buildQuad(format, transform, patcher$remap(side), tint, x0, y0, z0, sprite.getInterpolatedU(u2), sprite.getInterpolatedV(v2), x2, y2, z0, sprite.getInterpolatedU(u3), sprite.getInterpolatedV(v3), x2, y2, z2, sprite.getInterpolatedU(u3), sprite.getInterpolatedV(v3), x0, y0, z2, sprite.getInterpolatedU(u2), sprite.getInterpolatedV(v2)));
     }
 
     @Unique
     private static EnumFacing patcher$remap(EnumFacing side) {
-        return (side.getAxis() == EnumFacing.Axis.Y) ? side.getOpposite() : side;
+        return !PatcherConfig.heldItemLighting || (side.getAxis() == EnumFacing.Axis.Y) ? side.getOpposite() : side;
     }
     //#endif
 

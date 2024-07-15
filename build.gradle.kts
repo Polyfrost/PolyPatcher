@@ -93,6 +93,7 @@ val modShade: Configuration by configurations.creating {
 sourceSets {
     val dummy by creating
     main {
+        dummy.compileClasspath += compileClasspath
         compileClasspath += dummy.output
         output.setResourcesDir(java.classesDirectory)
     }
@@ -121,7 +122,7 @@ dependencies {
     // If we are building for legacy forge, includes the launch wrapper with `shade` as we configured earlier.
     if (platform.isLegacyForge) {
         compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
-        shade("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+")
+        shade("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta17")
     }
 }
 

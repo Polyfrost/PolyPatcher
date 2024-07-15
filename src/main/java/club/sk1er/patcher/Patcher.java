@@ -25,7 +25,9 @@ import club.sk1er.patcher.tweaker.PatcherTweaker;
 import club.sk1er.patcher.util.chat.ChatHandler;
 import club.sk1er.patcher.util.enhancement.EnhancementManager;
 import club.sk1er.patcher.util.enhancement.ReloadListener;
+import club.sk1er.patcher.util.forge.EntrypointCaching;
 import club.sk1er.patcher.util.fov.FovHandler;
+import club.sk1er.patcher.util.item.TooltipHandler;
 import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
 import club.sk1er.patcher.util.keybind.KeybindDropModifier;
 import club.sk1er.patcher.util.keybind.MousePerspectiveKeybindHandler;
@@ -102,6 +104,8 @@ public class Patcher {
 
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
+        EntrypointCaching.INSTANCE.onInit();
+
         registerKeybinds(
             dropModifier = new KeybindDropModifier(),
             hideScreen = new FunctionKeyChanger.KeybindHideScreen(),
@@ -132,7 +136,7 @@ public class Patcher {
             new TitleFix(), new LinuxKeybindFix(),
             new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
             MinecraftHook.INSTANCE, ScreenshotPreview.INSTANCE,
-            new MousePerspectiveKeybindHandler()
+            new MousePerspectiveKeybindHandler(), TooltipHandler.INSTANCE
         );
 
         checkLogs();
@@ -346,11 +350,6 @@ public class Patcher {
                 if (PatcherConfig.compactChat) {
                     notifications.send("Patcher", baseMessage + "Compact Chat is now disabled.");
                     PatcherConfig.compactChat = false;
-                }
-
-                if (PatcherConfig.chatPosition) {
-                    notifications.send("Patcher", baseMessage + "Chat Position is now disabled.");
-                    PatcherConfig.chatPosition = false;
                 }
             }
 

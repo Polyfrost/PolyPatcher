@@ -4,10 +4,7 @@ package club.sk1er.patcher.tweaker;
 import club.sk1er.patcher.asm.external.forge.ForgeChunkManagerTransformer;
 //#endif
 import club.sk1er.patcher.asm.external.forge.ModelLoaderTransformer;
-import club.sk1er.patcher.asm.external.forge.loader.ASMModParserTransformer;
-import club.sk1er.patcher.asm.external.forge.loader.MinecraftForgeTransformer;
-import club.sk1er.patcher.asm.external.forge.loader.ModClassLoaderTransformer;
-import club.sk1er.patcher.asm.external.forge.loader.ModContainerFactoryTransformer;
+import club.sk1er.patcher.asm.external.forge.loader.*;
 import club.sk1er.patcher.asm.external.forge.render.ForgeHooksClientTransformer;
 import club.sk1er.patcher.asm.external.forge.render.block.BlockInfoTransformer;
 import club.sk1er.patcher.asm.external.forge.render.block.ForgeBlockModelRendererTransformer;
@@ -154,7 +151,7 @@ public class ClassTransformer implements IClassTransformer {
         registerTransformer(new ModContainerFactoryTransformer());
         //#endif
         registerTransformer(new GuiIngameForgeTransformer());
-        //registerTransformer(new JarDiscovererTransformer());
+        registerTransformer(new JarDiscovererTransformer());
 
         // lwjgl
         registerTransformer(new WindowsDisplayTransformer());

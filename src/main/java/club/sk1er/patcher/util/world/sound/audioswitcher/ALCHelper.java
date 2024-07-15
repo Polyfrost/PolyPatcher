@@ -32,7 +32,11 @@ public class ALCHelper {
         try {
             return ALC10.alcGetString(null, ALC11.ALC_ALL_DEVICES_SPECIFIER).split("\0");
         } catch (Exception ignored) {
-            return ALC10.alcGetString(null, ALC10.ALC_DEVICE_SPECIFIER).split("\0");
+            try {
+                return ALC10.alcGetString(null, ALC10.ALC_DEVICE_SPECIFIER).split("\0");
+            } catch (Exception ignored2) {
+                return null;
+            }
         }
     }
 }

@@ -1,11 +1,6 @@
 package club.sk1er.patcher.mixins.bugfixes.render.item;
 
 import net.minecraft.client.renderer.GlStateManager;
-
-//#if MC==11202
-//$$ import net.minecraft.client.renderer.GlStateManager.CullFace;
-//#endif
-
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransformVec3f;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -21,6 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(RenderItem.class)
 public abstract class RenderItemMixin_CullFace {
 
+    //#if MC==10809
+
     @Shadow protected abstract boolean isThereOneNegativeScale(ItemTransformVec3f itemTranformVec);
 
 
@@ -33,13 +30,9 @@ public abstract class RenderItemMixin_CullFace {
         , at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/RenderItem;renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/resources/model/IBakedModel;)V"))
     private void patcher$cullFace(ItemStack stack, IBakedModel model, ItemCameraTransforms.TransformType cameraTransformType, CallbackInfo ci) {
         if (isThereOneNegativeScale(model.getItemCameraTransforms().getTransform(cameraTransformType))) {
-            GlStateManager.
-            //#if MC==10809
-                cullFace(1028);
-            //#else
-            //$$ cullFace(CullFace.FRONT);
-            //#endif
+            GlStateManager.cullFace(1028);
         }
     }
 
+    //#endif
 }

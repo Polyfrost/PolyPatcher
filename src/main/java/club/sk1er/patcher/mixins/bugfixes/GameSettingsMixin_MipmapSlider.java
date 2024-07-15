@@ -1,6 +1,7 @@
 package club.sk1er.patcher.mixins.bugfixes;
 
 import club.sk1er.patcher.ducks.GameSettingsExt;
+import club.sk1er.patcher.hooks.ResourceReloadHooks;
 import com.google.common.util.concurrent.ListenableFuture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
@@ -18,7 +19,9 @@ public class GameSettingsMixin_MipmapSlider implements GameSettingsExt {
     @Override
     public void patcher$onSettingsGuiClosed() {
         if (patcher$needsResourceRefresh) {
+            ResourceReloadHooks.setLoadMipmaps(true);
             mc.scheduleResourcesRefresh();
+            ResourceReloadHooks.setLoadMipmaps(false);
             patcher$needsResourceRefresh = false;
         }
     }

@@ -60,3 +60,4 @@ net.minecraft.client.gui.advancements.GuiAdvancement net.minecraft.client.gui.ac
 net.minecraft.client.gui.GuiWorldSelection net.minecraft.client.gui.GuiSelectWorld
 net.minecraft.pathfinding.NodeProcessor net.minecraft.world.pathfinder.NodeProcessor
 net.minecraft.util.SoundCategory net.minecraft.client.audio.SoundCategory
+net.minecraft.util.registry.RegistrySimple net.minecraft.util.RegistrySimple

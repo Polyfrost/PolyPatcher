@@ -203,7 +203,6 @@ public class PatcherMenuEditor {
                 if (next > 9) {
                     next = 0;
                     tripped = !tripped;
-                    Patcher.instance.getLogger().info("yep");
                 }
             }
         }

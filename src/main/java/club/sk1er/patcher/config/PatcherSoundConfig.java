@@ -47,8 +47,7 @@ public class PatcherSoundConfig extends Config {
         try {
             dummyField = getClass().getDeclaredField("dummyBooleanForMigratorDONTTOUCH");
         } catch (Exception e) {
-            e.printStackTrace();
-            Patcher.instance.getLogger().error("Failed to get dummy field for migrator, this is a bug!");
+            Patcher.instance.getLogger().error("Failed to get dummy field for migrator, this is a bug!", e);
         }
         try {
             for (Map.Entry<ResourceLocation, SoundEventAccessorComposite> entry : soundRegistry.entrySet()) {

@@ -10,7 +10,6 @@ import net.minecraft.util.ChatComponentStyle;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -45,15 +44,6 @@ public class ChatHandler {
 
     public static int currentMessageHash = -1;
     private int ticks;
-
-    //#if MC==10809
-    @SubscribeEvent
-    public void renderChat(RenderGameOverlayEvent.Chat event) {
-        if (event.type == RenderGameOverlayEvent.ElementType.CHAT && PatcherConfig.chatPosition) {
-            event.posY -= 12;
-        }
-    }
-    //#endif
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onChatMessage(ClientChatReceivedEvent event) {

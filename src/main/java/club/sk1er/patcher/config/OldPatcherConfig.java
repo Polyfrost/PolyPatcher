@@ -29,4 +29,9 @@ public class OldPatcherConfig {
     public static boolean tabHeightAllow = true; // VanillaHUD
     public static int tabHeight = 10; // VanillaHUD
     public static boolean fixActionbarOverlap; // VanillaHUD
+    public static boolean transparentChat; // Chatting
+    public static boolean transparentChatOnlyWhenClosed; // Chatting
+    public static boolean transparentChatInputField; // Chatting
+    public static boolean extendChatBackground = true; // Chatting
+    public static boolean chatPosition = true; // Chatting
 }

@@ -4,13 +4,11 @@ import cc.polyfrost.oneconfig.config.elements.BasicOption;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.config.PatcherSoundConfig;
 import club.sk1er.patcher.mixins.accessors.PositionedSoundAccessor;
+import club.sk1er.patcher.mixins.accessors.RegistrySimpleAccessor;
 import club.sk1er.patcher.mixins.accessors.SoundHandlerAccessor;
 import club.sk1er.patcher.mixins.accessors.SoundRegistryAccessor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.SoundCategory;
-import net.minecraft.client.audio.SoundEventAccessorComposite;
-import net.minecraft.client.audio.SoundManager;
+import net.minecraft.client.audio.*;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
@@ -22,11 +20,24 @@ import org.lwjgl.opengl.Display;
 import java.util.HashMap;
 import java.util.Map;
 
+//#if MC>10809
+//$$ import net.minecraft.util.SoundCategory;
+//#endif
+
 public class SoundHandler implements IResourceManagerReloadListener {
+
+    private final boolean isLoliASM; // why, why, why
 
     public SoundHandler() {
         this.previousActive = Display.isActive();
         handleFocusChange();
+        boolean isLoliASM = false;
+        try {
+            Class.forName("zone.rong.loliasm.api.mixins.RegistrySimpleExtender", false, getClass().getClassLoader());
+            isLoliASM = true;
+        } catch (ClassNotFoundException ignored) {
+        }
+        this.isLoliASM = isLoliASM;
     }
 
     private final Map<ResourceLocation, BasicOption> data = new HashMap<>();
@@ -86,7 +97,8 @@ public class SoundHandler implements IResourceManagerReloadListener {
 
     @Override
     public void onResourceManagerReload(IResourceManager resourceManager) {
-        Map<ResourceLocation, SoundEventAccessorComposite> soundRegistry = ((SoundRegistryAccessor) ((SoundHandlerAccessor) Minecraft.getMinecraft().getSoundHandler()).getSndRegistry()).getSoundRegistry();
-        new PatcherSoundConfig(data, soundRegistry);
+        SoundRegistry soundRegistry = ((SoundHandlerAccessor) Minecraft.getMinecraft().getSoundHandler()).getSndRegistry();
+        Map<ResourceLocation, SoundEventAccessorComposite> sounds = isLoliASM ? ((RegistrySimpleAccessor) soundRegistry).getRegistryObjects() : ((SoundRegistryAccessor) soundRegistry).getSoundRegistry();
+        new PatcherSoundConfig(data, sounds);
     }
 }

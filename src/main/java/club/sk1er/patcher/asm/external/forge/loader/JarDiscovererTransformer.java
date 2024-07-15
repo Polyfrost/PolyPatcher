@@ -26,17 +26,54 @@ public class JarDiscovererTransformer implements PatcherTransformer {
     @Override
     public void transform(ClassNode classNode, String name) {
         for (MethodNode method : classNode.methods) {
-            if (method.name.equals("discover")) {
+            boolean isDiscover = method.name.equals("discover");
+            boolean isFindClassesASM =
+                //#if MC>10809
+                //$$ method.name.equals("findClassesASM");
+                //#else
+                false;
+                //#endif
+
+            //noinspection ConstantValue
+            if (isDiscover || isFindClassesASM) {
                 final ListIterator<AbstractInsnNode> iterator = method.instructions.iterator();
+
                 while (iterator.hasNext()) {
                     final AbstractInsnNode next = iterator.next();
 
                     if (next instanceof MethodInsnNode) {
                         final MethodInsnNode insn = ((MethodInsnNode) next);
-                        if (insn.name.equals("entries")) {
-                            method.instructions.insertBefore(next, discoverCachedJar());
-                        } else if (insn.name.equals("bindMetadata")) {
-                            method.instructions.insert(insn, putCachedJar());
+                        switch (insn.name) {
+                            case
+                                //#if MC<=10809
+                                "entries":
+                                //#else
+                                //$$ "findClassesASM":
+                                //#endif
+
+                                //#if MC>10809
+                                //$$ if (isFindClassesASM) break;
+                                //#endif
+                                method.instructions.insertBefore(next, discoverCachedJar());
+                                break;
+                            case "addClassEntry":
+                                //#if MC>10809
+                                //$$ if (!isFindClassesASM) break;
+                                //#endif
+                                method.instructions.insert(next, putCachedClass(false));
+                                break;
+                            case
+                                //#if MC<=10809
+                                "bindMetadata":
+                                //#else
+                                //$$ "setClassVersion":
+                                //#endif
+
+                                //#if MC>10809
+                                //$$ if (!isFindClassesASM) break;
+                                //#endif
+                                method.instructions.insert(next, putCachedClass(true));
+                                break;
                         }
                     }
                 }
@@ -60,7 +97,13 @@ public class JarDiscovererTransformer implements PatcherTransformer {
         list.add(new VarInsnNode(Opcodes.ALOAD, 1));
         list.add(new VarInsnNode(Opcodes.ALOAD, 2));
         list.add(new VarInsnNode(Opcodes.ALOAD, 4));
-        list.add(new VarInsnNode(Opcodes.ALOAD, 6));
+        list.add(new VarInsnNode(Opcodes.ALOAD,
+            //#if MC<=10809
+            6
+            //#else
+            //$$ 7
+            //#endif
+        ));
         list.add(new MethodInsnNode(
             Opcodes.INVOKEVIRTUAL,
             "club/sk1er/patcher/util/forge/EntrypointCaching",
@@ -78,16 +121,22 @@ public class JarDiscovererTransformer implements PatcherTransformer {
         return list;
     }
 
-    private InsnList putCachedJar() {
+    private InsnList putCachedClass(boolean entry) {
         InsnList list = new InsnList();
 
         getInstance(list);
         list.add(new VarInsnNode(Opcodes.ALOAD, 1));
-        list.add(new VarInsnNode(Opcodes.ALOAD, 8));
+        list.add(new VarInsnNode(Opcodes.ALOAD,
+            //#if MC<=10809
+            8
+            //#else
+            //$$ 7
+            //#endif
+        ));
         list.add(new MethodInsnNode(
             Opcodes.INVOKEVIRTUAL,
             "club/sk1er/patcher/util/forge/EntrypointCaching",
-            "putCachedEntrypoints",
+            entry ? "putCachedEntrypoints" : "putCachedClassEntries",
             "(Lnet/minecraftforge/fml/common/discovery/ModCandidate;Ljava/util/zip/ZipEntry;)V",
             false
         ));

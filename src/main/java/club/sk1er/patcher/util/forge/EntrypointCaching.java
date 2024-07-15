@@ -1,6 +1,8 @@
 package club.sk1er.patcher.util.forge;
 
+import cc.polyfrost.oneconfig.utils.Notifications;
 import club.sk1er.patcher.config.PatcherConfig;
+import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -27,17 +29,17 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-/*public class EntrypointCaching {
+public class EntrypointCaching {
 
     public static EntrypointCaching INSTANCE = new EntrypointCaching();
 
-    private final Logger logger = LogManager.getLogger("Patcher Entrypoint Cache");
-    private final Type mapType = new TypeToken<Map<String, List<String>>>() {}.getType();
+    public final Logger logger = LogManager.getLogger("Patcher Entrypoint Cache");
+    private final Type mapType = new TypeToken<List<Map<String, List<String>>>>() {}.getType();
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final File cacheFile = new File("patcher/entrypoint_cache.json");
 
-    private Map<String, List<String>> readMap;
-    private Map<String, List<String>> usedMap = new HashMap<>();
+    private List<Map<String, List<String>>> readMap;
+    private List<Map<String, List<String>>> usedMap = ImmutableList.of(new HashMap<>(), new HashMap<>());
     private Map<File, String> hashCache = new HashMap<>();
 
     private EntrypointCaching() {
@@ -51,7 +53,7 @@ import java.util.zip.ZipEntry;
         } catch (Exception e) {
             logger.error("Failed to read entrypoint cache", e);
         }
-        readMap = new HashMap<>();
+        readMap = ImmutableList.of(new HashMap<>(), new HashMap<>());
     }
 
     @SuppressWarnings("unused")
@@ -62,28 +64,24 @@ import java.util.zip.ZipEntry;
         String hash = getHash(modFile);
         if (hash == null) return null;
 
-        List<String> modClasses = readMap.get(hash);
-        if (modClasses == null) return null;
+        List<String> entryClasses = readMap.get(0).get(hash);
+        List<String> modClasses = readMap.get(1).get(hash);
+        if (entryClasses == null && modClasses == null) return null;
 
         List<ModContainer> foundMods = new ArrayList<>();
-        List<String> validMods = new ArrayList<>();
-
-        for (String modClass : modClasses) {
-            ASMModParser modParser;
-            try (InputStream is = file.getInputStream(new JarEntry(modClass))) {
-                modParser = new ASMModParser(is);
-            } catch (Exception e) {
-                logger.error("Error parsing mod class " + modClass + " from jar " + modFile, e);
-                continue;
+        List<String> validEntries = null;
+        if (entryClasses != null && !entryClasses.isEmpty()) {
+            validEntries = new ArrayList<>(entryClasses.size());
+            for (String modClass : entryClasses) {
+                iterateThroughClass(true, candidate, table, file, mc, modFile, foundMods, validEntries, modClass);
             }
-            modParser.validate();
-            modParser.sendToTable(table, candidate);
-            ModContainer container = ModContainerFactory.instance().build(modParser, modFile, candidate);
-            if (container != null) {
-                table.addContainer(container);
-                foundMods.add(container);
-                validMods.add(modClass);
-                container.bindMetadata(mc);
+        }
+
+        List<String> validClasses = null;
+        if (modClasses != null && !modClasses.isEmpty()) {
+            validClasses = new ArrayList<>(modClasses.size());
+            for (String modClass : modClasses) {
+                iterateThroughClass(false, candidate, table, file, mc, modFile, foundMods, validClasses, modClass);
             }
         }
 
@@ -95,9 +93,36 @@ import java.util.zip.ZipEntry;
             logger.error("Error closing mod jar " + modFile, e);
         }
 
-        usedMap.put(hash, validMods);
+        usedMap.get(0).put(hash, (validEntries));
+        usedMap.get(1).put(hash, (validClasses));
 
         return foundMods;
+    }
+
+    private void iterateThroughClass(boolean entry, ModCandidate candidate, ASMDataTable table, JarFile file, MetadataCollection mc, File modFile, List<ModContainer> foundMods, List<String> validMods, String modClass) {
+        candidate.addClassEntry(modClass);
+
+        if (entry) {
+            try (InputStream is = file.getInputStream(new JarEntry(modClass))) {
+                ASMModParser modParser = new ASMModParser(is);
+                modParser.validate();
+                modParser.sendToTable(table, candidate);
+                ModContainer container = ModContainerFactory.instance().build(modParser, modFile, candidate);
+                if (container != null) {
+                    table.addContainer(container);
+                    foundMods.add(container);
+                    validMods.add(modClass);
+                    container.bindMetadata(mc);
+                    //#if MC>10809
+                    //$$ container.setClassVersion(modParser.getClassVersion());
+                    //#endif
+                }
+            } catch (Exception e) {
+                logger.error("Error parsing mod class " + modClass + " from jar " + modFile, e);
+            }
+        } else {
+            validMods.add(modClass);
+        }
     }
 
     @SuppressWarnings("unused")
@@ -107,12 +132,26 @@ import java.util.zip.ZipEntry;
         String modClass = ze.getName();
 
         String hash = hashCache.computeIfAbsent(modFile, this::getHash);
-        List<String> modClasses = usedMap.computeIfAbsent(hash, h -> new ArrayList<>());
+        List<String> modClasses = usedMap.get(0).computeIfAbsent(hash, h -> new ArrayList<>());
         if (!modClasses.contains(modClass)) {
             modClasses.add(modClass);
         }
 
         logger.info("Added entrypoint {} for mod jar {}", modClass, modFile);
+    }
+
+    @SuppressWarnings("unused")
+    public void putCachedClassEntries(ModCandidate candidate, ZipEntry ze) {
+        if (!PatcherConfig.cacheEntrypoints) return;
+
+        File modFile = candidate.getModContainer();
+        String modClass = ze.getName();
+
+        String hash = hashCache.computeIfAbsent(modFile, this::getHash);
+        List<String> modClasses = usedMap.get(1).computeIfAbsent(hash, h -> new ArrayList<>());
+        if (!modClasses.contains(modClass)) {
+            modClasses.add(modClass);
+        }
     }
 
     public void onInit() {
@@ -166,4 +205,15 @@ import java.util.zip.ZipEntry;
         return null;
     }
 
-}*/
+    public void resetCache() {
+        if (cacheFile.exists()) {
+            if (cacheFile.delete()) {
+                Notifications.INSTANCE.send("PolyPatcher", "Deleted entrypoint cache", 5000);
+                logger.info("Deleted entrypoint cache");
+            } else {
+                Notifications.INSTANCE.send("PolyPatcher", "Failed to delete entrypoint cache!", 5000);
+                logger.error("Failed to delete entrypoint cache");
+            }
+        }
+    }
+}
