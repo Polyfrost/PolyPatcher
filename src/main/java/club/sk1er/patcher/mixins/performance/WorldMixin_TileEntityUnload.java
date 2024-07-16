@@ -1,8 +1,7 @@
 package club.sk1er.patcher.mixins.performance;
 
 import club.sk1er.patcher.ducks.WorldExt;
-import gnu.trove.TLongCollection;
-import gnu.trove.set.hash.TLongHashSet;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -28,7 +27,7 @@ public class WorldMixin_TileEntityUnload implements WorldExt {
     @Final
     public List<TileEntity> tickableTileEntities;
     @Unique
-    private TLongCollection patcher$tileEntitiesChunkToBeRemoved = new TLongHashSet(); // TODO: switch to fast util
+    private LongOpenHashSet patcher$tileEntitiesChunkToBeRemoved = new LongOpenHashSet();
 
     @Override
     public void patcher$markTileEntitiesInChunkForRemoval(Chunk chunk) {
