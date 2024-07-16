@@ -20,8 +20,10 @@ public abstract class ModelLoaderMixin_SkipFatalModels extends ModelBakery imple
         super(p_i46085_1_, p_i46085_2_, p_i46085_3_);
     }
 
+    //#if MC==10809
     @Inject(method = "setupModelRegistry", at = @At("HEAD"), cancellable = true)
     private void patcher$earlyExit(CallbackInfoReturnable<IRegistry<ModelResourceLocation, IBakedModel>> cir) {
         if (patcher$hasErrors()) cir.setReturnValue(this.bakedRegistry);
     }
+    //#endif
 }
