@@ -237,6 +237,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Fix vanilla bug where items glitch out when using negative scale
 - Fix vanilla bug where pumpkin overlay shows in spectator mode
 - Fix vanilla bug where entities don't render at certain camera angles below Y=0 and above Y=255
+- Fix vanilla bug where invalid tile entities try to render
 - Fix vanilla sky lighting calculation
 - Fix texture manager memory leak
 - Fix compatability with LoliASM/CensoredASM

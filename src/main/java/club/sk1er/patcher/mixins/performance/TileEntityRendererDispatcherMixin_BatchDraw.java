@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = TileEntityRendererDispatcher.class)
 public class TileEntityRendererDispatcherMixin_BatchDraw {
-
     //#if MC==10809
     @Unique private boolean patcher$drawingBatch = false;
 
@@ -36,5 +35,4 @@ public class TileEntityRendererDispatcherMixin_BatchDraw {
         return (!PatcherConfig.batchModelRendering || patcher$drawingBatch) && instance.hasFastRenderer();
     }
     //#endif
-
 }
