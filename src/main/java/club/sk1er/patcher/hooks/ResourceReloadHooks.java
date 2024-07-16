@@ -9,41 +9,23 @@ import java.util.List;
 
 public class ResourceReloadHooks {
     private static boolean loadLanguage = false;
-    private static boolean loadMipmaps = false;
     private static List<IResourceManagerReloadListener> languageManager = null;
-    private static List<IResourceManagerReloadListener> modelManager = null;
     private static Method langMethod;
 
     public static boolean shouldLoadLanguage() {
         return loadLanguage;
     }
 
-    public static boolean shouldLoadMipmaps() {
-        return loadMipmaps;
-    }
-
     public static List<IResourceManagerReloadListener> getLanguageManager() {
         return languageManager;
-    }
-
-    public static List<IResourceManagerReloadListener> getModelManager() {
-        return modelManager;
     }
 
     public static void setLanguageManager(IResourceManagerReloadListener languageManager) {
         ResourceReloadHooks.languageManager = Lists.newArrayList(languageManager);
     }
 
-    public static void setModelManager(IResourceManagerReloadListener modelManager) {
-        ResourceReloadHooks.modelManager = Lists.newArrayList(modelManager);
-    }
-
     public static void setLoadLanguage(boolean loadLanguage) {
         ResourceReloadHooks.loadLanguage = loadLanguage;
-    }
-
-    public static void setLoadMipmaps(boolean loadMipmaps) {
-        ResourceReloadHooks.loadMipmaps = loadMipmaps;
     }
 
     public static void reloadOptiFineLanguage() {

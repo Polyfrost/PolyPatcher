@@ -9,11 +9,9 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(RenderGlobal.class)
 public class RenderGlobalMixin_LimitVisGraphScan {
-
     @ModifyVariable(method = "getVisibleFacings", name = "visgraph", at = @At(value = "STORE", ordinal = 0))
     private VisGraph patcher$setLimitScan(VisGraph visgraph) {
         ((VisGraphExt) visgraph).patcher$setLimitScan(true);
         return visgraph;
     }
-
 }
