@@ -4,7 +4,6 @@ import club.sk1er.patcher.hooks.ResourceReloadHooks;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.LanguageManager;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
-import net.minecraft.client.resources.model.ModelManager;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,8 +25,6 @@ public class SimpleReloadableResourceManager_OnlyRefreshNecessaryListeners {
     private void onReloadListenerRegister(IResourceManagerReloadListener reloadListener, CallbackInfo ci) {
         if (reloadListener instanceof LanguageManager) {
             ResourceReloadHooks.setLanguageManager(reloadListener);
-        } else if (reloadListener instanceof ModelManager) {
-            ResourceReloadHooks.setModelManager(reloadListener);
         }
     }
 
@@ -35,8 +32,6 @@ public class SimpleReloadableResourceManager_OnlyRefreshNecessaryListeners {
     private List<IResourceManagerReloadListener> redirectNotifyReloadListeners(SimpleReloadableResourceManager simpleReloadableResourceManager) {
         if (ResourceReloadHooks.shouldLoadLanguage()) {
             return ResourceReloadHooks.getLanguageManager();
-        } else if (ResourceReloadHooks.shouldLoadMipmaps()) {
-            return ResourceReloadHooks.getModelManager();
         } else {
             return reloadListeners;
         }
