@@ -1,12 +1,9 @@
 package club.sk1er.patcher.mixins.performance.forge;
 
-import com.google.common.collect.MapMaker;
 import me.kbrewster.eventbus.forge.KEventBus;
 import me.kbrewster.eventbus.forge.invokers.LMFInvoker;
-import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
-import net.minecraftforge.fml.common.eventhandler.IEventListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,16 +12,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Mixin(value = EventBus.class, remap = false)
 public class EventBusMixin_UseKeventBus {
-    @Unique
-    private final ConcurrentHashMap<Object, ArrayList<IEventListener>> patcher$listeners = new ConcurrentHashMap<>();
-    @Unique
-    private final Map<Object, ModContainer> patcher$listenerOwners = new MapMaker().weakKeys().weakValues().makeMap();
     @Unique
     private final KEventBus patcher$kEventBus = new KEventBus(new LMFInvoker(), e -> System.err.println("An exception occurred in a method: " + e.getMessage()));
 
