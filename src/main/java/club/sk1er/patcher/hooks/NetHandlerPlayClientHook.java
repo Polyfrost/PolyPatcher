@@ -18,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 public class NetHandlerPlayClientHook {
 
     //#if MC==10809
-    public static boolean validateResourcePackUrl(NetHandlerPlayClient client, S48PacketResourcePackSend packet) {
+    public static boolean validateResourcePackUrl(S48PacketResourcePackSend packet) {
         try {
             String url = packet.getURL();
             final URI uri = new URI(url);
@@ -26,8 +26,7 @@ public class NetHandlerPlayClientHook {
             final boolean isLevelProtocol = "level".equals(scheme);
 
             if (!"http".equals(scheme) && !"https".equals(scheme) && !isLevelProtocol) {
-                client.getNetworkManager().sendPacket(new C19PacketResourcePackStatus(packet.getHash(), C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
-                throw new URISyntaxException(url, "Wrong protocol");
+                return true;
             }
 
             url = URLDecoder.decode(url.substring("level://".length()), StandardCharsets.UTF_8.toString());
@@ -49,7 +48,7 @@ public class NetHandlerPlayClientHook {
             e.printStackTrace();
         }
 
-        return false;
+        return true;
     }
     //#endif
 }

@@ -27,7 +27,6 @@ import club.sk1er.patcher.util.enhancement.EnhancementManager;
 import club.sk1er.patcher.util.enhancement.ReloadListener;
 import club.sk1er.patcher.util.forge.EntrypointCaching;
 import club.sk1er.patcher.util.fov.FovHandler;
-import club.sk1er.patcher.util.item.TooltipHandler;
 import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
 import club.sk1er.patcher.util.keybind.KeybindDropModifier;
 import club.sk1er.patcher.util.keybind.MousePerspectiveKeybindHandler;
@@ -136,7 +135,7 @@ public class Patcher {
             new TitleFix(), new LinuxKeybindFix(),
             new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
             MinecraftHook.INSTANCE, ScreenshotPreview.INSTANCE,
-            new MousePerspectiveKeybindHandler(), TooltipHandler.INSTANCE
+            new MousePerspectiveKeybindHandler()
         );
 
         checkLogs();
