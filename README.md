@@ -231,12 +231,16 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Boost performance by decreasing size of sine and cosine lookup tables
 - Boost performance by only rendering special tile entities once instead of twice per frame
 - Boost performance by optimizing adding normals to vertex formats
+- Boost performance by unloading tile entities quickly
 - Improve speed when changing language, mipmap level, and anisotropic filtering level
 - Fix Forge held item lighting to match vanilla
 - Fix vanilla bug where entering an entity in spectator mode while in third person applies shaders
 - Fix vanilla bug where enchantment glint takes up the whole slot
 - Fix vanilla bug where items glitch out when using negative scale
 - Fix vanilla bug where pumpkin overlay shows in spectator mode
+- Fix vanilla bug where a spaces are not trimmed in server address fields
+- Fix vanilla bug where entities don't render at certain camera angles below Y=0 and above Y=255
+- Fix vanilla bug where invalid tile entities try to render
 - Fix vanilla sky lighting calculation
 - Fix texture manager memory leak
 - Fix compatability with LoliASM/CensoredASM

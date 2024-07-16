@@ -870,21 +870,6 @@ public class PatcherConfig extends Config {
     public static boolean disableEnchantmentGlint;
 
     @Info(
-        text = "May cause tooltips to appear on another item for 200ms.",
-        category = "Performance", subcategory = "Items",
-        type = InfoType.WARNING,
-        size = 2
-    )
-    private static boolean tooltipCacheInfo = true;
-
-    @Switch(
-        name = "Tooltip Cache",
-        description = "Cache tooltips to avoid fetching very long lists every frame.",
-        category = "Performance", subcategory = "Items"
-    )
-    public static boolean tooltipCache;
-
-    @Info(
         text = "When back-face culling is enabled, being inside an entity will cause that body part to be invisible.",
         category = "Performance", subcategory = "Culling",
         type = InfoType.WARNING,
