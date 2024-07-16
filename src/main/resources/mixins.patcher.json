@@ -258,6 +258,7 @@
     "performance.WorldMixin_Optimization",
     "performance.WorldMixin_TileEntityUnload",
     "performance.forge.ASMDataTableMixin_ComputeParallel",
+    "performance.forge.EventBusMixin_UseKeventBus",
     "performance.forge.FluidRegistryMixin_Optimization",
     "performance.forge.FMLClientHandlerMixin_Optimization",
     "performance.forge.FMLControlledNamespacedRegistryMixin_TrimAvailabilityMap",
