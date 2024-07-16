@@ -10,8 +10,10 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(value = ForgeBlockStateV1.Variant.Deserializer.class, remap = false)
 public class ForgeBlockStateV1Mixin_OptimizeTransforms {
+    //#if MC==10809
     @Redirect(method = "deserialize(Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Lnet/minecraftforge/client/model/ForgeBlockStateV1$Variant;", at = @At(value = "NEW", target = "net/minecraftforge/client/model/TRSRTransformation"))
     private TRSRTransformation patcher$from(ModelRotation rotation) {
         return TRSRTransformationHook.from(rotation);
     }
+    //#endif
 }

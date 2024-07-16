@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = TRSRTransformation.class, remap = false)
 public class TRSRTransformationMixin_OptimizeTransforms {
+    //#if MC==10809
     @Shadow
     @Final
     private static TRSRTransformation identity;
@@ -37,4 +38,5 @@ public class TRSRTransformationMixin_OptimizeTransforms {
             cir.setReturnValue(transform);
         }
     }
+    //#endif
 }
