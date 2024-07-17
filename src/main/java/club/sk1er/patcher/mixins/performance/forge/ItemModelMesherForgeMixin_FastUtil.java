@@ -6,7 +6,9 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.resources.model.ModelManager;
+//#if MC==10809
 import net.minecraft.client.resources.model.ModelResourceLocation;
+//#endif
 import net.minecraft.item.Item;
 import net.minecraftforge.client.ItemModelMesherForge;
 import org.spongepowered.asm.mixin.Mixin;
