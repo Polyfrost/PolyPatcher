@@ -230,6 +230,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Boost performance by reducing quad counts in item models
 - Boost performance by decreasing size of sine and cosine lookup tables
 - Boost performance by only rendering special tile entities once instead of twice per frame
+- Boost performance by improving insertion into Forge's inventory wrappers
 - Boost performance by optimizing adding normals to vertex formats
 - Boost performance by unloading tile entities quickly
 - Improve speed when changing language, mipmap level, and anisotropic filtering level
