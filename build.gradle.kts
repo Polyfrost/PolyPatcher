@@ -118,7 +118,11 @@ dependencies {
     }
 
     if (platform.mcMinor < 12) {
-        shade("it.unimi.dsi:fastutil:8.5.6")
+        shade("it.unimi.dsi:fastutil:8.5.11")
+    }
+
+    shade("com.github.Polyfrost:keventbus-forge:0f57e6077e") {
+        isTransitive = false
     }
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-${if (platform.isFabric) "fabric" else if (platform.isLegacyForge) "forge-legacy" else "forge-latest"}:1.2.0")

@@ -27,6 +27,14 @@ public class HUDCaching {
 
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static Framebuffer hudFramebuffer;
+    static {
+        hudFramebuffer = new Framebuffer(0, 0, true);
+        hudFramebuffer.framebufferColor[0] = 0.0F;
+        hudFramebuffer.framebufferColor[1] = 0.0F;
+        hudFramebuffer.framebufferColor[2] = 0.0F;
+        hudFramebuffer.framebufferColor[3] = 0.0F;
+    }
+
     //public static Framebuffer screenFramebuffer;
     private static boolean hudDirty = true;
     //private static boolean screenDirty = true;
@@ -38,6 +46,19 @@ public class HUDCaching {
     private static int lastHotbar;
 
     private static boolean isChatOpen = false;
+
+    /*
+     * Some HUD features cause problems/inaccuracies when being rendered into cache.
+     * We capture those and render them later
+     */
+    // Vignette texture has no alpha
+    public static boolean renderVignetteCaptured;
+    // Helmet & portal are chances other mods render vignette
+    // For example Thaumcraft renders warp effect during this
+    public static boolean renderHelmetCaptured;
+    public static float renderPortalCapturedTicks;
+    // Crosshairs need to be blended with the scene
+    public static boolean renderCrosshairsCaptured;
 
     @SubscribeEvent
     public void tick(TickEvent.ClientTickEvent event) {
@@ -124,7 +145,7 @@ public class HUDCaching {
                 hudDirty = true;
             }
 
-            if (hudFramebuffer == null || hudDirty) {
+            if (hudDirty) {
                 hudDirty = false;
                 nextHudRefresh = System.currentTimeMillis() + (1000 / PatcherConfig.cacheFPS);
                 (hudFramebuffer = checkFramebufferSizes(hudFramebuffer, mc.displayWidth, mc.displayHeight)).framebufferClear();
@@ -142,28 +163,59 @@ public class HUDCaching {
             }
 
             if (hudFramebuffer != null) {
+                // reset the color that may be applied by some items
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+                // render bits that were captured when rendering into cache
+                GuiIngameAccessor gui = (GuiIngameAccessor) ingame;
+                if (renderVignetteCaptured)
+                {
+                    gui.invokeRenderVignette(mc.thePlayer.getBrightness(
+                        //#if MC==10809
+                        partialTicks
+                        //#endif
+                    ), resolution);
+                } else {
+                    GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+                }
+
                 Tessellator tessellator = Tessellator.getInstance();
                 WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+
                 if (ingame instanceof GuiIngameForge) {
-                    ((GuiIngameForgeAccessor) ingame).callRenderCrosshairs(
-                        //#if MC==10809
-                        width, height
-                        //#else
-                        //$$ partialTicks
-                        //#endif
-                    );
-                } else if (
-                    // todo: fix this boolean check
-                    //#if MC==10809
-                    ((GuiIngameAccessor) ingame).invokeShowCrosshair() &&
-                        //#endif
-                        GuiIngameForge.renderCrosshairs) {
-                    mc.getTextureManager().bindTexture(Gui.icons);
-                    GlStateManager.enableBlend();
-                    GlStateManager.tryBlendFuncSeparate(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR, GL11.GL_ONE, GL11.GL_ZERO);
-                    GlStateManager.enableAlpha();
-                    drawTexturedModalRect(tessellator, worldRenderer, (width >> 1) - 7, (height >> 1) - 7);
-                    GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+                    GuiIngameForgeAccessor guiForge = ((GuiIngameForgeAccessor) ingame);
+                    if (renderHelmetCaptured) {
+                        guiForge.callRenderHelmet(resolution, partialTicks);
+                    }
+                    if (renderPortalCapturedTicks > 0) {
+                        guiForge.callRenderPortal(resolution, partialTicks);
+                    }
+                    if (renderCrosshairsCaptured) {
+                        guiForge.callRenderCrosshairs(
+                            //#if MC==10809
+                            width, height
+                            //#else
+                            //$$ partialTicks
+                            //#endif
+                        );
+                    }
+                } else {
+                    if (renderHelmetCaptured)
+                    {
+                        gui.invokeRenderPumpkinOverlay(resolution);
+                    }
+                    if (renderPortalCapturedTicks > 0)
+                    {
+                        gui.invokeRenderPortal(renderPortalCapturedTicks, resolution);
+                    }
+                    if (renderCrosshairsCaptured) {
+                        mc.getTextureManager().bindTexture(Gui.icons);
+                        GlStateManager.enableBlend();
+                        GlStateManager.tryBlendFuncSeparate(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR, GL11.GL_ONE, GL11.GL_ZERO);
+                        GlStateManager.enableAlpha();
+                        drawTexturedModalRect(tessellator, worldRenderer, (width >> 1) - 7, (height >> 1) - 7);
+                        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+                    }
                 }
 
                 GlStateManager.enableBlend();
@@ -173,7 +225,6 @@ public class HUDCaching {
                 drawTexturedRect(tessellator, worldRenderer, (float) resolution.getScaledWidth_double(), (float) resolution.getScaledHeight_double());
                 GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
             }
-
             GlStateManager.enableDepth();
         }
     }

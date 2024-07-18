@@ -3,7 +3,9 @@ package club.sk1er.patcher.mixins.performance;
 import club.sk1er.patcher.ducks.WorldExt;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.tileentity.TileEntity;
+//#if MC==10809
 import net.minecraft.world.ChunkCoordIntPair;
+//#endif
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.spongepowered.asm.lib.Opcodes;
@@ -18,7 +20,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(World.class)
-public class WorldMixin_TileEntityUnload implements WorldExt {
+public class WorldMixin_TileEntityUnload
+    //#if MC==10809
+    implements WorldExt
+    //#endif
+{
     //#if MC==10809
     @Shadow
     @Final

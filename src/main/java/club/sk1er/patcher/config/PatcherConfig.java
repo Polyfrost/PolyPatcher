@@ -535,10 +535,18 @@ public class PatcherConfig extends Config {
     )
     public static boolean futureHitBoxes = true;
 
+    @Info(
+        text = "Exclude Cacti from 1.12 Boxes requires a restart once toggled.",
+        category = "Miscellaneous", subcategory = "Blocks",
+        type = InfoType.WARNING,
+        size = 2
+    )
+    private static boolean cactusHitboxExclusionInfo = true;
+
     @Switch(
         name = "Exclude Cacti from 1.12 Boxes",
         description = "Exclude cacti from the 1.12 selection box changes, as it would actually shrink rather than increase in size.",
-        category = "Miscellaneous", subcategory = "Blocks"
+        category = "Miscellaneous", subcategory = "Blocks", size = 2
     )
     public static boolean cactusHitboxExclusion = true;
 
@@ -1303,23 +1311,45 @@ public class PatcherConfig extends Config {
 
     // EXPERIMENTAL
 
+    @Info(
+        text = "Requires two restarts to take full effect.",
+        category = "Experimental", subcategory = "Forge",
+        type = InfoType.WARNING
+    )
+    private static boolean cacheEntrypointsInfo = true;
+
     @Switch(
         name = "Cache Entrypoints",
         description = "Cache Forge mod entry points, improving startup time as Forge no longer needs to walk through " +
             "every class to find the @Mod annotation.",
-        category = "Experimental", subcategory = "Mod Discovery"
+        category = "Experimental", subcategory = "Forge"
     )
     public static boolean cacheEntrypoints = true;
 
     @Button(
         name = "Reset Cache",
         description = "Reset the cache of Forge mod entry points.",
-        category = "Experimental", subcategory = "Mod Discovery",
-        text = "Reset"
+        category = "Experimental", subcategory = "Forge",
+        text = "Reset", size = 2
     )
-    public static void resetCache() {
-        EntrypointCaching.INSTANCE.resetCache();
-    }
+    public static Runnable resetCache = () -> EntrypointCaching.INSTANCE.resetCache();
+
+    @Info(
+        text = "This will remove the debug message on event exceptions, making it harder to debug issues. In addition, this will only apply on restart.",
+        category = "Experimental", subcategory = "Forge",
+        type = InfoType.WARNING, size = 2
+    )
+    private static boolean removeEventDebugInfo = true;
+
+    @Switch(
+        name = "Replace Forge Event Bus with KEventBus",
+        description = "Replace the Forge event bus with KEventBus, a more optimized event bus.",
+        category = "Experimental", subcategory = "Forge"
+    )
+    public static boolean replaceForgeEventBus = true;
+
+    @Exclude
+    public static boolean actuallyReplaceForgeEventBus = true;
 
     @Info(
         text = "Improved Skin Rendering can make some skins invisible. It requires a restart once toggled.",
@@ -1786,6 +1816,8 @@ public class PatcherConfig extends Config {
         super(new Mod("PolyPatcher", ModType.UTIL_QOL, "/patcher.svg", new VigilanceMigrator("./config/patcher.toml")), "patcher.json");
         initialize();
 
+        actuallyReplaceForgeEventBus = replaceForgeEventBus;
+
         boolean modified = false;
 
         if (removeContainerBackgroundOld) {
@@ -1977,7 +2009,7 @@ public class PatcherConfig extends Config {
             //noinspection ConstantConditions
             Supplier<Boolean> minecraft112 = () -> ForgeVersion.mcVersion.equals("1.12.2");
             Arrays.asList(
-                "resourceExploitFix", "newKeybindHandling", "separateResourceLoading", "futureHitBoxes", "cactusHitboxExclusion", "farmSelectionBoxesInfo",
+                "resourceExploitFix", "newKeybindHandling", "separateResourceLoading", "futureHitBoxes", "cactusHitboxExclusion", "farmSelectionBoxesInfo", "cactusHitboxExclusionInfo",
                 "leftHandInFirstPerson", "extendedChatLength", "chatPosition",
                 "parallaxFix", "extendChatBackground", "vanillaGlassPanes", "heldItemLighting"
             ).forEach(property -> hideIf(property, minecraft112));

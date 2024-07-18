@@ -1,5 +1,6 @@
 package club.sk1er.patcher.hooks;
 
+//#if MC==10809
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -10,8 +11,10 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.model.TRSRTransformation;
 
 import static net.minecraftforge.client.model.TRSRTransformation.identity;
+//#endif
 
 public class TRSRTransformationHook {
+    //#if MC==10809
     @SuppressWarnings("deprecation")
     public static TRSRTransformation from(ItemTransformVec3f transform) {
         return transform.equals(ItemTransformVec3f.DEFAULT) ? identity() : new TRSRTransformation(transform);
@@ -48,4 +51,6 @@ public class TRSRTransformationHook {
             return rotations.computeIfAbsent(rotation, r -> new TRSRTransformation(ForgeHooksClient.getMatrix(r)));
         }
     }
+
+    //#endif
 }

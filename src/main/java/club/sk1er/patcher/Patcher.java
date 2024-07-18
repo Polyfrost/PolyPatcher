@@ -164,12 +164,12 @@ public class Patcher {
         this.detectIncompatibilities(activeModList, notifications);
         this.detectReplacements(activeModList, notifications);
 
-        long time = (System.currentTimeMillis() - PatcherTweaker.clientLoadTime) / 1000L;
+        long time = (System.currentTimeMillis() - PatcherTweaker.clientLoadTime);
         if (PatcherConfig.startupNotification) {
-            notifications.send("Minecraft Startup", "Minecraft started in " + time + " seconds.");
+            notifications.send("Minecraft Startup", "Minecraft started in " + (time / 1000L) + " seconds.");
         }
 
-        logger.info("Minecraft started in {} seconds.", time);
+        logger.info("Minecraft started in {}ms.", time);
 
         //noinspection ConstantConditions
         if (!ForgeVersion.mcVersion.equals("1.8.9") || ForgeVersion.getVersion().contains("2318")) return;

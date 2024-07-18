@@ -1,9 +1,13 @@
 package club.sk1er.patcher.mixins.performance.forge;
 
 import club.sk1er.patcher.hooks.TRSRTransformationHook;
+//#if MC==10809
 import net.minecraft.client.resources.model.ModelRotation;
+//#endif
 import net.minecraftforge.client.model.ForgeBlockStateV1;
+//#if MC==10809
 import net.minecraftforge.client.model.TRSRTransformation;
+//#endif
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
