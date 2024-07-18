@@ -24,7 +24,6 @@ public class ExtendedBlockStateMixin_FasterCreateState extends BlockState {
     private void patcher$fasterCreateState(Block block, ImmutableMap<IProperty, Comparable> properties, ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties, CallbackInfoReturnable<StateImplementation> cir) {
         if (unlistedProperties == null || unlistedProperties.isEmpty()) {
             cir.setReturnValue(super.createState(block, properties, unlistedProperties));
-            return;
         } else {
             cir.setReturnValue(new ExtendedStateImplementation(block, properties, unlistedProperties, null, null));
         }
