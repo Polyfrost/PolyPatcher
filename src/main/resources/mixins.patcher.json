@@ -258,6 +258,7 @@
     "performance.TileEntityRendererDispatcherMixin_RemoveInvalidEntities",
     "performance.VisGraphMixin_LimitScan",
     "performance.WorldClientMixin_AnimationTick",
+    "performance.WorldMixin_FixEarlyLightInitialization",
     "performance.WorldMixin_Optimization",
     "performance.WorldMixin_TileEntityUnload",
     "performance.forge.ASMDataTableMixin_ComputeParallel",
