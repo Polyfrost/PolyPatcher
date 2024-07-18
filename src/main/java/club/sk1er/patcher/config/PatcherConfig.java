@@ -1640,6 +1640,14 @@ public class PatcherConfig extends Config {
     // HIDDEN OPTION!!!!!!! DO NOT REMOVE OR TOUCH
     public static boolean chatPositionOld;
 
+    @Info(
+        text = "These options have been replaced by other mods. Hover over the option name to see which mod replaces that feature.",
+        category = "Deprecated",
+        type = InfoType.WARNING,
+        size = 2
+    )
+    private static boolean deprecatedInfo = true;
+
     @Exclude public static boolean nauseaEffect = false;
     @Exclude public static float fireOverlayOpacity = 1F;
     @Switch(
