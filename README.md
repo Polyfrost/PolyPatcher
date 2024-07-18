@@ -244,6 +244,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Fix vanilla bug where entities don't render at certain camera angles below Y=0 and above Y=255
 - Fix vanilla bug where invalid tile entities try to render
 - Fix vanilla sky lighting calculation
+- Fix texture manager memory leak
 - Fix compatability with LoliASM/CensoredASM
 - Add ability to change HUD Caching FPS
 - Add "Natural Capes" feature
