@@ -36,8 +36,13 @@ public class RenderGlobalMixin_FixGlow implements EntityExt {
 
     @Redirect(method = "renderEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;shouldRenderInPass(I)Z", ordinal = 1))
     private boolean patcher$forceInPass(Entity instance, int pass, Entity renderViewEntity, ICamera camera, float partialTicks) {
-        if (patcher$isOutlineActive(instance, renderViewEntity, camera) && pass == 1) return true;
+        if (pass == 1) return true;
         else return instance.shouldRenderInPass(pass);
+    }
+
+    @Redirect(method = "renderEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isInRangeToRender3d(DDD)Z", ordinal = 1))
+    private boolean patcher$forceRenderRange(Entity instance, double x, double y, double z, Entity renderViewEntity, ICamera camera, float partialTicks) {
+        return instance.isInRangeToRender3d(x, y, z) && patcher$isOutlineActive(instance, renderViewEntity, camera);
     }
 
     @Unique

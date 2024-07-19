@@ -340,11 +340,11 @@ public class PatcherConfig extends Config {
     public static boolean removeGroundFoliage;
 
     @Switch(
-        name = "Backport 1.9+ Entity Outlines",
+        name = "1.9+ Entity Outlines",
         description = "Port the 1.9+ entity outline system to 1.8, rendering a glow effect around entities.",
         category = "Miscellaneous", subcategory = "Rendering"
     )
-    public static boolean entityOutlines = true;
+    public static boolean entityOutlines = false;
 
     @Switch(
         name = "Clean Projectiles",
@@ -1639,6 +1639,14 @@ public class PatcherConfig extends Config {
     )
     // HIDDEN OPTION!!!!!!! DO NOT REMOVE OR TOUCH
     public static boolean chatPositionOld;
+
+    @Info(
+        text = "These options have been replaced by other mods. Hover over the option name to see which mod replaces that feature.",
+        category = "Deprecated",
+        type = InfoType.WARNING,
+        size = 2
+    )
+    private static boolean deprecatedInfo = true;
 
     @Exclude public static boolean nauseaEffect = false;
     @Exclude public static float fireOverlayOpacity = 1F;
