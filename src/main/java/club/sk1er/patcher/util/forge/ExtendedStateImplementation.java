@@ -4,7 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+//#if MC==10809
 import net.minecraft.block.state.BlockState;
+//#endif
 import net.minecraft.block.state.IBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
@@ -16,7 +18,12 @@ import java.util.Map;
 import java.util.Objects;
 import com.google.common.base.Optional;
 
-public class ExtendedStateImplementation extends BlockState.StateImplementation implements IExtendedBlockState {
+public class ExtendedStateImplementation
+    //#if MC==10809
+    extends BlockState.StateImplementation implements IExtendedBlockState
+    //#endif
+{
+    //#if MC==10809
     private final ImmutableMap<IUnlistedProperty<?>, Optional<?>> unlistedProperties;
     private final IBlockState cleanState;
 
@@ -90,4 +97,5 @@ public class ExtendedStateImplementation extends BlockState.StateImplementation 
     public IBlockState getClean() {
         return cleanState;
     }
+    //#endif
 }
