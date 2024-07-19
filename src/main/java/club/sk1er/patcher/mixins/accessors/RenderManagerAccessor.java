@@ -14,4 +14,7 @@ public interface RenderManagerAccessor {
 
     @Accessor
     double getRenderPosZ();
+
+    @Accessor
+    boolean isRenderOutlines();
 }

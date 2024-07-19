@@ -21,19 +21,14 @@ import net.minecraft.client.shader.Framebuffer;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.opengl.GL11;
 
 public class HUDCaching {
 
     private static final Minecraft mc = Minecraft.getMinecraft();
+    @Nullable
     public static Framebuffer hudFramebuffer;
-    static {
-        hudFramebuffer = new Framebuffer(0, 0, true);
-        hudFramebuffer.framebufferColor[0] = 0.0F;
-        hudFramebuffer.framebufferColor[1] = 0.0F;
-        hudFramebuffer.framebufferColor[2] = 0.0F;
-        hudFramebuffer.framebufferColor[3] = 0.0F;
-    }
 
     //public static Framebuffer screenFramebuffer;
     private static boolean hudDirty = true;
@@ -145,7 +140,7 @@ public class HUDCaching {
                 hudDirty = true;
             }
 
-            if (hudDirty) {
+            if (hudDirty || hudFramebuffer == null) {
                 hudDirty = false;
                 nextHudRefresh = System.currentTimeMillis() + (1000 / PatcherConfig.cacheFPS);
                 (hudFramebuffer = checkFramebufferSizes(hudFramebuffer, mc.displayWidth, mc.displayHeight)).framebufferClear();

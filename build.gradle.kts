@@ -121,7 +121,7 @@ dependencies {
         shade("it.unimi.dsi:fastutil:8.5.11")
     }
 
-    shade("com.github.Polyfrost:keventbus-forge:0f57e6077e") {
+    shade("me.kbrewster:keventbus-forge:1.0.0") {
         isTransitive = false
     }
 

@@ -1,8 +1,10 @@
 package club.sk1er.patcher.commands;
 
+import cc.polyfrost.oneconfig.utils.TickDelay;
 import cc.polyfrost.oneconfig.utils.commands.annotations.*;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.util.EventBusBenchmark;
 import club.sk1er.patcher.util.chat.ChatUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -127,5 +129,11 @@ public class PatcherCommand {
 
         String message = amount == 0 ? "Custom framerate was reset." : "Custom framerate set to " + amount + ".";
         ChatUtilities.sendNotification("Custom FPS Limiter", message);
+    }
+
+    @SubCommand(description = "Benchmarks between our KEventBus and the Forge EventBus.")
+    public void benchmark() {
+        ChatUtilities.sendMessage("Running benchmark... check your logs for progress.");
+        new TickDelay(EventBusBenchmark::benchmark, 20); // Ironic
     }
 }
