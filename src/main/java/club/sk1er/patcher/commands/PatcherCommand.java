@@ -1,5 +1,6 @@
 package club.sk1er.patcher.commands;
 
+import cc.polyfrost.oneconfig.utils.TickDelay;
 import cc.polyfrost.oneconfig.utils.commands.annotations.*;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
@@ -132,6 +133,7 @@ public class PatcherCommand {
 
     @SubCommand(description = "Benchmarks between our KEventBus and the Forge EventBus.")
     public void benchmark() {
-        EventBusBenchmark.benchmark();
+        ChatUtilities.sendMessage("Running benchmark... check your logs for progress.");
+        new TickDelay(EventBusBenchmark::benchmark, 20); // Ironic
     }
 }

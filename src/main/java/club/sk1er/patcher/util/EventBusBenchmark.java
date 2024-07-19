@@ -1,20 +1,26 @@
 package club.sk1er.patcher.util;
 
 import club.sk1er.patcher.Patcher;
+import club.sk1er.patcher.mixins.accessors.EventBusAccessor;
 import club.sk1er.patcher.util.chat.ChatUtilities;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import me.kbrewster.eventbus.forge.KEventBus;
-import me.kbrewster.eventbus.forge.invokers.LMFInvoker;
-import net.minecraftforge.common.MinecraftForge;
+import me.kbrewster.eventbus.forge.invokers.DirectInvoker;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventBusBenchmark {
-    private static class EventBusTestEvent extends Event {}
-    private static class EventBusTest {
+    public static class EventBusTestEvent extends Event {
+        public EventBusTestEvent() {
+            super();
+        }
+    }
+    public static class EventBusTest {
         @SubscribeEvent
         public void testEvent(EventBusTestEvent event) {
 
@@ -84,20 +90,24 @@ public class EventBusBenchmark {
         messages.add(message2);
         messages.add(message3);
 
-        for (String message : messages) {
-            ChatUtilities.sendMessage(message);
-        }
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            for (String message : messages) {
+                ChatUtilities.sendMessage(message);
+            }
+        });
     }
 
     private static void runTest(List<String> messages, LongPair registerTimes, LongPair postTimes, LongPair unregisterTimes) {
         ObjectArrayList<EventBusTest> keventbusListeners = new ObjectArrayList<>(10_000);
         ObjectArrayList<EventBusTest> forgeListeners = new ObjectArrayList<>(10_000);
-        final KEventBus patcher$kEventBus = new KEventBus(new LMFInvoker(), e -> System.err.println("An exception occurred in a method: " + e.getMessage()));
+        final KEventBus patcher$kEventBus = new KEventBus(new DirectInvoker(), e -> System.err.println("An exception occurred in a method: " + e.getMessage()), false);
+        final EventBus forgeEventBus = new EventBus();
+        final EventBusAccessor forgeEventBusAccessor = (EventBusAccessor) forgeEventBus;
 
         long start = System.nanoTime();
         for (int i = 0; i < 10_000; i++) {
             EventBusTest listener = new EventBusTest();
-            patcher$kEventBus.register(listener);
+            patcher$kEventBus.register(listener, forgeEventBusAccessor.getBusID());
             keventbusListeners.add(listener);
         }
         long total1 = (System.nanoTime() - start) / 1_000_000;
@@ -109,7 +119,7 @@ public class EventBusBenchmark {
         start = System.nanoTime();
         for (int i = 0; i < 10_000; i++) {
             EventBusTest listener = new EventBusTest();
-            MinecraftForge.EVENT_BUS.register(new EventBusTest());
+            forgeEventBus.register(new EventBusTest());
             forgeListeners.add(listener);
         }
         long total2 = (System.nanoTime() - start) / 1_000_000;
@@ -130,7 +140,7 @@ public class EventBusBenchmark {
 
         start = System.nanoTime();
         for (int i = 0; i < 1_000; i++) {
-            MinecraftForge.EVENT_BUS.post(new EventBusTestEvent());
+            forgeEventBus.post(new EventBusTestEvent());
         }
         long total4 = (System.nanoTime() - start) / 1_000_000;
         postTimes.second = total4;
@@ -140,7 +150,7 @@ public class EventBusBenchmark {
 
         start = System.nanoTime();
         for (EventBusTest listener : keventbusListeners) {
-            patcher$kEventBus.unregister(listener);
+            patcher$kEventBus.unregister(listener, forgeEventBusAccessor.getBusID());
         }
         long total5 = (System.nanoTime() - start) / 1_000_000;
         unregisterTimes.first = total5;
@@ -150,7 +160,7 @@ public class EventBusBenchmark {
 
         start = System.nanoTime();
         for (EventBusTest listener : forgeListeners) {
-            MinecraftForge.EVENT_BUS.unregister(listener);
+            forgeEventBus.unregister(listener);
         }
         long total6 = (System.nanoTime() - start) / 1_000_000;
         unregisterTimes.second = total6;

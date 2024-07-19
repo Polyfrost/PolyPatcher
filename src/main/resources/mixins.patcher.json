@@ -10,6 +10,7 @@
   "client": [
     "accessors.BlockAccessor",
     "accessors.EntityArrowAccessor",
+    "accessors.EventBusAccessor",
     "accessors.FontRendererAccessor",
     "accessors.GlStateManagerAccessor",
     "accessors.GuiBossOverlayAccessor",
