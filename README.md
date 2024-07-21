@@ -245,6 +245,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Fix vanilla bug where a spaces are not trimmed in server address fields
 - Fix vanilla bug where entities don't render at certain camera angles below Y=0 and above Y=255
 - Fix vanilla bug where invalid tile entities try to render
+- Fix vanilla bug where damaged invulnerable entities stop rendering
 - Fix vanilla sky lighting calculation
 - Fix vanilla light initializing too early
 - Fix vanilla texture manager memory leak
