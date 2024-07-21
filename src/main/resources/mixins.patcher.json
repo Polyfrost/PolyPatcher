@@ -40,6 +40,8 @@
     "bugfixes.BlockModelRendererMixin_SmoothLighting",
     "bugfixes.CommandHandlerMixin_CaseCommands",
     "bugfixes.ContainerMixin_PlaySound",
+    "bugfixes.EntityExpOrbMixin_RenderDamagedInvulnerables",
+    "bugfixes.EntityItemMixin_RenderDamagedInvulnerables",
     "bugfixes.EntityLivingBaseMixin_MouseDelayFix",
     "bugfixes.EntityMixin_FixedBrightness",
     "bugfixes.EntityMixin_FixGlow",
