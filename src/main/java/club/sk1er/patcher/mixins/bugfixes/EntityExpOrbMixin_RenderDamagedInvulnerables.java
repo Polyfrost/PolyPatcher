@@ -22,7 +22,7 @@ public abstract class EntityExpOrbMixin_RenderDamagedInvulnerables
 
     @Inject(method = "attackEntityFrom", at = @At("HEAD"), cancellable = true)
     private void patcher$properInvulnerableCheck(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (this.worldObj.isRemote || this.isDead) cir.setReturnValue(false);
+        if (this.worldObj.isRemote) cir.setReturnValue(false);
     }
     //#endif
 }
