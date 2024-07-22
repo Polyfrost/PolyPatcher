@@ -31,6 +31,7 @@ import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
 import club.sk1er.patcher.util.keybind.KeybindDropModifier;
 import club.sk1er.patcher.util.keybind.MousePerspectiveKeybindHandler;
 import club.sk1er.patcher.util.keybind.linux.LinuxKeybindFix;
+import club.sk1er.patcher.util.pause.PauseHandler;
 import club.sk1er.patcher.util.screenshot.AsyncScreenshots;
 import club.sk1er.patcher.util.status.ProtocolVersionDetector;
 import club.sk1er.patcher.util.world.SavesWatcher;
@@ -135,7 +136,8 @@ public class Patcher {
             new TitleFix(), new LinuxKeybindFix(),
             new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
             MinecraftHook.INSTANCE, ScreenshotPreview.INSTANCE,
-            new MousePerspectiveKeybindHandler()
+            new MousePerspectiveKeybindHandler(),
+            new PauseHandler()
         );
 
         checkLogs();

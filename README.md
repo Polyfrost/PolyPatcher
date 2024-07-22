@@ -191,7 +191,9 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Startup Notification** - Notify how long the game took to start. *default
 - **Clean Main Menu** - Remove the Realms button on the main menu as it's useless on 1.8.9. *default
 - **Open to LAN Replacement** - Modify the Open to LAN button to either redirect to the server list or be removed.
-- **Smart Disconnect -** Choose between disconnecting or relogging when clicking the disconnect button. (Only works on multiplayer servers)
+- **Smart Disconnect** - Choose between disconnecting or relogging when clicking the disconnect button. (Only works on multiplayer servers)
+- **Confirm Quit** - Prevent closing the game through the Quit Game button without confirmation.
+- **Don't Click into GUIs** *(not in original)* - When tabbed out, don't allow clicks in GUIs to register when tabbing back in.
 - **Image Preview** - Preview image links when hovering over a supported URL. Press shift to use fullscreen and Control to render in native image resolution. (Currently supported: Imgur, Discord, Badlion screenshots)
 - **Image Preview Width** - The % of screen width to be used for image preview.
 - **Inventory Position** - Stop potion effects from shifting your inventory to the right. *default
@@ -260,6 +262,8 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - Add "Exclude Cacti from 1.12 Boxes"
 - Add "Improved Skin Rendering"
 - Add "Add Background to Book GUI"
+- Add "Don't Click into GUIs"
+- Add NoBreakThatBlock functionality
 - Replace "Remove Container Background" with "Container Background Opacity"
 - Replace "Nausea Effect" toggle to "Distortion Effects" slider
 - Split "Disable Grounded Arrows" into two settings ("Disable Unpickable Grounded Arrows" and "Disable All Grounded Arrows")
@@ -299,6 +303,7 @@ This list may not always be up-to-date. To view an updated list, click [here](ht
 - ~~**Clean View**~~ Replaced by [OverflowParticles](https://modrinth.com/mod/overflowparticles) instead
 - **MemoryFix**
 - **MouseDelayFix**
+- **NoBreakThatBlock** *(not in original)*
 - **NoCloseMyChat**
 - **Vanilla Enhancements**
 - **PortalInputFix**
