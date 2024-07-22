@@ -966,7 +966,7 @@ public class PatcherConfig extends Config {
     // SCREENS
 
     @Switch(
-        name = "Inventory Position",
+        name = "Fixed Inventory Position",
         description = "Stop potion effects from shifting your inventory to the right.",
         category = "Screens", subcategory = "Inventory"
     )
