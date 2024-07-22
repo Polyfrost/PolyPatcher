@@ -1212,6 +1212,13 @@ public class PatcherConfig extends Config {
     )
     public static boolean confirmQuit;
 
+    @Switch(
+        name = "Don't Click into GUIs",
+        description = "When tabbed out, don't allow clicks in GUIs to register when tabbing back in.",
+        category = "Screens", subcategory = "General"
+    )
+    public static boolean dontClickIntoGui;
+
     // SCREENSHOTS
 
     @Info(
