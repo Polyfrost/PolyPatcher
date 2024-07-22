@@ -966,10 +966,11 @@ public class PatcherConfig extends Config {
     // SCREENS
 
     @Switch(
-        name = "Inventory Position",
+        name = "Fixed Inventory Position",
         description = "Stop potion effects from shifting your inventory to the right.",
         category = "Screens", subcategory = "Inventory"
     )
+    @VigilanceName(name = "Inventory Position", category = "Screens", subcategory = "Inventory")
     public static boolean inventoryPosition = true;
 
     @Switch(
