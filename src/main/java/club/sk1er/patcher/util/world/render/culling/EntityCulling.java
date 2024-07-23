@@ -2,6 +2,7 @@ package club.sk1er.patcher.util.world.render.culling;
 
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
+import club.sk1er.patcher.ducks.EntityExt;
 import club.sk1er.patcher.mixins.accessors.RenderManagerAccessor;
 import club.sk1er.patcher.util.chat.ChatUtilities;
 import cc.polyfrost.oneconfig.libs.universal.UDesktop;
@@ -45,9 +46,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * Used for stopping entities from rendering if they are not visible to the player
  * <p>
- * Subsequent entity on entity occlusion derived from https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection
+ * Subsequent entity on entity occlusion derived from <a href="https://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection">wikipedia</a>
  */
-public class EntityCulling {
+public class EntityCulling implements EntityExt {
 
     private static final Minecraft mc = Minecraft.getMinecraft();
     private static final RenderManager renderManager = mc.getRenderManager();
@@ -172,7 +173,7 @@ public class EntityCulling {
      * @return true if the entity rendering should be skipped
      */
     private static boolean checkEntity(Entity entity) {
-        if (renderingSpawnerEntity || renderManagerAccessor.isRenderOutlines()) return false;
+        if (renderingSpawnerEntity || ((EntityExt) entity).patcher$isGlowing()) return false;
         OcclusionQuery query = queries.computeIfAbsent(entity.getUniqueID(), OcclusionQuery::new);
         if (query.refresh) {
             query.nextQuery = getQuery();

@@ -26,12 +26,14 @@ public class RenderGlobalMixin_FixGlow implements EntityExt {
 
     @Redirect(method = "isRenderEntityOutlines", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isSpectator()Z"))
     private boolean patcher$removeSpectatorCheck(EntityPlayerSP instance) {
-        return true;
+        if (PatcherConfig.entityOutlines) return true;
+        return instance.isSpectator();
     }
 
     @Redirect(method = "isRenderEntityOutlines", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
-    private boolean patcher$redirectKeyCheck(KeyBinding instance) {
-        return true;
+    private boolean patcher$removeKeyCheck(KeyBinding instance) {
+        if (PatcherConfig.entityOutlines) return true;
+        return instance.isKeyDown();
     }
 
     @Redirect(method = "renderEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;shouldRenderInPass(I)Z", ordinal = 1))
