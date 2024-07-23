@@ -9,6 +9,7 @@
   },
   "client": [
     "accessors.BlockAccessor",
+    "accessors.EntityAccessor",
     "accessors.EntityArrowAccessor",
     "accessors.EventBusAccessor",
     "accessors.FontRendererAccessor",

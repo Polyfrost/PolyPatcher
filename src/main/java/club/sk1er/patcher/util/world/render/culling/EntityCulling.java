@@ -173,7 +173,14 @@ public class EntityCulling implements EntityExt {
      * @return true if the entity rendering should be skipped
      */
     private static boolean checkEntity(Entity entity) {
-        if (renderingSpawnerEntity || ((EntityExt) entity).patcher$isGlowing()) return false;
+        if (renderingSpawnerEntity ||
+            //#if MC==10809
+            ((EntityExt) entity).patcher$isGlowing()
+            //#else
+            //$$ ((EntityAccessor) entity).isGlowing()
+            //#endif
+        )
+            return false;
         OcclusionQuery query = queries.computeIfAbsent(entity.getUniqueID(), OcclusionQuery::new);
         if (query.refresh) {
             query.nextQuery = getQuery();
