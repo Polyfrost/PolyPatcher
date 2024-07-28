@@ -1,6 +1,6 @@
 package club.sk1er.patcher.hooks;
 
-import cc.polyfrost.oneconfig.libs.elementa.constraints.animation.Animations;
+import org.polyfrost.elementa.constraints.animation.Animations;
 import club.sk1er.patcher.config.PatcherConfig;
 import org.lwjgl.input.Mouse;
 

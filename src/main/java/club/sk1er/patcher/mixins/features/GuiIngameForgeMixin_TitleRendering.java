@@ -1,7 +1,7 @@
 package club.sk1er.patcher.mixins.features;
 
 import club.sk1er.patcher.config.PatcherConfig;
-import cc.polyfrost.oneconfig.libs.universal.UResolution;
+import org.polyfrost.universal.UResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;

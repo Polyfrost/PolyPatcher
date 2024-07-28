@@ -64,7 +64,8 @@ loom {
                 property("mixin.debug.export", "true")
                 property("mixin.dumpTargetOnFailure", "true")
                 property("fml.coreMods.load", "club.sk1er.patcher.tweaker.PatcherTweaker")
-                programArgs("--tweakClass", "cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker")
+                programArgs("--tweakClass", "org.polyfrost.oneconfig.internal.legacy.OneConfigTweaker")
+                programArgs("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
                 property("mixin.debug.export", "true")
                 programArgs("--mixin", "mixins.${mod_id}.json")
             }
@@ -101,17 +102,26 @@ sourceSets {
 
 // Adds the Polyfrost maven repository so that we can get the libraries necessary to develop the mod.
 repositories {
+    maven("https://repo.polyfrost.org/snapshots")
     maven("https://repo.polyfrost.org/releases")
 }
 
 // Configures the libraries/dependencies for your mod.
 dependencies {
     // Adds the OneConfig library, so we can develop with it.
-    modCompileOnly("cc.polyfrost:oneconfig-$platform:0.2.2-alpha+")
+    val oneconfig = "1.0.0-alpha.19"
+    implementation("org.polyfrost.oneconfig:config-impl:$oneconfig")
+    implementation("org.polyfrost.oneconfig:commands:$oneconfig")
+    implementation("org.polyfrost.oneconfig:events:$oneconfig")
+    implementation("org.polyfrost.oneconfig:ui:$oneconfig")
+    implementation("org.polyfrost.oneconfig:internal:$oneconfig")
+    modImplementation("org.polyfrost.oneconfig:$platform:$oneconfig")
 
-    modShade("cc.polyfrost:elementa-$platform:+") {
+    modShade("org.polyfrost:elementa-$platform:561") {
         isTransitive = false
     }
+
+    shade("com.github.ben-manes.caffeine:caffeine:2.9.3")
 
     shade("com.github.videogame-hacker:Koffee:88ba1b0") {
         isTransitive = false
@@ -126,10 +136,10 @@ dependencies {
     // If we are building for legacy forge, includes the launch wrapper with `shade` as we configured earlier.
     if (platform.isLegacyForge) {
         compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
-        shade("cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta17")
-        modImplementation("org.polyfrost:legacy-crafty-crashes:1.0.0") {
-            isTransitive = false
-        }
+        //todo fix with V1
+        //modImplementation("org.polyfrost:legacy-crafty-crashes:1.0.0") {
+        //    isTransitive = false
+        //}
     }
 }
 
@@ -207,6 +217,8 @@ tasks {
         archiveClassifier.set("dev") // TODO: machete gets confused by the `dev` prefix.
         configurations = listOf(shade, modShade)
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        relocate("com.github.benmanes", "club.sk1er.patcher.libs")
     }
 
     remapJar {

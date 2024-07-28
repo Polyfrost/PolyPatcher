@@ -4,8 +4,8 @@ import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.RenderManagerAccessor;
 import club.sk1er.patcher.util.chat.ChatUtilities;
-import cc.polyfrost.oneconfig.libs.universal.UDesktop;
-import cc.polyfrost.oneconfig.utils.Notifications;
+import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.universal.UDesktop;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -150,16 +150,21 @@ public class EntityCulling {
             PatcherConfig.entityCulling = false;
             Patcher.instance.forceSaveConfig();
 
-            Notifications.INSTANCE.send("Patcher",
+            Notifications.INSTANCE.enqueue(
+                Notifications.Type.Error,
+                "Patcher",
                 "Entity Culling has been disabled as your computer is too old and does not support the technology behind it.\n" +
-                    "If you believe this is a mistake, please contact us at https://polyfrost.org/discord or click this message", () -> {
-                    try {
-                        UDesktop.browse(new URI("https://polyfrost.org/discord"));
-                    } catch (URISyntaxException e) {
-                        Patcher.instance.getLogger().error("Failed to open support discord.", e);
-                        ChatUtilities.sendMessage("Failed to open https://polyfrost.org/discord.");
-                    }
-                });
+                    "If you believe this is a mistake, please contact us at https://polyfrost.org/discord or click this message"
+                //, () -> {
+                    //try {
+                    //    UDesktop.browse(new URI("https://polyfrost.org/discord"));
+                    //} catch (URISyntaxException e) {
+                    //    Patcher.instance.getLogger().error("Failed to open support discord.", e);
+                    //    ChatUtilities.sendMessage("Failed to open https://polyfrost.org/discord.");
+                    //}
+                    //todo
+                //}
+                );
 
             return 0;
         }

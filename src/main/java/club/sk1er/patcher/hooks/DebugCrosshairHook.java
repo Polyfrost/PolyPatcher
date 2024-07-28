@@ -1,6 +1,6 @@
 package club.sk1er.patcher.hooks;
 
-import cc.polyfrost.oneconfig.libs.universal.UResolution;
+import org.polyfrost.universal.UResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;

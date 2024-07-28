@@ -2,13 +2,13 @@ package club.sk1er.patcher.util.world.sound.audioswitcher;
 
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
-import cc.polyfrost.oneconfig.utils.Notifications;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenOptionsSounds;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.polyfrost.oneconfig.api.ui.v1.Notifications;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class AudioSwitcher {
                 try {
                     this.mc.getSoundHandler().onResourceManagerReload(this.mc.getResourceManager());
                 } catch (Exception e) {
-                    Notifications.INSTANCE.send("Patcher", "Failed to reinitialize OpenAL.");
+                    Notifications.INSTANCE.enqueue(Notifications.Type.Error, "Patcher", "Failed to reinitialize OpenAL.");
                     Patcher.instance.getLogger().error("Failed to reinitialize OpenAL.", e);
                 }
 

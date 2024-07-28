@@ -1,14 +1,14 @@
 package club.sk1er.patcher.render
 
 import club.sk1er.patcher.config.PatcherConfig
-import cc.polyfrost.oneconfig.libs.elementa.ElementaVersion
-import cc.polyfrost.oneconfig.libs.elementa.UIComponent
-import cc.polyfrost.oneconfig.libs.elementa.components.UIImage
-import cc.polyfrost.oneconfig.libs.elementa.components.Window
-import cc.polyfrost.oneconfig.libs.elementa.constraints.RelativeConstraint
-import cc.polyfrost.oneconfig.libs.elementa.constraints.animation.Animations
-import cc.polyfrost.oneconfig.libs.elementa.dsl.*
-import cc.polyfrost.oneconfig.libs.universal.UMatrixStack
+import org.polyfrost.elementa.ElementaVersion
+import org.polyfrost.elementa.UIComponent
+import org.polyfrost.elementa.components.UIImage
+import org.polyfrost.elementa.components.Window
+import org.polyfrost.elementa.constraints.RelativeConstraint
+import org.polyfrost.elementa.constraints.animation.Animations
+import org.polyfrost.elementa.dsl.*
+import org.polyfrost.universal.UMatrixStack
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color

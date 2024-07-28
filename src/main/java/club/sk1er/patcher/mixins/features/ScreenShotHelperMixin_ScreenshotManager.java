@@ -1,6 +1,6 @@
 package club.sk1er.patcher.mixins.features;
 
-import cc.polyfrost.oneconfig.utils.Multithreading;
+import org.polyfrost.oneconfig.utils.v1.Multithreading;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.hooks.ScreenshotManagerHook;
@@ -64,7 +64,7 @@ public class ScreenShotHelperMixin_ScreenshotManager {
             }
 
             pixelBuffer.get(pixelValues);
-            Multithreading.runAsync(new AsyncScreenshots(width, height, pixelValues, screenshotDirectory));
+            Multithreading.submit(new AsyncScreenshots(width, height, pixelValues, screenshotDirectory));
 
             EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
             if (player != null && !PatcherConfig.screenshotNoFeedback) {

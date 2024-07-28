@@ -4,7 +4,7 @@ import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.ItemAccessor;
 import club.sk1er.patcher.mixins.accessors.ItemStackAccessor;
 import com.google.common.collect.Multimap;
-import cc.polyfrost.oneconfig.libs.universal.ChatColor;
+import org.polyfrost.universal.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;

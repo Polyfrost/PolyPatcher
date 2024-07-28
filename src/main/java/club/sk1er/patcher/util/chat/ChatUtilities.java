@@ -1,7 +1,7 @@
 package club.sk1er.patcher.util.chat;
 
-import cc.polyfrost.oneconfig.libs.universal.ChatColor;
-import cc.polyfrost.oneconfig.utils.Notifications;
+import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.universal.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.ChatComponentText;
@@ -24,8 +24,8 @@ public class ChatUtilities {
         }
     }
 
-    public static void sendNotification(String notificationCategory, String chatMessage) {
-        Notifications.INSTANCE.send(notificationCategory, translate(chatMessage));
+    public static void sendNotification(String notificationCategory, String chatMessage) { //TODO replace this individually :sob:
+        //Notifications.INSTANCE.enqueue(notificationCategory, translate(chatMessage));
     }
 
     public static String translate(String message) {

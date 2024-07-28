@@ -1,6 +1,6 @@
 package club.sk1er.patcher.mixins.bugfixes;
 
-import cc.polyfrost.oneconfig.libs.universal.ChatColor;
+import org.polyfrost.universal.ChatColor;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMultiplayer;

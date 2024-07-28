@@ -1,10 +1,12 @@
 package club.sk1er.patcher;
 
-import cc.polyfrost.oneconfig.libs.universal.UDesktop;
-import cc.polyfrost.oneconfig.utils.Multithreading;
-import cc.polyfrost.oneconfig.utils.NetworkUtils;
-import cc.polyfrost.oneconfig.utils.Notifications;
-import cc.polyfrost.oneconfig.utils.commands.CommandManager;
+import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.oneconfig.utils.v1.JsonUtils;
+import org.polyfrost.polyui.unit.Units;
+import org.polyfrost.universal.UDesktop;
+import org.polyfrost.oneconfig.utils.v1.Multithreading;
+import org.polyfrost.oneconfig.utils.v1.NetworkUtils;
+import org.polyfrost.oneconfig.api.commands.v1.CommandManager;
 import club.sk1er.patcher.asm.render.screen.GuiChatTransformer;
 import club.sk1er.patcher.commands.PatcherCommand;
 import club.sk1er.patcher.config.PatcherConfig;
@@ -113,7 +115,8 @@ public class Patcher {
         );
 
         patcherConfig = PatcherConfig.INSTANCE;
-        patcherSoundConfig = new PatcherSoundConfig(null, null);
+        //todo
+        //patcherSoundConfig = new PatcherSoundConfig(null, null);
 
         SoundHandler soundHandler = new SoundHandler();
         IReloadableResourceManager resourceManager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
@@ -166,30 +169,32 @@ public class Patcher {
 
         long time = (System.currentTimeMillis() - PatcherTweaker.clientLoadTime);
         if (PatcherConfig.startupNotification) {
-            notifications.send("Minecraft Startup", "Minecraft started in " + (time / 1000L) + " seconds.");
+            notifications.enqueue(Notifications.Type.Info, "Minecraft Startup", "Minecraft started in " + (time / 1000L) + " seconds.");
         }
 
         logger.info("Minecraft started in {}ms.", time);
 
         //noinspection ConstantConditions
         if (!ForgeVersion.mcVersion.equals("1.8.9") || ForgeVersion.getVersion().contains("2318")) return;
-        notifications.send("Patcher", "Outdated Forge has been detected (" + ForgeVersion.getVersion() + "). " +
-            "Click to open the Forge website to download the latest version.", 30000f, () -> {
-            String updateLink = "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html";
-            try {
-                UDesktop.browse(URI.create(updateLink));
-            } catch (Exception openException) {
-                this.logger.error("Failed to open Forge website.", openException);
-                notifications.send("Patcher", "Failed to open Forge website. Link is now copied to your clipboard.");
-                try {
-                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(updateLink), null);
-                } catch (Exception clipboardException) {
-                    // there is no hope
-                    this.logger.error("Failed to copy Forge website to clipboard.", clipboardException);
-                    notifications.send("Patcher", "Failed to copy Forge website to clipboard.");
-                }
-            }
-        });
+        notifications.enqueue(Notifications.Type.Warning, "Patcher", "Outdated Forge has been detected (" + ForgeVersion.getVersion() + "). " +
+            "Click to open the Forge website to download the latest version.", Units.seconds(30)
+        //    , () -> {
+        //    String updateLink = "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html";
+        //    try {
+        //        UDesktop.browse(URI.create(updateLink));
+        //    } catch (Exception openException) {
+        //        this.logger.error("Failed to open Forge website.", openException);
+        //        notifications.send("Patcher", "Failed to open Forge website. Link is now copied to your clipboard.");
+        //        try {
+        //            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(updateLink), null);
+        //        } catch (Exception clipboardException) {
+        //            // there is no hope
+        //            this.logger.error("Failed to copy Forge website to clipboard.", clipboardException);
+        //            notifications.send("Patcher", "Failed to copy Forge website to clipboard.");
+        //        }
+        //    }
+        //}
+        );
     }
 
     /**
@@ -263,7 +268,7 @@ public class Patcher {
 
     private void registerCommands(Object... commands) {
         for (Object command : commands) {
-            CommandManager.register(command);
+            CommandManager.registerCommand(command);
         }
     }
 
@@ -341,26 +346,34 @@ public class Patcher {
             String modId = container.getModId();
             String baseMessage = container.getName() + " has been detected. ";
             if (PatcherConfig.entityCulling && modId.equals("enhancements")) {
-                notifications.send("Patcher", baseMessage + "Entity Culling is now disabled.");
+                notifications.enqueue(
+                    Notifications.Type.Error,
+                    "Patcher", baseMessage + "Entity Culling is now disabled.");
                 PatcherConfig.entityCulling = false;
             }
 
             if ((modId.equals("labymod") || modId.equals("enhancements")) || modId.equals("hychat")) {
                 if (PatcherConfig.compactChat) {
-                    notifications.send("Patcher", baseMessage + "Compact Chat is now disabled.");
+                    notifications.enqueue(
+                        Notifications.Type.Error,
+                        "Patcher", baseMessage + "Compact Chat is now disabled.");
                     PatcherConfig.compactChat = false;
                 }
             }
 
             if (PatcherConfig.optimizedFontRenderer && modId.equals("smoothfont")) {
-                notifications.send("Patcher", baseMessage + "Optimized Font Renderer is now disabled.");
+                notifications.enqueue(
+                    Notifications.Type.Error,
+                    "Patcher", baseMessage + "Optimized Font Renderer is now disabled.");
                 PatcherConfig.optimizedFontRenderer = false;
             }
         }
 
         try {
             Class.forName("net.labymod.addons.resourcepacks24.Resourcepacks24", false, getClass().getClassLoader());
-            notifications.send("Patcher", "The LabyMod addon \"Resourcepacks24\" conflicts with Patcher's resourcepack optimizations. Please remove it to make it work again.");
+            notifications.enqueue(
+                Notifications.Type.Error,
+                "Patcher", "The LabyMod addon \"Resourcepacks24\" conflicts with Patcher's resourcepack optimizations. Please remove it to make it work again.");
         } catch (ClassNotFoundException ignored) {
 
         }
@@ -369,10 +382,10 @@ public class Patcher {
     }
 
     private void detectReplacements(List<ModContainer> activeModList, Notifications notifications) {
-        Multithreading.runAsync(() -> {
+        Multithreading.submit(() -> {
             JsonObject replacedMods;
             try { // todo: replaced an async thing but i think its fine because get() pauses the game thread anyways i think???
-                replacedMods = NetworkUtils.getJsonElement("https://static.sk1er.club/patcher/duplicate_mods.json").getAsJsonObject();
+                replacedMods = JsonUtils.parseFromUrl("https://static.sk1er.club/patcher/duplicate_mods.json").getAsJsonObject();
             } catch (Exception e) {
                 logger.error("Failed to fetch list of replaced mods at \"https://static.sk1er.club/patcher/duplicate_mods.json\".", e);
                 return;
@@ -390,10 +403,16 @@ public class Patcher {
             if (!replacements.isEmpty()) {
                 for (String replacement : replacements) {
                     if (replacement.equals("Clean View")) {
-                        notifications.send("PolyPatcher", replacement + " can be removed as it is replaced by OverflowParticles. Click here to download OverflowParticles", 6f, () -> UDesktop.browse(URI.create("https://modrinth.com/mod/overflowparticles")));
+                        notifications.enqueue(
+                            Notifications.Type.Warning,
+                            "PolyPatcher", replacement + " can be removed as it is replaced by OverflowParticles. Click here to download OverflowParticles", Units.seconds(6)
+                            //, () -> UDesktop.browse(URI.create("https://modrinth.com/mod/overflowparticles"))
+                        );
                         continue;
                     }
-                    notifications.send("PolyPatcher", replacement + " can be removed as it is replaced by PolyPatcher.", 6f);
+                    notifications.enqueue(
+                        Notifications.Type.Warning,
+                        "PolyPatcher", replacement + " can be removed as it is replaced by PolyPatcher.", Units.seconds(6));
                 }
             }
         });

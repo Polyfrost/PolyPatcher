@@ -5,12 +5,12 @@ import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.GuiMainMenuAccessor;
 import club.sk1er.patcher.screen.disconnect.SmartDisconnectScreen;
 import club.sk1er.patcher.screen.quit.ConfirmQuitScreen;
-import cc.polyfrost.oneconfig.libs.elementa.ElementaVersion;
-import cc.polyfrost.oneconfig.libs.elementa.components.UIImage;
-import cc.polyfrost.oneconfig.libs.elementa.components.Window;
-import cc.polyfrost.oneconfig.libs.elementa.dsl.ComponentsKt;
-import cc.polyfrost.oneconfig.libs.elementa.dsl.UtilitiesKt;
-import cc.polyfrost.oneconfig.libs.universal.UMatrixStack;
+import org.polyfrost.elementa.ElementaVersion;
+import org.polyfrost.elementa.components.UIImage;
+import org.polyfrost.elementa.components.Window;
+import org.polyfrost.elementa.dsl.ComponentsKt;
+import org.polyfrost.elementa.dsl.UtilitiesKt;
+import org.polyfrost.universal.UMatrixStack;
 import gg.essential.api.EssentialAPI;
 import gg.essential.api.config.EssentialConfig;
 import kotlin.Unit;
@@ -146,7 +146,8 @@ public class PatcherMenuEditor {
             mc.displayGuiScreen(new FakeMultiplayerMenu(gui));
         } else if (gui instanceof GuiScreenOptionsSounds) {
             if (buttonId == allSounds) {
-                Patcher.instance.getPatcherSoundConfig().openGui();
+                //todo
+                //Patcher.instance.getPatcherSoundConfig().openGui();
             } else if (buttonId == refreshSounds) {
                 mc.getSoundHandler().onResourceManagerReload(mc.getResourceManager());
             }

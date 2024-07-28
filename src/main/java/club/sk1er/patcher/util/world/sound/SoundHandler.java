@@ -1,6 +1,5 @@
 package club.sk1er.patcher.util.world.sound;
 
-import cc.polyfrost.oneconfig.config.elements.BasicOption;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.config.PatcherSoundConfig;
 import club.sk1er.patcher.mixins.accessors.PositionedSoundAccessor;
@@ -46,7 +45,7 @@ public class SoundHandler implements IResourceManagerReloadListener {
         this.isWeirdASMMod = isWeirdASMMod;
     }
 
-    private final Map<ResourceLocation, BasicOption> data = new HashMap<>();
+    //private final Map<ResourceLocation, BasicOption> data = new HashMap<>();
 
     @SubscribeEvent
     public void onSound(PlaySoundEvent event) {
@@ -88,23 +87,25 @@ public class SoundHandler implements IResourceManagerReloadListener {
     }
 
     private float getVolumeMultiplier(ResourceLocation sound) {
-        BasicOption propertyData = data.get(sound);
-        if (propertyData != null) {
-            Object asAny;
-            try {
-                asAny = propertyData.get();
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-            if (asAny instanceof Integer) return ((Integer) asAny).floatValue() / 100F;
-        }
+        //BasicOption propertyData = data.get(sound);
+        //if (propertyData != null) {
+        //    Object asAny;
+        //    try {
+        //        asAny = propertyData.get();
+        //    } catch (IllegalAccessException e) {
+        //        throw new RuntimeException(e);
+        //    }
+        //    if (asAny instanceof Integer) return ((Integer) asAny).floatValue() / 100F;
+        //}
+        //todo
         return 1.0f;
     }
 
     @Override
     public void onResourceManagerReload(IResourceManager resourceManager) {
-        SoundRegistry soundRegistry = ((SoundHandlerAccessor) Minecraft.getMinecraft().getSoundHandler()).getSndRegistry();
-        Map<ResourceLocation, SoundEventAccessorComposite> sounds = isWeirdASMMod ? ((RegistrySimpleAccessor) soundRegistry).getRegistryObjects() : ((SoundRegistryAccessor) soundRegistry).getSoundRegistry();
-        new PatcherSoundConfig(data, sounds);
+        //SoundRegistry soundRegistry = ((SoundHandlerAccessor) Minecraft.getMinecraft().getSoundHandler()).getSndRegistry();
+        //Map<ResourceLocation, SoundEventAccessorComposite> sounds = isWeirdASMMod ? ((RegistrySimpleAccessor) soundRegistry).getRegistryObjects() : ((SoundRegistryAccessor) soundRegistry).getSoundRegistry();
+        //new PatcherSoundConfig(data, sounds);
+        //todo
     }
 }

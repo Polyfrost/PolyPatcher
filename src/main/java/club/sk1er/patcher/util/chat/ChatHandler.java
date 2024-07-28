@@ -2,7 +2,7 @@ package club.sk1er.patcher.util.chat;
 
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.GuiNewChatAccessor;
-import cc.polyfrost.oneconfig.libs.universal.ChatColor;
+import org.polyfrost.universal.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.event.HoverEvent;

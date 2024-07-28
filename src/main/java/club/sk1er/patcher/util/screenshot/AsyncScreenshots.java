@@ -1,18 +1,16 @@
 package club.sk1er.patcher.util.screenshot;
 
-import cc.polyfrost.oneconfig.images.OneImage;
-import cc.polyfrost.oneconfig.libs.universal.UChat;
-import cc.polyfrost.oneconfig.libs.universal.wrappers.message.UTextComponent;
-import cc.polyfrost.oneconfig.utils.Multithreading;
-import cc.polyfrost.oneconfig.utils.Notifications;
-import cc.polyfrost.oneconfig.utils.commands.annotations.Command;
-import cc.polyfrost.oneconfig.utils.commands.annotations.Main;
+import org.polyfrost.oneconfig.utils.v1.OneImage;
+import org.polyfrost.universal.UChat;
+import org.polyfrost.universal.wrappers.message.UTextComponent;
+import org.polyfrost.oneconfig.utils.v1.Multithreading;
+import org.polyfrost.oneconfig.api.commands.v1.factories.annotated.Command;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.render.ScreenshotPreview;
 import club.sk1er.patcher.util.chat.ChatUtilities;
-import cc.polyfrost.oneconfig.libs.universal.ChatColor;
-import cc.polyfrost.oneconfig.libs.universal.UDesktop;
+import org.polyfrost.universal.ChatColor;
+import org.polyfrost.universal.UDesktop;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.event.ClickEvent;
@@ -181,8 +179,8 @@ public class AsyncScreenshots implements Runnable {
 
     @Command("$openfolder")
     public static class ScreenshotsFolder {
-        @Main
-        public void handle() {
+        @Command
+        public void main() {
             try {
                 UDesktop.open(new File("./screenshots"));
             } catch (Exception e) {
@@ -196,8 +194,8 @@ public class AsyncScreenshots implements Runnable {
     public static class FavoriteScreenshot {
 
         @SuppressWarnings("ResultOfMethodCallIgnored")
-        @Main
-        public void handle() {
+        @Command
+        public void main() {
             try {
                 final File favoritedScreenshots = getTimestampedPNGFileForDirectory(new File("./favorite_screenshots"));
                 screenshot.delete();
@@ -216,8 +214,8 @@ public class AsyncScreenshots implements Runnable {
 
     @Command("$delete")
     public static class DeleteScreenshot {
-        @Main
-        public void handle() {
+        @Command
+        public void main() {
             try {
                 if (screenshot.exists() && screenshot.delete()) {
                     ChatUtilities.sendNotification("Screenshot Manager", "&c" + screenshot.getName() + " has been deleted.");
@@ -233,12 +231,15 @@ public class AsyncScreenshots implements Runnable {
 
     @Command("$upload")
     public static class UploadScreenshot {
-        @Main
-        public void handle() {
-            Multithreading.runAsync(() -> {
+        @Command
+        public void main() {
+            Multithreading.submit(() -> {
                 ChatUtilities.sendNotification("Screenshot Manager", "Uploading screenshot...");
                 try {
-                    String url = (new OneImage(screenshot)).uploadToImgur(true);
+                    String url = (new OneImage(screenshot.toPath())).uploadToImgur();
+                    if (url == null) {
+                        ChatUtilities.sendNotification("Screenshot Manager", "Failed to upload screenshot.");
+                    }
                     IChatComponent component = new UTextComponent(prefix + ChatColor.GREEN + "Screenshot was uploaded to " + url + ".");
                     component.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
                     UChat.chat(component);
@@ -254,8 +255,8 @@ public class AsyncScreenshots implements Runnable {
     @Command("$copyss")
     public static class CopyScreenshot {
 
-        @Main
-        public void handle() {
+        @Command
+        public void main() {
             try {
                 copyScreenshot(true);
             } catch (HeadlessException e) {
@@ -266,7 +267,7 @@ public class AsyncScreenshots implements Runnable {
 
         public static void copyScreenshot(boolean message) throws HeadlessException {
             final ImageSelection sel = new ImageSelection(image);
-            Multithreading.runAsync(() -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(sel, null));
+            Multithreading.submit(() -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(sel, null));
 
             if (message) {
                 ChatUtilities.sendMessage("&aScreenshot has been copied to your clipboard.");

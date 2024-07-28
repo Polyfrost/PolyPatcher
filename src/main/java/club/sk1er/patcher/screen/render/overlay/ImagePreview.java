@@ -1,6 +1,6 @@
 package club.sk1er.patcher.screen.render.overlay;
 
-import cc.polyfrost.oneconfig.utils.Multithreading;
+import org.polyfrost.oneconfig.utils.v1.Multithreading;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import gg.essential.api.EssentialAPI;
@@ -97,7 +97,7 @@ public class ImagePreview {
 
             tex = -1;
             String finalValue = value;
-            Multithreading.runAsync(() -> loadUrl(finalValue));
+            Multithreading.submit(() -> loadUrl(finalValue));
         }
 
         if (this.image != null) {

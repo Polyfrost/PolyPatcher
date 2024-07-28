@@ -1,6 +1,5 @@
 package club.sk1er.patcher.util.forge;
 
-import cc.polyfrost.oneconfig.utils.Notifications;
 import club.sk1er.patcher.config.PatcherConfig;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
@@ -16,6 +15,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.polyui.unit.Units;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -208,10 +209,10 @@ public class EntrypointCaching {
     public void resetCache() {
         if (cacheFile.exists()) {
             if (cacheFile.delete()) {
-                Notifications.INSTANCE.send("PolyPatcher", "Deleted entrypoint cache", 5000);
+                Notifications.INSTANCE.enqueue(Notifications.Type.Info, "PolyPatcher", "Deleted entrypoint cache", Units.seconds(5));
                 logger.info("Deleted entrypoint cache");
             } else {
-                Notifications.INSTANCE.send("PolyPatcher", "Failed to delete entrypoint cache!", 5000);
+                Notifications.INSTANCE.enqueue(Notifications.Type.Error, "PolyPatcher", "Failed to delete entrypoint cache!", Units.seconds(5));
                 logger.error("Failed to delete entrypoint cache");
             }
         }
