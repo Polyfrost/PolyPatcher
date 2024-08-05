@@ -6,12 +6,23 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(RenderChunk.class)
 public class RenderChunkMixin_OptimizeSpecialTileEntities {
-//#if MC==10809
+
+    //#if MC==10809
+    @Unique private TileEntitySpecialRenderer<TileEntity> patcher$tileEntitySpecialRenderer;
+
+    @ModifyVariable(method = "rebuildChunk", at = @At("STORE"), ordinal = 0)
+    private TileEntitySpecialRenderer<TileEntity> patcher$renderSpecialTileEntitiesOnce(TileEntitySpecialRenderer<TileEntity> tileEntitySpecialRenderer) {
+        patcher$tileEntitySpecialRenderer = tileEntitySpecialRenderer;
+        return tileEntitySpecialRenderer;
+    }
+
     /**
      * Minecraft typically renders special tile entities twice per frame. This is noticeable by comparing the opacity
      * of a beacon beam when the beacon is in view versus when it's out of view (fly 50 blocks above, for instance).
@@ -21,9 +32,8 @@ public class RenderChunkMixin_OptimizeSpecialTileEntities {
      */
     @Redirect(method = "rebuildChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/chunk/CompiledChunk;addTileEntity(Lnet/minecraft/tileentity/TileEntity;)V"))
     private void patcher$renderSpecialTileEntitiesOnce(CompiledChunk instance, TileEntity tileEntityIn) {
-        TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(tileEntityIn);
-        if (!tileentityspecialrenderer.forceTileEntityRender()) instance.addTileEntity(tileEntityIn);
+        if (!patcher$tileEntitySpecialRenderer.forceTileEntityRender()) instance.addTileEntity(tileEntityIn);
     }
-//#endif
+    //#endif
 }
 
