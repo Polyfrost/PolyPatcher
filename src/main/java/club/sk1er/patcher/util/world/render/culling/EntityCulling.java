@@ -4,7 +4,8 @@ import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.RenderManagerAccessor;
 import club.sk1er.patcher.util.chat.ChatUtilities;
-import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.oneconfig.api.ui.v1.NotificationsManager;
+import org.polyfrost.polyui.notify.Notifications;
 import org.polyfrost.universal.UDesktop;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -150,7 +151,7 @@ public class EntityCulling {
             PatcherConfig.entityCulling = false;
             Patcher.instance.forceSaveConfig();
 
-            Notifications.INSTANCE.enqueue(
+            NotificationsManager.INSTANCE.enqueue(
                 Notifications.Type.Error,
                 "Patcher",
                 "Entity Culling has been disabled as your computer is too old and does not support the technology behind it.\n" +

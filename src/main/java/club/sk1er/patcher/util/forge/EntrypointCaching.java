@@ -15,7 +15,8 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.oneconfig.api.ui.v1.NotificationsManager;
+import org.polyfrost.polyui.notify.Notifications;
 import org.polyfrost.polyui.unit.Units;
 
 import java.io.File;
@@ -209,10 +210,10 @@ public class EntrypointCaching {
     public void resetCache() {
         if (cacheFile.exists()) {
             if (cacheFile.delete()) {
-                Notifications.INSTANCE.enqueue(Notifications.Type.Info, "PolyPatcher", "Deleted entrypoint cache", Units.seconds(5));
+                NotificationsManager.INSTANCE.enqueue(Notifications.Type.Info, "PolyPatcher", "Deleted entrypoint cache", Units.seconds(5));
                 logger.info("Deleted entrypoint cache");
             } else {
-                Notifications.INSTANCE.enqueue(Notifications.Type.Error, "PolyPatcher", "Failed to delete entrypoint cache!", Units.seconds(5));
+                NotificationsManager.INSTANCE.enqueue(Notifications.Type.Error, "PolyPatcher", "Failed to delete entrypoint cache!", Units.seconds(5));
                 logger.error("Failed to delete entrypoint cache");
             }
         }

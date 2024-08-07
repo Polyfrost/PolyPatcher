@@ -1,6 +1,7 @@
 package club.sk1er.patcher;
 
-import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.oneconfig.api.ui.v1.NotificationsManager;
+import org.polyfrost.polyui.notify.Notifications;
 import org.polyfrost.oneconfig.utils.v1.JsonUtils;
 import org.polyfrost.polyui.unit.Units;
 import org.polyfrost.universal.UDesktop;
@@ -163,7 +164,7 @@ public class Patcher {
     @EventHandler
     public void onLoadComplete(FMLLoadCompleteEvent event) {
         List<ModContainer> activeModList = Loader.instance().getActiveModList();
-        Notifications notifications = Notifications.INSTANCE;
+        NotificationsManager notifications = NotificationsManager.INSTANCE;
         this.detectIncompatibilities(activeModList, notifications);
         this.detectReplacements(activeModList, notifications);
 
@@ -341,7 +342,7 @@ public class Patcher {
         this.forceSaveConfig();
     }
 
-    private void detectIncompatibilities(List<ModContainer> activeModList, Notifications notifications) {
+    private void detectIncompatibilities(List<ModContainer> activeModList, NotificationsManager notifications) {
         for (ModContainer container : activeModList) {
             String modId = container.getModId();
             String baseMessage = container.getName() + " has been detected. ";
@@ -381,7 +382,7 @@ public class Patcher {
         this.forceSaveConfig();
     }
 
-    private void detectReplacements(List<ModContainer> activeModList, Notifications notifications) {
+    private void detectReplacements(List<ModContainer> activeModList, NotificationsManager notifications) {
         Multithreading.submit(() -> {
             JsonObject replacedMods;
             try { // todo: replaced an async thing but i think its fine because get() pauses the game thread anyways i think???

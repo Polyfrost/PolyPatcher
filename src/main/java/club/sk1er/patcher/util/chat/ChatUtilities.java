@@ -1,6 +1,7 @@
 package club.sk1er.patcher.util.chat;
 
-import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.oneconfig.api.ui.v1.NotificationsManager;
+import org.polyfrost.polyui.notify.Notifications;
 import org.polyfrost.universal.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

@@ -109,7 +109,7 @@ repositories {
 // Configures the libraries/dependencies for your mod.
 dependencies {
     // Adds the OneConfig library, so we can develop with it.
-    val oneconfig = "1.0.0-alpha.19"
+    val oneconfig = "1.0.0-alpha.21"
     implementation("org.polyfrost.oneconfig:config-impl:$oneconfig")
     implementation("org.polyfrost.oneconfig:commands:$oneconfig")
     implementation("org.polyfrost.oneconfig:events:$oneconfig")
@@ -117,7 +117,7 @@ dependencies {
     implementation("org.polyfrost.oneconfig:internal:$oneconfig")
     modImplementation("org.polyfrost.oneconfig:$platform:$oneconfig")
 
-    modShade("org.polyfrost:elementa-$platform:561") {
+    modShade("org.polyfrost:elementa-$platform:562") {
         isTransitive = false
     }
 

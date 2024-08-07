@@ -1682,6 +1682,12 @@ public class PatcherConfig extends Config {
     public static boolean shadowedNametagText = false;
     public static float riddenHorseOpacity = 1F;
     @Switch(
+        title = "Number Ping",
+        description = "Show a readable ping number in tab instead of bars.",
+        category = "Deprecated", subcategory = "Tab"
+    )
+    public static boolean numberPing;
+    @Switch(
         title = "Clean View",
         description = "Stop rendering your potion effect particles.",
         category = "Deprecated", subcategory = "Particles"
@@ -1802,7 +1808,7 @@ public class PatcherConfig extends Config {
     public static boolean chatPosition = false;
 
 
-    @Include public static boolean labyModMoment = true;
+    public static boolean labyModMoment = true;
     @Include public static String selectedAudioDevice = "";
 
     public static PatcherConfig INSTANCE = new PatcherConfig(); // Needs to be at the bottom or the default values take priority

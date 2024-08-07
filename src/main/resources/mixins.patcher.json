@@ -293,5 +293,8 @@
     "performance.network.packet.S3FPacketCustomPayloadMixin_MemoryLeak",
     "performance.optifine.MathHelperMixin_OFFastMath",
     "performance.render.item.ItemStackMixin_CacheDisplayName"
+  ],
+  "mixins": [
+    "bugfixes.MavenUpdateChecker_Lol"
   ]
 }
