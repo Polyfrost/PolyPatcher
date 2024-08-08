@@ -43,6 +43,17 @@ public class LinuxKeybindFix {
             put('_', 7);
             put('ç', 8);
         }});
+        put(3, new HashMap<Character, Integer>() {{ // DE QWERTZ
+            put('!', 0);
+            put('"', 1);
+            put('§', 2);
+            put('$', 3);
+            put('%', 4);
+            put('&', 5);
+            put('/', 6);
+            put('(', 7);
+            put(')', 8);
+        }});
     }};
 
     @SubscribeEvent
