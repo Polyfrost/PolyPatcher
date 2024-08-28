@@ -24,7 +24,7 @@ public class PauseHandler {
 
     @SubscribeEvent
     public void onGuiOpen(GuiOpenEvent event) {
-        if(event.gui instanceof GuiMainMenu) {
+        if (event.gui instanceof GuiMainMenu) {
             ticks = 2;
         }
     }
