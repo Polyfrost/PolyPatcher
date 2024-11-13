@@ -53,6 +53,7 @@
     "bugfixes.GuiGameOverMixin_ResolveButtonClick",
     "bugfixes.GuiIngameForgeMixin_FixProfilerSection",
     "bugfixes.GuiIngameForgeMixin_HotbarAlpha",
+    "bugfixes.GuiIngameMixin_FixBossbarWidth",
     "bugfixes.GuiIngameMixin_RemoveSpectatorPumpkinOverlay",
     "bugfixes.GuiIngameMixin_ScoreboardTextTransparency",
     "bugfixes.GuiLanguageMixin_ResetUnicodeFont",
