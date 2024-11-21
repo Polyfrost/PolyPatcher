@@ -11,24 +11,30 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(FMLClientHandler.class)
-public class FMLClientHandlerMixin_GetErrors implements FMLClientHandlerExt {
-    @Shadow
+public class FMLClientHandlerMixin_GetErrors
+    //#if MC==10809
+    implements FMLClientHandlerExt
+    //#endif
+{
+    //#if MC==10809
+    @Shadow(remap = false)
     private MissingModsException modsMissing;
 
-    @Shadow
+    @Shadow(remap = false)
     private WrongMinecraftVersionException wrongMC;
 
-    @Shadow
+    @Shadow(remap = false)
     private CustomModLoadingErrorDisplayException customError;
 
-    @Shadow
+    @Shadow(remap = false)
     private DuplicateModsFoundException dupesFound;
 
-    @Shadow
+    @Shadow(remap = false)
     private ModSortingException modSorting;
 
     @Override
     public boolean patcher$hasErrors() {
         return this.modsMissing != null || this.wrongMC != null || this.customError != null || this.dupesFound != null || this.modSorting != null;
     }
+    //#endif
 }

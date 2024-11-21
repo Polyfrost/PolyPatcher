@@ -19,7 +19,7 @@ public abstract class TileEntityRendererDispatcherMixin_RemoveInvalidEntities {
      * @reason Remove invalid tile entities from being rendered
      */
     @Overwrite
-    private <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRenderer(TileEntity tileEntityIn) {
+    public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRenderer(TileEntity tileEntityIn) {
         return tileEntityIn != null && !tileEntityIn.isInvalid() ? this.getSpecialRendererByClass(tileEntityIn.getClass()) : null;
     }
     //#endif

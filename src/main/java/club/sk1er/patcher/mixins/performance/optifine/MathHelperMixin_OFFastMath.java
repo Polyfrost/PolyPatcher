@@ -8,15 +8,15 @@ import org.spongepowered.asm.mixin.*;
 public class MathHelperMixin_OFFastMath {
 
     @Dynamic("OptiFine")
-    @Shadow
+    @Shadow(remap = false)
     private static float[] SIN_TABLE_FAST;
 
     @Dynamic("OptiFine")
-    @Shadow
+    @Shadow(remap = false)
     private static float radToIndex;
 
     @Dynamic("OptiFine")
-    @Shadow
+    @Shadow(remap = false)
     public static boolean fastMath;
 
     /**

@@ -21,6 +21,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - **Resource Exploit Fix** - Resolve an exploit in 1.8 allowing servers to look through directories. *default
 - **Forge Chest Behavior** - Resolve forge changing vanilla chest behavior. *default
 - **Vanilla Held Item Lighting** *(not in original)* - Amends a Forge bug causing item sides to have incorrect lighting compared to Vanilla 1.8. *default
+- **OptiFine Custom Sky Fix** *(toggle not in original)* - Resolve OptiFine creating a "black box" effect at the bottom of the sky when using custom skies. Changes the rendering of the normal sky. *default
 </details>
 <details>
   <summary>Experimental</summary>
@@ -228,6 +229,11 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 
 # Changes from original mod
 
+PolyPatcher 1.10.1:
+- Add toggle for "OptiFine Custom Sky Fix"
+- Fix compatibility with NormalASM
+- Fix alpha not being set when rendering container slots
+
 PolyPatcher 1.10.0:
 - Boost performance by only rendering special tile entities once instead of twice per frame (e.g beacons)
 - Boost performance by unloading tile entities quicker
@@ -349,8 +355,8 @@ This list may not always be up-to-date. To view an updated list, click [here](ht
 <details>
     <summary>License disclaimers</summary>
 
-This work, "PolyPatcher", uses code from CaffeineMC's "lithium-fabric", licensed under the LGPL-3.0 license. The original license is included in the repository.
-https://github.com/CaffeineMC/lithium-fabric/tree/develop
-https://github.com/CaffeineMC/lithium-fabric/blob/develop/LICENSE.txt
+PolyPatcher uses code from [CaffeineMC's lithium mod](https://github.com/CaffeineMC/lithium-fabric/tree/develop), licensed under the [LGPL-3.0 license](https://github.com/CaffeineMC/lithium-fabric/blob/develop/LICENSE.txt).
+
+PolyPatcher uses code from [CaffeineMC's hydrogen mod](https://github.com/CaffeineMC/hydrogen-fabric/tree/develop), licensed under the [LGPL-3.0 license](https://github.com/CaffeineMC/hydrogen-fabric/blob/1.17.x/LICENSE.txt).
 
 </details>

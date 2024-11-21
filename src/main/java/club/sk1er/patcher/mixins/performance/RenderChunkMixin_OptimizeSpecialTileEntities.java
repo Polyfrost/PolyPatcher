@@ -32,7 +32,7 @@ public class RenderChunkMixin_OptimizeSpecialTileEntities {
      */
     @Redirect(method = "rebuildChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/chunk/CompiledChunk;addTileEntity(Lnet/minecraft/tileentity/TileEntity;)V"))
     private void patcher$renderSpecialTileEntitiesOnce(CompiledChunk instance, TileEntity tileEntityIn) {
-        if (!patcher$tileEntitySpecialRenderer.forceTileEntityRender()) instance.addTileEntity(tileEntityIn);
+        if (patcher$tileEntitySpecialRenderer != null && !patcher$tileEntitySpecialRenderer.forceTileEntityRender()) instance.addTileEntity(tileEntityIn);
     }
     //#endif
 }

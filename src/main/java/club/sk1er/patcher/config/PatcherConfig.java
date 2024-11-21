@@ -104,7 +104,7 @@ public class PatcherConfig extends Config {
         title = "Keyboard Layout",
         description = "The layout of your keyboard, used to fix input bugs accordingly.",
         category = "Bug Fixes", subcategory = "Linux",
-        options = {"QWERTY", "BE AZERTY", "FR AZERTY"}
+        options = {"QWERTY", "BE AZERTY", "FR AZERTY", "DE QWERTZ"}
     )
     public static int keyboardLayout = 0;
 

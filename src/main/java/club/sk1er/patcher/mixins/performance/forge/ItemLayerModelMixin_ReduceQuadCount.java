@@ -149,8 +149,20 @@ public abstract class ItemLayerModelMixin_ReduceQuadCount {
                 }
             }
         }
-        builder.add(Objects.requireNonNull(buildQuad(format, transform, EnumFacing.NORTH, tint, 0.0f, 0.0f, 0.46875f, sprite.getMinU(), sprite.getMaxV(), 0.0f, 1.0f, 0.46875f, sprite.getMinU(), sprite.getMinV(), 1.0f, 1.0f, 0.46875f, sprite.getMaxU(), sprite.getMinV(), 1.0f, 0.0f, 0.46875f, sprite.getMaxU(), sprite.getMaxV())));
-        builder.add(Objects.requireNonNull(buildQuad(format, transform, EnumFacing.SOUTH, tint, 0.0f, 0.0f, 0.53125f, sprite.getMinU(), sprite.getMaxV(), 1.0f, 0.0f, 0.53125f, sprite.getMaxU(), sprite.getMaxV(), 1.0f, 1.0f, 0.53125f, sprite.getMaxU(), sprite.getMinV(), 0.0f, 1.0f, 0.53125f, sprite.getMinU(), sprite.getMinV())));
+        builder.add(Objects.requireNonNull(
+            buildQuad(format, transform, EnumFacing.NORTH, tint,
+                0.0f, 0.0f, 0.46875f, sprite.getMinU(), sprite.getMaxV(),
+                0.0f, 1.0f, 0.46875f, sprite.getMinU(), sprite.getMinV(),
+                1.0f, 1.0f, 0.46875f, sprite.getMaxU(), sprite.getMinV(),
+                1.0f, 0.0f, 0.46875f, sprite.getMaxU(), sprite.getMaxV()
+            )));
+        builder.add(Objects.requireNonNull(
+            buildQuad(format, transform, EnumFacing.SOUTH, tint,
+                0.0f, 0.0f, 0.53125f, sprite.getMinU(), sprite.getMaxV(),
+                1.0f, 0.0f, 0.53125f, sprite.getMaxU(), sprite.getMaxV(),
+                1.0f, 1.0f, 0.53125f, sprite.getMaxU(), sprite.getMinV(),
+                0.0f, 1.0f, 0.53125f, sprite.getMinU(), sprite.getMinV()
+            )));
         return builder.build();
     }
 
@@ -172,38 +184,87 @@ public abstract class ItemLayerModelMixin_ReduceQuadCount {
      */
     @Overwrite
     private static BakedQuad buildSideQuad(VertexFormat format,  Optional<TRSRTransformation> transform,  EnumFacing side,  int tint,  TextureAtlasSprite sprite,  int u,  int v) {
+        final float eps0 = 30e-5f;
+        final float eps1 = 45e-5f;
+        final float eps2 = .5f;
+        final float eps3 = .5f;
+
         int width = sprite.getIconWidth();
         int height = sprite.getIconHeight();
-        float x0 = u / (float)width;
-        float y0 = v / (float)height;
-        float x2 = x0;
-        float y2 = y0;
-        float z0 = 0.46875f;
-        float z2 = 0.53125f;
-        if (side == EnumFacing.WEST || side == EnumFacing.EAST) {
-            if (side == EnumFacing.WEST) {
-                z0 = 0.53125f;
-                z2 = 0.46875f;
-            }
-            y2 = (v + patcher$size) / (float)height;
-        }
-        else {
-            if (side != EnumFacing.DOWN && side != EnumFacing.UP) {
+
+        float x0 = (float) u / width;
+        float y0 = (float) v / height;
+        float x1 = x0, y1 = y0;
+        float z0 = 7.5f / 16f - eps1, z1 = 8.5f / 16f + eps1;
+
+        switch(side) {
+            case WEST:
+                z0 = 8.5f / 16f + eps1;
+                z1 = 7.5f / 16f - eps1;
+            case EAST:
+                y1 = (float) (v + patcher$size) / height;
+                break;
+            case DOWN:
+                z0 = 8.5f / 16f + eps1;
+                z1 = 7.5f / 16f - eps1;
+            case UP:
+                x1 = (float) (u + patcher$size) / width;
+                break;
+            default:
                 throw new IllegalArgumentException("can't handle z-oriented side");
-            }
-            if (side == EnumFacing.DOWN) {
-                z0 = 0.53125f;
-                z2 = 0.46875f;
-            }
-            x2 = (u + patcher$size) / (float)width;
         }
-        float dx = side.getDirectionVec().getX() * 0.01f / width;
-        float dy = side.getDirectionVec().getY() * 0.01f / height;
-        float u2 = 16.0f * (x0 - dx);
-        float u3 = 16.0f * (x2 - dx);
-        float v2 = 16.0f * (1.0f - y0 - dy);
-        float v3 = 16.0f * (1.0f - y2 - dy);
-        return buildQuad(format, transform, patcher$remap(side), tint, x0, y0, z0, sprite.getInterpolatedU(u2), sprite.getInterpolatedV(v2), x2, y2, z0, sprite.getInterpolatedU(u3), sprite.getInterpolatedV(v3), x2, y2, z2, sprite.getInterpolatedU(u3), sprite.getInterpolatedV(v3), x0, y0, z2, sprite.getInterpolatedU(u2), sprite.getInterpolatedV(v2));
+
+        float dx = side.getDirectionVec().getX() * eps3 / width;
+        float dy = side.getDirectionVec().getY() * eps3 / height;
+
+        float u0 = 16f * (x0 - dx);
+        float u1 = 16f * (x1 - dx);
+        float v0 = 16f * (1f - y0 - dy);
+        float v1 = 16f * (1f - y1 - dy);
+        switch(side) {
+            case WEST:
+            case EAST:
+                y0 -= eps1;
+                y1 += eps1;
+                v0 -= eps2 / height;
+                v1 += eps2 / width ;
+                break;
+            case DOWN:
+            case UP:
+                x0 -= eps1;
+                x1 += eps1;
+                u0 += eps2 / width;
+                u1 -= eps2 / width;
+                break;
+            default:
+                throw new IllegalArgumentException("can't handle z-oriented side");
+        }
+        switch(side) {
+            case WEST:
+                x0 += eps0;
+                x1 += eps0;
+                break;
+            case EAST:
+                x0 -= eps0;
+                x1 -= eps0;
+                break;
+            case DOWN:
+                y0 -= eps0;
+                y1 -= eps0;
+                break;
+            case UP:
+                y0 += eps0;
+                y1 += eps0;
+                break;
+            default:
+                throw new IllegalArgumentException("can't handle z-oriented side");
+        }
+        return buildQuad(format, transform, patcher$remap(side), tint,
+            x0, y0, z0, sprite.getInterpolatedU(u0), sprite.getInterpolatedV(v0),
+            x1, y1, z0, sprite.getInterpolatedU(u1), sprite.getInterpolatedV(v1),
+            x1, y1, z1, sprite.getInterpolatedU(u1), sprite.getInterpolatedV(v1),
+            x0, y0, z1, sprite.getInterpolatedU(u0), sprite.getInterpolatedV(v0)
+        );
     }
 
     @Unique

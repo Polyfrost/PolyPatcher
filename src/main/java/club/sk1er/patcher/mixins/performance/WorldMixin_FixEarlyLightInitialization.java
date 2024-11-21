@@ -25,7 +25,7 @@ public abstract class WorldMixin_FixEarlyLightInitialization {
         return 16;
     }
 
-    @ModifyConstant(method = "checkLightFor", constant = {@Constant(intValue = 17, ordinal = 0), @Constant(intValue = 17, ordinal = 2)})
+    @ModifyConstant(method = "checkLightFor", constant = {@Constant(intValue = 17, ordinal = 1), @Constant(intValue = 17, ordinal = 2)})
     private int patcher$modifyRange2(int constant) {
         return this.patcher$range;
     }

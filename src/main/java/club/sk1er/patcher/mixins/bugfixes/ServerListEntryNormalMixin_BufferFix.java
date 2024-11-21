@@ -10,7 +10,9 @@ import org.spongepowered.asm.mixin.*;
 
 import net.minecraft.client.gui.ServerListEntryNormal;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.*;
@@ -42,18 +44,22 @@ public class ServerListEntryNormalMixin_BufferFix {
     // But it should be good enough still
     // Can't bother to mixin onto some other classes just to change that (rn at least).
     @Unique
-    private static final int patcher$serverCountCache;
-    static {
-        patcher$serverCountCache = new ServerList(Minecraft.getMinecraft()).countServers();
-        // Note: not even sure this reassignement works since the field is final
-        patcher$threadPoolExecutor = new ScheduledThreadPoolExecutor(Math.min(patcher$serverCountCache + 5, MAX_THREAD_COUNT_PINGER), (new ThreadFactoryBuilder()).setNameFormat("Patcher Server Pinger #%d").setDaemon(true).build());
-        field_148302_b = patcher$threadPoolExecutor;
-    }
+    private static int patcher$serverCountCache;
     @Unique
     private final ScheduledExecutorService patcher$timeoutExecutor = Executors.newScheduledThreadPool(Math.min(patcher$serverCountCache + 5, MAX_THREAD_COUNT_TIMEOUT));
 
     @Unique
     private static int patcher$runningTaskCount = 0;
+
+    @SuppressWarnings("AccessStaticViaInstance")
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void patcher$init(GuiMultiplayer p_i45048_1_, ServerData p_i45048_2_, CallbackInfo ci) {
+        if (patcher$threadPoolExecutor == null) {
+            patcher$serverCountCache = new ServerList(Minecraft.getMinecraft()).countServers();
+            patcher$threadPoolExecutor = new ScheduledThreadPoolExecutor(Math.min(patcher$serverCountCache + 5, MAX_THREAD_COUNT_PINGER), (new ThreadFactoryBuilder()).setNameFormat("Patcher Server Pinger #%d").setDaemon(true).build());
+            this.field_148302_b = patcher$threadPoolExecutor;
+        }
+    }
 
     @Unique
     private Runnable patcher$getPingTask() {

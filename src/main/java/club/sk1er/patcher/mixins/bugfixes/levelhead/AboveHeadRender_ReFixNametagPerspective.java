@@ -8,11 +8,11 @@ import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 @Pseudo
-@Mixin(targets = "club.sk1er.mods.levelhead.render.AboveHeadRender")
+@Mixin(targets = "club.sk1er.mods.levelhead.render.AboveHeadRender", remap = false)
 public class AboveHeadRender_ReFixNametagPerspective {
 
     @Dynamic("Levelhead")
-    @ModifyArg(method = "renderName", at = @org.spongepowered.asm.mixin.injection.At(value = "INVOKE", target = "Lgg/essential/universal/UGraphics$GL;rotate(FFFF)V", ordinal = 1), index = 0)
+    @ModifyArg(method = "renderName", at = @org.spongepowered.asm.mixin.injection.At(value = "INVOKE", target = "Lgg/essential/universal/UGraphics$GL;rotate(FFFF)V", ordinal = 1), index = 0, remap = false)
     private float patcher$fixNametagPerspective(float f) {
         GameSettings gameSettings = Minecraft.getMinecraft().gameSettings;
         if (gameSettings != null && gameSettings.thirdPersonView == 2) {

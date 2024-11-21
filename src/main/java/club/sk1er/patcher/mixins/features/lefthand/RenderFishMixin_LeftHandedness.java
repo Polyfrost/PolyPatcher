@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(RenderFish.class)
 public class RenderFishMixin_LeftHandedness {
+    //#if MC==10809
     @ModifyVariable(method = "doRender(Lnet/minecraft/entity/projectile/EntityFishHook;DDDFF)V", at = @At(value = "STORE", ordinal = 0))
     private Vec3 patcher$flipFishingLine(Vec3 original) {
         if (PatcherConfig.leftHandInFirstPerson) {
@@ -16,4 +17,5 @@ public class RenderFishMixin_LeftHandedness {
         }
         return original;
     }
+    //#endif
 }

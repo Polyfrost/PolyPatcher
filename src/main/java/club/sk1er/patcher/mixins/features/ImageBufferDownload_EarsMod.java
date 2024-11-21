@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 public class ImageBufferDownload_EarsMod {
 
     @Dynamic("Ears Mod")
-    @Redirect(method = "parseUserSkin", at = @At(value = "INVOKE", target = "Lcom/unascribed/ears/Ears;preprocessSkin(Lnet/minecraft/client/renderer/ImageBufferDownload;Ljava/awt/image/BufferedImage;Ljava/awt/image/BufferedImage;)V"))
+    @Redirect(method = "parseUserSkin", at = @At(value = "INVOKE", target = "Lcom/unascribed/ears/Ears;preprocessSkin(Lnet/minecraft/client/renderer/ImageBufferDownload;Ljava/awt/image/BufferedImage;Ljava/awt/image/BufferedImage;)V", remap = false), remap = true)
     private void preprocessSkin(ImageBufferDownload subject, BufferedImage rawImg, BufferedImage img) {
         // this will never work because the way they find the locals is really really fragile and doesn't work with this mixin
     }
