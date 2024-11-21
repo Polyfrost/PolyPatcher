@@ -8,8 +8,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenOptionsSounds;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.polyfrost.oneconfig.api.ui.v1.NotificationsManager;
-import org.polyfrost.polyui.notify.Notifications;
+import org.polyfrost.oneconfig.api.ui.v1.Notifications;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +67,7 @@ public class AudioSwitcher {
                 try {
                     this.mc.getSoundHandler().onResourceManagerReload(this.mc.getResourceManager());
                 } catch (Exception e) {
-                    NotificationsManager.INSTANCE.enqueue(Notifications.Type.Error, "Patcher", "Failed to reinitialize OpenAL.");
+                    Notifications.enqueue(Notifications.Type.Error, "Patcher", "Failed to reinitialize OpenAL.");
                     Patcher.instance.getLogger().error("Failed to reinitialize OpenAL.", e);
                 }
 

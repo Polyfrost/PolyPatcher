@@ -1,12 +1,9 @@
 package club.sk1er.patcher;
 
-import org.polyfrost.oneconfig.api.ui.v1.NotificationsManager;
-import org.polyfrost.polyui.notify.Notifications;
+import org.polyfrost.oneconfig.api.ui.v1.Notifications;
 import org.polyfrost.oneconfig.utils.v1.JsonUtils;
 import org.polyfrost.polyui.unit.Units;
-import org.polyfrost.universal.UDesktop;
 import org.polyfrost.oneconfig.utils.v1.Multithreading;
-import org.polyfrost.oneconfig.utils.v1.NetworkUtils;
 import org.polyfrost.oneconfig.api.commands.v1.CommandManager;
 import club.sk1er.patcher.asm.render.screen.GuiChatTransformer;
 import club.sk1er.patcher.commands.PatcherCommand;
@@ -63,9 +60,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.io.*;
-import java.net.URI;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -164,20 +159,19 @@ public class Patcher {
     @EventHandler
     public void onLoadComplete(FMLLoadCompleteEvent event) {
         List<ModContainer> activeModList = Loader.instance().getActiveModList();
-        NotificationsManager notifications = NotificationsManager.INSTANCE;
-        this.detectIncompatibilities(activeModList, notifications);
-        this.detectReplacements(activeModList, notifications);
+        this.detectIncompatibilities(activeModList);
+        this.detectReplacements(activeModList);
 
         long time = (System.currentTimeMillis() - PatcherTweaker.clientLoadTime);
         if (PatcherConfig.startupNotification) {
-            notifications.enqueue(Notifications.Type.Info, "Minecraft Startup", "Minecraft started in " + (time / 1000L) + " seconds.");
+            Notifications.enqueue(Notifications.Type.Info, "Minecraft Startup", "Minecraft started in " + (time / 1000L) + " seconds.");
         }
 
         logger.info("Minecraft started in {}ms.", time);
 
         //noinspection ConstantConditions
         if (!ForgeVersion.mcVersion.equals("1.8.9") || ForgeVersion.getVersion().contains("2318")) return;
-        notifications.enqueue(Notifications.Type.Warning, "Patcher", "Outdated Forge has been detected (" + ForgeVersion.getVersion() + "). " +
+        Notifications.enqueue(Notifications.Type.Warning, "Patcher", "Outdated Forge has been detected (" + ForgeVersion.getVersion() + "). " +
             "Click to open the Forge website to download the latest version.", Units.seconds(30)
         //    , () -> {
         //    String updateLink = "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html";
@@ -342,12 +336,12 @@ public class Patcher {
         this.forceSaveConfig();
     }
 
-    private void detectIncompatibilities(List<ModContainer> activeModList, NotificationsManager notifications) {
+    private void detectIncompatibilities(List<ModContainer> activeModList) {
         for (ModContainer container : activeModList) {
             String modId = container.getModId();
             String baseMessage = container.getName() + " has been detected. ";
             if (PatcherConfig.entityCulling && modId.equals("enhancements")) {
-                notifications.enqueue(
+                Notifications.enqueue(
                     Notifications.Type.Error,
                     "Patcher", baseMessage + "Entity Culling is now disabled.");
                 PatcherConfig.entityCulling = false;
@@ -355,7 +349,7 @@ public class Patcher {
 
             if ((modId.equals("labymod") || modId.equals("enhancements")) || modId.equals("hychat")) {
                 if (PatcherConfig.compactChat) {
-                    notifications.enqueue(
+                    Notifications.enqueue(
                         Notifications.Type.Error,
                         "Patcher", baseMessage + "Compact Chat is now disabled.");
                     PatcherConfig.compactChat = false;
@@ -363,7 +357,7 @@ public class Patcher {
             }
 
             if (PatcherConfig.optimizedFontRenderer && modId.equals("smoothfont")) {
-                notifications.enqueue(
+                Notifications.enqueue(
                     Notifications.Type.Error,
                     "Patcher", baseMessage + "Optimized Font Renderer is now disabled.");
                 PatcherConfig.optimizedFontRenderer = false;
@@ -372,7 +366,7 @@ public class Patcher {
 
         try {
             Class.forName("net.labymod.addons.resourcepacks24.Resourcepacks24", false, getClass().getClassLoader());
-            notifications.enqueue(
+            Notifications.enqueue(
                 Notifications.Type.Error,
                 "Patcher", "The LabyMod addon \"Resourcepacks24\" conflicts with Patcher's resourcepack optimizations. Please remove it to make it work again.");
         } catch (ClassNotFoundException ignored) {
@@ -382,7 +376,7 @@ public class Patcher {
         this.forceSaveConfig();
     }
 
-    private void detectReplacements(List<ModContainer> activeModList, NotificationsManager notifications) {
+    private void detectReplacements(List<ModContainer> activeModList) {
         Multithreading.submit(() -> {
             JsonObject replacedMods;
             try { // todo: replaced an async thing but i think its fine because get() pauses the game thread anyways i think???
@@ -404,14 +398,14 @@ public class Patcher {
             if (!replacements.isEmpty()) {
                 for (String replacement : replacements) {
                     if (replacement.equals("Clean View")) {
-                        notifications.enqueue(
+                        Notifications.enqueue(
                             Notifications.Type.Warning,
                             "PolyPatcher", replacement + " can be removed as it is replaced by OverflowParticles. Click here to download OverflowParticles", Units.seconds(6)
                             //, () -> UDesktop.browse(URI.create("https://modrinth.com/mod/overflowparticles"))
                         );
                         continue;
                     }
-                    notifications.enqueue(
+                    Notifications.enqueue(
                         Notifications.Type.Warning,
                         "PolyPatcher", replacement + " can be removed as it is replaced by PolyPatcher.", Units.seconds(6));
                 }

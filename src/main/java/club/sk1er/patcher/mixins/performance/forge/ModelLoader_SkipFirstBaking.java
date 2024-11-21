@@ -32,7 +32,7 @@ public class ModelLoader_SkipFirstBaking
 {
 
     //#if MC==10809
-    @Shadow
+    @Shadow(remap = false)
     @Final
     private Map<ModelResourceLocation, IModel> stateModels;
     @Unique

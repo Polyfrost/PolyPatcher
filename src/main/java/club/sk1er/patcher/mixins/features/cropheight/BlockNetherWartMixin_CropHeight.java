@@ -1,6 +1,6 @@
 package club.sk1er.patcher.mixins.features.cropheight;
 
-import org.polyfrost.oneconfig.api.hypixel.v0.HypixelUtils;
+import org.polyfrost.oneconfig.api.hypixel.v1.HypixelUtils;
 import org.polyfrost.universal.UMinecraft;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.hooks.CropUtilities;
