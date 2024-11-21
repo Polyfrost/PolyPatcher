@@ -140,7 +140,7 @@ public class EntityCulling {
         try {
             return GL15.glGenQueries();
         } catch (Throwable throwable) {
-            Patcher.instance.getLogger().error(
+            Patcher.getLogger().error(
                 "Failed to run GL15.glGenQueries(). User's computer is likely too old to support OpenGL 1.5, Entity Culling has been force disabled.",
                 throwable
             );
@@ -157,7 +157,7 @@ public class EntityCulling {
                     //try {
                     //    UDesktop.browse(new URI("https://polyfrost.org/discord"));
                     //} catch (URISyntaxException e) {
-                    //    Patcher.instance.getLogger().error("Failed to open support discord.", e);
+                    //    Patcher.getLogger().error("Failed to open support discord.", e);
                     //    ChatUtilities.sendMessage("Failed to open https://polyfrost.org/discord.");
                     //}
                     //todo

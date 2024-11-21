@@ -78,7 +78,7 @@ public class MinecraftHook {
             Display.setResizable(true);
             return true;
         } catch (LWJGLException e) {
-            Patcher.instance.getLogger().error("Failed to toggle fullscreen.", e);
+            Patcher.getLogger().error("Failed to toggle fullscreen.", e);
         }
         return false;
     }
@@ -118,7 +118,7 @@ public class MinecraftHook {
 
             Display.setResizable(!fullscreen);
         } catch (LWJGLException e) {
-            Patcher.instance.getLogger().error("Failed to update screen type.", e);
+            Patcher.getLogger().error("Failed to update screen type.", e);
         }
     }
 }

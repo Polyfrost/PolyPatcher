@@ -31,7 +31,7 @@ public class LibraryLWJGLOpenALImpl {
                 AL.create();
             }
         } catch (Throwable e) {
-            Patcher.instance.getLogger().error("Failed to create device, using system default.", e);
+            Patcher.getLogger().error("Failed to create device, using system default.", e);
             AL.destroy();
             AL.create();
         }

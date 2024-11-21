@@ -74,7 +74,7 @@ public class ImagePreview {
 
                 if (!found) return;
             } catch (MalformedURLException e) {
-                Patcher.instance.getLogger().error("Error during url lookup: " + value, e);
+                Patcher.getLogger().error("Error during url lookup: " + value, e);
                 return;
             }
         }
@@ -192,7 +192,7 @@ public class ImagePreview {
                 image = TextureUtil.readBufferedImage(stream);
             }
         } catch (Exception e) {
-            Patcher.instance.getLogger().error("Failed to load an image preview from {}", url, e);
+            Patcher.getLogger().error("Failed to load an image preview from {}", url, e);
         } finally {
             if (connection != null) connection.disconnect();
         }

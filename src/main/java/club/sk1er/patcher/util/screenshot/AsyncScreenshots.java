@@ -92,7 +92,7 @@ public class AsyncScreenshots implements Runnable {
             }
         } catch (Exception e) {
             ChatUtilities.sendNotification("Screenshot Manager", "Failed to capture screenshot. " + e.getMessage());
-            Patcher.instance.getLogger().error("Failed to capture screenshot.", e);
+            Patcher.getLogger().error("Failed to capture screenshot.", e);
         }
     }
 
@@ -261,7 +261,7 @@ public class AsyncScreenshots implements Runnable {
                 copyScreenshot(true);
             } catch (HeadlessException e) {
                 ChatUtilities.sendNotification("Screenshot Manager", "&cFailed to copy screenshot to clipboard.");
-                Patcher.instance.getLogger().error("Failed to copy screenshot to clipboard.", e);
+                Patcher.getLogger().error("Failed to copy screenshot to clipboard.", e);
             }
         }
 

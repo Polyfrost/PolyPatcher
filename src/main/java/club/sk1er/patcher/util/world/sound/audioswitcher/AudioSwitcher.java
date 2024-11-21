@@ -68,7 +68,7 @@ public class AudioSwitcher {
                     this.mc.getSoundHandler().onResourceManagerReload(this.mc.getResourceManager());
                 } catch (Exception e) {
                     Notifications.enqueue(Notifications.Type.Error, "Patcher", "Failed to reinitialize OpenAL.");
-                    Patcher.instance.getLogger().error("Failed to reinitialize OpenAL.", e);
+                    Patcher.getLogger().error("Failed to reinitialize OpenAL.", e);
                 }
 
                 this.changedDevice = false;

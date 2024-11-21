@@ -37,7 +37,7 @@ public class ResourceReloadHooks {
                 return;
             } catch (Exception e) {
                 if (Patcher.instance != null) {
-                    Patcher.instance.getLogger().error("Failed to reload OptiFine language. If this is causing issues, please report this to https://polyfrost.org/discord", e);
+                    Patcher.getLogger().error("Failed to reload OptiFine language. If this is causing issues, please report this to https://polyfrost.org/discord", e);
                 }
                 return;
             }
@@ -46,7 +46,7 @@ public class ResourceReloadHooks {
             langMethod.invoke(null);
         } catch (Exception e) {
             if (Patcher.instance != null) {
-                Patcher.instance.getLogger().error("Failed to reload OptiFine language. If this is causing issues, please report this to https://polyfrost.org/discord", e);
+                Patcher.getLogger().error("Failed to reload OptiFine language. If this is causing issues, please report this to https://polyfrost.org/discord", e);
             }
         }
     }

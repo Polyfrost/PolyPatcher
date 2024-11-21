@@ -1839,7 +1839,7 @@ public class PatcherConfig extends Config {
         //    try {
         //        FileUtils.writeStringToFile(ConfigUtils.getProfileFile("patcher-not-migrated.json"), FileUtils.readFileToString(ConfigUtils.getProfileFile("patcher.json"), StandardCharsets.UTF_8), StandardCharsets.UTF_8);
         //    } catch (IOException e) {
-        //        Patcher.instance.getLogger().error("Failed to copy over Patcher config before migration.", e);
+        //        Patcher.getLogger().error("Failed to copy over Patcher config before migration.", e);
         //    }
         //    save();
         //}
@@ -2019,7 +2019,7 @@ public class PatcherConfig extends Config {
 
             //hideIf("keyboardLayout", () -> !SystemUtils.IS_OS_LINUX);
         } catch (Exception e) {
-            Patcher.instance.getLogger().error("Failed to access property.", e);
+            Patcher.getLogger().error("Failed to access property.", e);
         }
     }
 

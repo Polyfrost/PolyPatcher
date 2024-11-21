@@ -51,7 +51,7 @@ public class SavesWatcher {
                     key.reset();
                 }
             } catch (Exception e) {
-                Patcher.instance.getLogger().error("Failed to watch for new saves.", e);
+                Patcher.getLogger().error("Failed to watch for new saves.", e);
             }
         });
     }

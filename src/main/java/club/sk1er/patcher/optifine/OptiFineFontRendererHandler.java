@@ -19,7 +19,7 @@ public class OptiFineFontRendererHandler {
             return originalColor;
         } catch (Throwable t) {
             caughtError = true;
-            Patcher.instance.getLogger().error("Unable to get OptiFine's Custom Color", t);
+            Patcher.getLogger().error("Unable to get OptiFine's Custom Color", t);
             return originalColor;
         }
     }

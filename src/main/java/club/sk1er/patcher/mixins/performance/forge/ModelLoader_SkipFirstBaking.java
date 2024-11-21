@@ -63,7 +63,7 @@ public class ModelLoader_SkipFirstBaking
     private void patcher$skipFirstBaking(CallbackInfoReturnable<IRegistry<ModelResourceLocation, IBakedModel>> cir) {
         if (!patcher$firstLoad)
         {
-            Patcher.instance.getLogger().info("Saved " + (System.currentTimeMillis() - patcher$lastTime) + "ms by skipping first model baking.");
+            Patcher.getLogger().info("Saved " + (System.currentTimeMillis() - patcher$lastTime) + "ms by skipping first model baking.");
         }
     }
 

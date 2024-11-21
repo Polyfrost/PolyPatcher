@@ -59,13 +59,12 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
 import java.io.*;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Mod(modid = "@ID@", name = "@NAME@", version = Patcher.VERSION, clientSideOnly = true)
+@Mod(modid = "@MOD_ID@", name = "@MOD_NAME@", version = Patcher.VERSION, clientSideOnly = true)
 public class Patcher {
 
     @Mod.Instance("patcher")
@@ -77,7 +76,7 @@ public class Patcher {
     // extra branches will be 1.x.x+branch-y
     public static final String VERSION = "@VER@";
 
-    private final Logger logger = LogManager.getLogger("Patcher");
+    private static final Logger logger = LogManager.getLogger("Patcher");
     private final File logsDirectory = new File(Minecraft.getMinecraft().mcDataDir + File.separator + "logs" + File.separator);
 
     /**
@@ -421,7 +420,7 @@ public class Patcher {
         return patcherSoundConfig;
     }
 
-    public Logger getLogger() {
+    public static Logger getLogger() {
         return logger;
     }
 
