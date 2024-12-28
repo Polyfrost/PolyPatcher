@@ -8,9 +8,8 @@ import org.polyfrost.elementa.components.Window
 import org.polyfrost.elementa.constraints.RelativeConstraint
 import org.polyfrost.elementa.constraints.animation.Animations
 import org.polyfrost.elementa.dsl.*
+import org.polyfrost.oneconfig.api.event.v1.invoke.impl.Subscribe
 import org.polyfrost.universal.UMatrixStack
-import net.minecraftforge.client.event.RenderGameOverlayEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.util.concurrent.CompletableFuture
@@ -19,11 +18,11 @@ object ScreenshotPreview {
 
     private var currentWindow: Window? = null
 
-    @SubscribeEvent
-    fun renderScreenshot(event: RenderGameOverlayEvent.Post) {
-        if (event.type != RenderGameOverlayEvent.ElementType.TEXT) return
-        this.currentWindow?.draw(UMatrixStack.Compat.get())
-    }
+    // @Subscribe
+    // fun renderScreenshot(event: RenderGameOverlayEvent.Post) { // todo
+    //     if (event.type != RenderGameOverlayEvent.ElementType.TEXT) return
+    //     this.currentWindow?.draw(UMatrixStack.Compat.get())
+    // }
 
     fun newCapture(image: BufferedImage) {
         this.currentWindow = Window(ElementaVersion.V2)

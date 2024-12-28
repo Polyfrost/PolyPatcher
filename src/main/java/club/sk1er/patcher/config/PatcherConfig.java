@@ -1,5 +1,9 @@
 package club.sk1er.patcher.config;
 
+//#if FORGE
+import net.minecraftforge.common.ForgeVersion;
+//#endif
+
 import org.polyfrost.oneconfig.api.config.v1.Config;
 import org.polyfrost.oneconfig.api.config.v1.Property;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
@@ -7,7 +11,6 @@ import org.polyfrost.oneconfig.api.config.v1.annotations.*;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.tweaker.ClassTransformer;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.ForgeVersion;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
@@ -2010,7 +2013,7 @@ public class PatcherConfig extends Config {
             // need to show them in the config menu
 
             //noinspection ConstantConditions
-            Supplier<Boolean> minecraft112 = () -> ForgeVersion.mcVersion.equals("1.12.2");
+            //Supplier<Boolean> minecraft112 = () -> ForgeVersion.mcVersion.equals("1.12.2");
             //Arrays.asList(
             //    "resourceExploitFix", "newKeybindHandling", "separateResourceLoading", "futureHitBoxes", "cactusHitboxExclusion", "farmSelectionBoxesInfo", "cactusHitboxExclusionInfo",
             //    "leftHandInFirstPerson", "extendedChatLength", "chatPosition",

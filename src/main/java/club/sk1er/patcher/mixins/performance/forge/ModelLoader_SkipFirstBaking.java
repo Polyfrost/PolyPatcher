@@ -46,14 +46,13 @@ public class ModelLoader_SkipFirstBaking
 
     @Inject(method = "setupModelRegistry", at = @At(value = "INVOKE", target = "Ljava/util/Map;entrySet()Ljava/util/Set;"), locals = LocalCapture.CAPTURE_FAILSOFT, cancellable = true)
     private void patcher$skipFirstBaking(CallbackInfoReturnable<IRegistry<ModelResourceLocation, IBakedModel>> cir, IFlexibleBakedModel missingBaked) {
-        if (patcher$firstLoad)
-        {
+        if (patcher$firstLoad) {
             patcher$firstLoad = false;
-            for (ModelResourceLocation mrl : stateModels.keySet())
-            {
-                bakedRegistry.putObject(mrl, missingBaked);
+            for (ModelResourceLocation mrl : this.stateModels.keySet()) {
+                this.bakedRegistry.putObject(mrl, missingBaked);
             }
-            cir.setReturnValue(bakedRegistry);
+
+            cir.setReturnValue(this.bakedRegistry);
         } else {
             patcher$lastTime = System.currentTimeMillis();
         }
@@ -61,8 +60,7 @@ public class ModelLoader_SkipFirstBaking
 
     @Inject(method = "setupModelRegistry", at = @At("RETURN"))
     private void patcher$skipFirstBaking(CallbackInfoReturnable<IRegistry<ModelResourceLocation, IBakedModel>> cir) {
-        if (!patcher$firstLoad)
-        {
+        if (!patcher$firstLoad) {
             Patcher.getLogger().info("Saved " + (System.currentTimeMillis() - patcher$lastTime) + "ms by skipping first model baking.");
         }
     }

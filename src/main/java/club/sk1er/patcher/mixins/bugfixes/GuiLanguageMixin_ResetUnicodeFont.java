@@ -9,6 +9,6 @@ public class GuiLanguageMixin_ResetUnicodeFont extends GuiScreen {
 
     @Override
     public void onGuiClosed() {
-        mc.ingameGUI.getChatGUI().refreshChat();
+        this.mc.ingameGUI.getChatGUI().refreshChat();
     }
 }

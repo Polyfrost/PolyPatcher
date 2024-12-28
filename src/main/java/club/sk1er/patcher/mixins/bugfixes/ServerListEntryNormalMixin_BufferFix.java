@@ -65,7 +65,7 @@ public class ServerListEntryNormalMixin_BufferFix {
     private Runnable patcher$getPingTask() {
         return new Thread(() -> {
             try {
-                owner.getOldServerPinger().ping(server);
+                this.owner.getOldServerPinger().ping(this.server);
             } catch (UnknownHostException e) {
                 throw new RuntimeException(e);
             }
@@ -74,8 +74,8 @@ public class ServerListEntryNormalMixin_BufferFix {
 
     @Unique
     private void patcher$setServerFail(String error) {
-        server.pingToServer = -1L;
-        server.serverMOTD = error;
+        this.server.pingToServer = -1L;
+        this.server.serverMOTD = error;
     }
 
     @Redirect(method = "drawEntry", at = @At(value = "INVOKE", target = "Ljava/util/concurrent/ThreadPoolExecutor;submit(Ljava/lang/Runnable;)Ljava/util/concurrent/Future;"))

@@ -33,7 +33,7 @@ public class SimpleReloadableResourceManager_OnlyRefreshNecessaryListeners {
         if (ResourceReloadHooks.shouldLoadLanguage()) {
             return ResourceReloadHooks.getLanguageManager();
         } else {
-            return reloadListeners;
+            return this.reloadListeners;
         }
     }
 

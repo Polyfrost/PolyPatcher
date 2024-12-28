@@ -71,7 +71,7 @@ public class EnumFacingMixin_ReduceAllocations {
      */
     @Overwrite
     public EnumFacing getOpposite() {
-        return VALUES[opposite];
+        return this.VALUES[this.opposite];
     }
 
     /**
@@ -80,6 +80,6 @@ public class EnumFacingMixin_ReduceAllocations {
      */
     @Overwrite
     public static EnumFacing random(Random rand) {
-        return VALUES[rand.nextInt(VALUES.length)];
+        return this.VALUES[rand.nextInt(this.VALUES.length)];
     }
 }

@@ -26,7 +26,7 @@ public class MinecraftMixin_FpsLimit {
     @Inject(method = "getLimitFramerate", at = @At("HEAD"), cancellable = true)
     private void patcher$modifyFpsLimit(CallbackInfoReturnable<Integer> cir) {
         if (this.theWorld == null && this.currentScreen != null) {
-            if (PatcherConfig.smoothScrolling) cir.setReturnValue(gameSettings.limitFramerate);
+            if (PatcherConfig.smoothScrolling) cir.setReturnValue(this.gameSettings.limitFramerate);
             return;
         }
 

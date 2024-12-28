@@ -24,6 +24,6 @@ public abstract class EntityRendererMixin_SpectatorShader {
         )
     )
     public void patcher$fixSpectatorShader(EntityRenderer entityRenderer, ResourceLocation resourceLocationIn) {
-        if (mc.gameSettings.thirdPersonView == 0) loadShader(resourceLocationIn);
+        if (this.mc.gameSettings.thirdPersonView == 0) this.loadShader(resourceLocationIn);
     }
 }

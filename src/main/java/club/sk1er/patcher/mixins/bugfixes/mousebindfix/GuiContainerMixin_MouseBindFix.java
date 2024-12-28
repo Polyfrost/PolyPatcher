@@ -31,23 +31,23 @@ public abstract class GuiContainerMixin_MouseBindFix extends GuiScreen {
     @Inject(method = "mouseClicked", at = @At("HEAD"))
     private void patcher$checkCloseClick(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
         int keyCode = mouseButton - 100;
-        if (keyCode == mc.gameSettings.keyBindInventory.getKeyCode()) {
-            mc.thePlayer.closeScreen();
+        if (keyCode == this.mc.gameSettings.keyBindInventory.getKeyCode()) {
+            this.mc.thePlayer.closeScreen();
         }
         //#if MC==10809
-        if (theSlot != null && theSlot.getHasStack()) {
-            if (keyCode == mc.gameSettings.keyBindPickBlock.getKeyCode()) {
-                handleMouseClick(theSlot, theSlot.slotNumber, 0, 3);
-            } else if (keyCode == mc.gameSettings.keyBindDrop.getKeyCode()) {
-                handleMouseClick(theSlot, theSlot.slotNumber, isCtrlKeyDown() ? 1 : 0, 4);
+        if (this.theSlot != null && this.theSlot.getHasStack()) {
+            if (keyCode == this.mc.gameSettings.keyBindPickBlock.getKeyCode()) {
+                this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, 0, 3);
+            } else if (keyCode == this.mc.gameSettings.keyBindDrop.getKeyCode()) {
+                this.handleMouseClick(this.theSlot, this.theSlot.slotNumber, this.isCtrlKeyDown() ? 1 : 0, 4);
             }
         }
         //#else
-        //$$ if (hoveredSlot != null && hoveredSlot.getHasStack()) {
-        //$$    if (mc.gameSettings.keyBindPickBlock.isActiveAndMatches(keyCode)) {
-        //$$        handleMouseClick(hoveredSlot, hoveredSlot.slotNumber, 0, ClickType.CLONE);
-        //$$    } else if (mc.gameSettings.keyBindDrop.isActiveAndMatches(keyCode)) {
-        //$$        handleMouseClick(hoveredSlot, hoveredSlot.slotNumber, isCtrlKeyDown() ? 1 : 0, ClickType.THROW);
+        //$$ if (this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
+        //$$    if (this.mc.gameSettings.keyBindPickBlock.isActiveAndMatches(keyCode)) {
+        //$$        this.handleMouseClick(hoveredSlot, this.hoveredSlot.slotNumber, 0, ClickType.CLONE);
+        //$$    } else if (this.mc.gameSettings.keyBindDrop.isActiveAndMatches(keyCode)) {
+        //$$        this.handleMouseClick(hoveredSlot, this.hoveredSlot.slotNumber, this.isCtrlKeyDown() ? 1 : 0, ClickType.THROW);
         //$$    }
         //$$ }
         //#endif

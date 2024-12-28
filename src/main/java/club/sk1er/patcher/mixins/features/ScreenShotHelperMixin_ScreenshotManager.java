@@ -47,24 +47,24 @@ public class ScreenShotHelperMixin_ScreenshotManager {
 
             int scale = width * height;
 
-            if (pixelBuffer == null || pixelBuffer.capacity() < scale) {
-                pixelBuffer = BufferUtils.createIntBuffer(scale);
-                pixelValues = new int[scale];
+            if (this.pixelBuffer == null || this.pixelBuffer.capacity() < scale) {
+                this.pixelBuffer = BufferUtils.createIntBuffer(scale);
+                this.pixelValues = new int[scale];
             }
 
             GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
             GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-            pixelBuffer.clear();
+            this.pixelBuffer.clear();
 
             if (OpenGlHelper.isFramebufferEnabled()) {
                 GlStateManager.bindTexture(buffer.framebufferTexture);
-                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, this.pixelBuffer);
             } else {
-                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, this.pixelBuffer);
             }
 
-            pixelBuffer.get(pixelValues);
-            Multithreading.submit(new AsyncScreenshots(width, height, pixelValues, screenshotDirectory));
+            this.pixelBuffer.get(this.pixelValues);
+            Multithreading.submit(new AsyncScreenshots(width, height, this.pixelValues, screenshotDirectory));
 
             EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
             if (player != null && !PatcherConfig.screenshotNoFeedback) {

@@ -71,7 +71,7 @@ public class ExtendedStateImplementation
         if (clean) { // no dynamic properties, lookup normal state
             return (IExtendedBlockState) cleanState;
         }
-        return new ExtendedStateImplementation(getBlock(), getProperties(), builder.build(), propertyValueTable, this.cleanState);
+        return new ExtendedStateImplementation(getBlock(), getProperties(), builder.build(), this.propertyValueTable, this.cleanState);
     }
 
     @Override

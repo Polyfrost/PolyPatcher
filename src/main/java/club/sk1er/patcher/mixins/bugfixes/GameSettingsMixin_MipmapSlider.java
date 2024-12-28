@@ -19,7 +19,7 @@ public class GameSettingsMixin_MipmapSlider implements GameSettingsExt {
     @Override
     public void patcher$onSettingsGuiClosed() {
         if (patcher$needsResourceRefresh) {
-            mc.scheduleResourcesRefresh();
+            this.mc.scheduleResourcesRefresh();
             patcher$needsResourceRefresh = false;
         }
     }

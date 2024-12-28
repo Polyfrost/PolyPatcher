@@ -18,7 +18,6 @@ public interface PatcherTransformer {
      * @return the class name
      */
     String[] getClassName();
-
     /**
      * Perform any asm in order to transform code
      *

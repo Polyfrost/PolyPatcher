@@ -1,8 +1,14 @@
 package club.sk1er.patcher.tweaker;
 
-//#if MC==10809
+//#if FORGE
+import net.minecraft.launchwrapper.IClassTransformer;
+import net.minecraft.launchwrapper.Launch;
+//#endif
+
+//#if MC == 1.8.9
 import club.sk1er.patcher.asm.external.forge.ForgeChunkManagerTransformer;
 //#endif
+
 import club.sk1er.patcher.asm.external.forge.ModelLoaderTransformer;
 import club.sk1er.patcher.asm.external.forge.loader.*;
 import club.sk1er.patcher.asm.external.forge.render.ForgeHooksClientTransformer;
@@ -39,8 +45,6 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import org.polyfrost.universal.UDesktop;
-import net.minecraft.launchwrapper.IClassTransformer;
-import net.minecraft.launchwrapper.Launch;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,12 +71,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ClassTransformer implements IClassTransformer {
+public class ClassTransformer
+    //#if FORGE
+    implements IClassTransformer
+    //#endif
+{
 
     public static final boolean outputBytecode = "true".equals(System.getProperty("patcher.debugBytecode", "false"));
     public static String optifineVersion = "NONE";
     private final Logger logger = LogManager.getLogger("Patcher - Class Transformer");
-    private final Multimap<String, PatcherTransformer> transformerMap = ArrayListMultimap.create();
+    public final Multimap<String, PatcherTransformer> transformerMap = ArrayListMultimap.create();
 
     public static boolean smoothFontDetected;
     public static final Set<String> supportedOptiFineVersions = new HashSet<>();
@@ -111,7 +119,7 @@ public class ClassTransformer implements IClassTransformer {
         } catch (IOException ignored) {
         }
 
-        //#if MC==10809
+        //#if MC == 1.8.9
         registerTransformer(new GuiNewChatTransformer());
         registerTransformer(new S0EPacketSpawnObjectTransformer());
         //#endif
@@ -135,7 +143,7 @@ public class ClassTransformer implements IClassTransformer {
         if (isDevelopment()) registerTransformer(new InventoryEffectRendererTransformer());
 
         // forge classes
-        //#if MC==10809
+        //#if MC == 1.8.9
         registerTransformer(new ForgeHooksClientTransformer());
         registerTransformer(new GuiModListTransformer());
         registerTransformer(new ModClassLoaderTransformer());
@@ -213,7 +221,9 @@ public class ClassTransformer implements IClassTransformer {
         }
     }
 
+    //#if FORGE
     @Override
+    //#endif
     public byte[] transform(String name, String transformedName, byte[] bytes) {
         return createTransformer(transformedName, bytes, transformerMap, logger);
     }

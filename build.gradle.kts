@@ -44,7 +44,7 @@ preprocess {
 //}
 
 toolkitLoomHelper {
-    useOneConfig(mcData, "commands", "config", "config-impl", "events", "internal", "ui")
+    useOneConfig("1.1.0-alpha.34", "1.0.0-alpha.43", mcData, "commands", "config-impl", "events", "hud", "internal", "ui")
     useDevAuth()
 
     disableRunConfigs(GameSide.SERVER)
@@ -101,7 +101,7 @@ dependencies {
 
     // If we are building for legacy forge, includes the launch wrapper with `shade` as we configured earlier.
     if (mcData.isLegacyForge) {
-        compileOnly("org.spongepowered:mixin:0.7.11-SNAPSHOT")
+        compileOnly("org.polyfrost:polymixin:0.8.4+build.2")
         //todo fix with V1
         //modImplementation("org.polyfrost:legacy-crafty-crashes:1.0.0") {
         //    isTransitive = false

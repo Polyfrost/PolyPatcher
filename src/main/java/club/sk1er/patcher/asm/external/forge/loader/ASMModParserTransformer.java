@@ -1,5 +1,6 @@
 package club.sk1er.patcher.asm.external.forge.loader;
 
+//#if FORGE
 import club.sk1er.patcher.tweaker.transform.PatcherTransformer;
 import net.minecraftforge.common.ForgeVersion;
 import org.objectweb.asm.Opcodes;
@@ -44,3 +45,4 @@ public class ASMModParserTransformer implements PatcherTransformer {
         }
     }
 }
+//#endif

@@ -35,24 +35,24 @@ public class EnchantmentHelperMixin_MemoryLeak {
 
     @Inject(method = "getEnchantmentModifierDamage", at = @At("TAIL"))
     private static void patcher$fixMemoryLeak(ItemStack[] stack, DamageSource source, CallbackInfoReturnable<Integer> cir) {
-        enchantmentModifierDamage.source = null;
+        EnchantmentHelperMixin_MemoryLeak.enchantmentModifierDamage.source = null;
     }
 
     @Inject(method = "getModifierForCreature", at = @At("TAIL"))
     private static void patcher$fixMemoryLeak(ItemStack p_152377_0_, EnumCreatureAttribute p_152377_1_, CallbackInfoReturnable<Float> cir) {
-        enchantmentModifierLiving.entityLiving = null;
+        EnchantmentHelperMixin_MemoryLeak.enchantmentModifierLiving.entityLiving = null;
     }
 
     @Inject(method = "applyThornEnchantments", at = @At("TAIL"))
     private static void patcher$fixMemoryLeak(EntityLivingBase p_151384_0_, Entity p_151384_1_, CallbackInfo ci) {
-        ENCHANTMENT_ITERATOR_HURT.attacker = null;
-        ENCHANTMENT_ITERATOR_HURT.user = null;
+        EnchantmentHelperMixin_MemoryLeak.ENCHANTMENT_ITERATOR_HURT.attacker = null;
+        EnchantmentHelperMixin_MemoryLeak.ENCHANTMENT_ITERATOR_HURT.user = null;
     }
 
     @Inject(method = "applyArthropodEnchantments", at = @At("TAIL"))
     private static void patcher$fixMemoryLeak2(EntityLivingBase p_151385_0_, Entity p_151385_1_, CallbackInfo ci) {
-        ENCHANTMENT_ITERATOR_DAMAGE.target = null;
-        ENCHANTMENT_ITERATOR_DAMAGE.user = null;
+        EnchantmentHelperMixin_MemoryLeak.ENCHANTMENT_ITERATOR_DAMAGE.target = null;
+        EnchantmentHelperMixin_MemoryLeak.ENCHANTMENT_ITERATOR_DAMAGE.user = null;
     }
     //#endif
 }
