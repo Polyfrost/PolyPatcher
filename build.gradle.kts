@@ -113,7 +113,7 @@ dependencies {
         isTransitive = false
     }
 
-    shade("com.github.videogame-hacker:Koffee:88ba1b0") {
+    shade("com.github.char:Koffee:88ba1b0") {
         isTransitive = false
     }
 
