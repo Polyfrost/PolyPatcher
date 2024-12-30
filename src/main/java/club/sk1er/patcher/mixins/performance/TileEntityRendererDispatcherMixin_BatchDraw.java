@@ -25,12 +25,12 @@ public class TileEntityRendererDispatcherMixin_BatchDraw {
         patcher$drawingBatch = false;
     }
 
-    @Redirect(method = "renderTileEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/tileentity/TileEntity;hasFastRenderer()Z"))
+    @Redirect(method = "renderTileEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/tileentity/TileEntity;hasFastRenderer()Z", remap = false), remap = true)
     private boolean patcher$renderTileEntity(TileEntity instance) {
         return (!PatcherConfig.batchModelRendering || patcher$drawingBatch) && instance.hasFastRenderer();
     }
 
-    @Redirect(method = "renderTileEntityAt(Lnet/minecraft/tileentity/TileEntity;DDDFI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/tileentity/TileEntity;hasFastRenderer()Z"))
+    @Redirect(method = "renderTileEntityAt(Lnet/minecraft/tileentity/TileEntity;DDDFI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/tileentity/TileEntity;hasFastRenderer()Z", remap = false), remap = true)
     private boolean patcher$renderTileEntityAt(TileEntity instance) {
         return (!PatcherConfig.batchModelRendering || patcher$drawingBatch) && instance.hasFastRenderer();
     }

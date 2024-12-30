@@ -31,10 +31,10 @@ public class ALCHelper {
     private String[] getAvailableDevicesString() {
         try {
             return ALC10.alcGetString(null, ALC11.ALC_ALL_DEVICES_SPECIFIER).split("\0");
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
             try {
                 return ALC10.alcGetString(null, ALC10.ALC_DEVICE_SPECIFIER).split("\0");
-            } catch (Exception ignored2) {
+            } catch (Throwable ignored2) {
                 return null;
             }
         }

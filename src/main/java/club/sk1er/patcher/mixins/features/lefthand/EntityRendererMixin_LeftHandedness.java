@@ -25,7 +25,8 @@ public class EntityRendererMixin_LeftHandedness {
     @Dynamic("OptiFine adds its own version of renderHand")
     @Inject(
         method = {"renderHand(FI)V", "renderHand(FIZZZ)V", "func_78476_b"},
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;enableLightmap()V", shift = At.Shift.AFTER)
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;enableLightmap()V", shift = At.Shift.AFTER, remap = true),
+        remap = false
     )
     private void patcher$flipHandSide(CallbackInfo ci) {
         ItemRendererHook.isRenderingItemInFirstPerson = true;
@@ -41,7 +42,8 @@ public class EntityRendererMixin_LeftHandedness {
     @Dynamic("OptiFine adds its own version of renderHand")
     @Inject(
         method = {"renderHand(FI)V", "renderHand(FIZZZ)V", "func_78476_b"},
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;disableLightmap()V")
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;disableLightmap()V", remap = true),
+        remap = false
     )
     private void patcher$resetFrontFace(CallbackInfo ci) {
         if (PatcherConfig.leftHandInFirstPerson) {

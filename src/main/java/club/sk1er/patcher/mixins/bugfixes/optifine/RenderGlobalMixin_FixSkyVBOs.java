@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 public class RenderGlobalMixin_FixSkyVBOs {
 
     @Dynamic("OptiFine")
-    @Shadow
+    @Shadow(remap = false)
     private int renderDistance;
 
     @Dynamic("OptiFine")

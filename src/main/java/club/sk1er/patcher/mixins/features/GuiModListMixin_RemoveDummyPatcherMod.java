@@ -14,7 +14,7 @@ import java.util.Objects;
 @Mixin(GuiModList.class)
 public class GuiModListMixin_RemoveDummyPatcherMod {
 
-    @Shadow
+    @Shadow(remap = false)
     private ArrayList<ModContainer> mods;
 
     @Inject(method = "<init>", at = @At("RETURN"))

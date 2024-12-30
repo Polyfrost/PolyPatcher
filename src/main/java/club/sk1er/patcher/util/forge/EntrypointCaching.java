@@ -58,7 +58,7 @@ public class EntrypointCaching {
 
     @SuppressWarnings("unused")
     public List<ModContainer> discoverCachedEntrypoints(ModCandidate candidate, ASMDataTable table, JarFile file, MetadataCollection mc) {
-        if (!PatcherConfig.cacheEntrypoints) return null;
+        if (!PatcherConfig.cacheEntrypoints || readMap == null) return null;
         File modFile = candidate.getModContainer();
 
         String hash = getHash(modFile);
@@ -127,7 +127,7 @@ public class EntrypointCaching {
 
     @SuppressWarnings("unused")
     public void putCachedEntrypoints(ModCandidate candidate, ZipEntry ze) {
-        if (!PatcherConfig.cacheEntrypoints) return;
+        if (!PatcherConfig.cacheEntrypoints || readMap == null) return;
         File modFile = candidate.getModContainer();
         String modClass = ze.getName();
 
@@ -142,7 +142,7 @@ public class EntrypointCaching {
 
     @SuppressWarnings("unused")
     public void putCachedClassEntries(ModCandidate candidate, ZipEntry ze) {
-        if (!PatcherConfig.cacheEntrypoints) return;
+        if (!PatcherConfig.cacheEntrypoints || readMap == null) return;
 
         File modFile = candidate.getModContainer();
         String modClass = ze.getName();
@@ -155,7 +155,7 @@ public class EntrypointCaching {
     }
 
     public void onInit() {
-        if (!PatcherConfig.cacheEntrypoints) return;
+        if (!PatcherConfig.cacheEntrypoints || readMap == null) return;
         readMap = null;
 
         File patcherDir = new File("patcher");

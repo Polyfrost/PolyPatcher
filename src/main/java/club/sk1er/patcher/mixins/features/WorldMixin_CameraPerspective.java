@@ -26,9 +26,26 @@ public abstract class WorldMixin_CameraPerspective {
         Blocks.iron_bars
     );
 
-    @Redirect(method = "rayTraceBlocks(Lnet/minecraft/util/Vec3;Lnet/minecraft/util/Vec3;ZZZ)Lnet/minecraft/util/MovingObjectPosition;", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;getCollisionBoundingBox(Lnet/minecraft/world/World;Lnet/minecraft/util/BlockPos;Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/util/AxisAlignedBB;", ordinal = 1))
-    private AxisAlignedBB patcher$shouldCancel(Block instance, World world, BlockPos blockPos, IBlockState iBlockState) {
+    @Redirect(method = "rayTraceBlocks(Lnet/minecraft/util/Vec3;Lnet/minecraft/util/Vec3;ZZZ)Lnet/minecraft/util/MovingObjectPosition;", at = @At(value = "INVOKE", target =
+        //#if MC<=10809
+        "Lnet/minecraft/block/Block;getCollisionBoundingBox(Lnet/minecraft/world/World;Lnet/minecraft/util/BlockPos;Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/util/AxisAlignedBB;"
+        //#else
+        //$$ "Lnet/minecraft/block/state/IBlockState;getCollisionBoundingBox(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/math/AxisAlignedBB;"
+        //#endif
+        , ordinal = 1))
+    private AxisAlignedBB patcher$shouldCancel(
+        //#if MC<=10809
+        Block instance, World world, BlockPos blockPos, IBlockState iBlockState
+        //#else
+        //$$ IBlockState iBlockState, net.minecraft.world.IBlockAccess iBlockAccess, BlockPos blockPos
+        //#endif
+    ) {
         if (PatcherConfig.betterCamera && patcher$ignoredBlocks.contains(iBlockState.getBlock())) return null;
-        return instance.getCollisionBoundingBox(world, blockPos, iBlockState);
+        return
+            //#if MC<=10809
+            instance.getCollisionBoundingBox(world, blockPos, iBlockState);
+            //#else
+            //$$ iBlockState.getCollisionBoundingBox(iBlockAccess, blockPos);
+            //#endif
     }
 }

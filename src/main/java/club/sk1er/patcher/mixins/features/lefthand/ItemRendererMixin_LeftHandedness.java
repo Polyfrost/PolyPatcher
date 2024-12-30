@@ -8,8 +8,10 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin_LeftHandedness {
+    //#if MC==10809
     @ModifyConstant(method = "rotateWithPlayerRotations", constant = @Constant(floatValue = 1f, ordinal = 1))
     private float leftHandRotate(float constant) {
         return PatcherConfig.leftHandInFirstPerson ? -constant : constant;
     }
+    //#endif
 }

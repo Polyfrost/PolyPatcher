@@ -37,7 +37,7 @@ public class SimpleReloadableResourceManager_OnlyRefreshNecessaryListeners {
         }
     }
 
-    @Inject(method = "notifyReloadListeners", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fml/common/ProgressManager;pop(Lnet/minecraftforge/fml/common/ProgressManager$ProgressBar;)V"))
+    @Inject(method = "notifyReloadListeners", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fml/common/ProgressManager;pop(Lnet/minecraftforge/fml/common/ProgressManager$ProgressBar;)V", remap = false), remap = true)
     private void callOptiFineLanguage(CallbackInfo ci) {
         if (ResourceReloadHooks.shouldLoadLanguage()) {
             ResourceReloadHooks.reloadOptiFineLanguage();

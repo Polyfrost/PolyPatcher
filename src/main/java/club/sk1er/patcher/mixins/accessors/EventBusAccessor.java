@@ -6,6 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(EventBus.class)
 public interface EventBusAccessor {
-    @Accessor
+    @Accessor(remap = false)
     int getBusID();
 }
