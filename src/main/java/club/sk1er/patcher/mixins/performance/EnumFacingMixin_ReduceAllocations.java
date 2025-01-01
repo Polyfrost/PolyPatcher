@@ -80,6 +80,6 @@ public class EnumFacingMixin_ReduceAllocations {
      */
     @Overwrite
     public static EnumFacing random(Random rand) {
-        return this.VALUES[rand.nextInt(this.VALUES.length)];
+        return EnumFacingMixin_ReduceAllocations.VALUES[rand.nextInt(EnumFacingMixin_ReduceAllocations.VALUES.length)];
     }
 }

@@ -1,0 +1,31 @@
+{
+    "schemaVersion": 1,
+    "id": "${mod_id}",
+    "version": "${mod_version}",
+    "name": "${mod_name}",
+    "description": "${mod_description}",
+    "authors": [
+        "Sk1erLLC",
+        "Polyfrost"
+    ],
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            {
+                "value": "club.sk1er.patcher.Patcher"
+            }
+        ],
+        "mm:early_risers": [
+            {
+                "value": "club.sk1er.patcher.tweaker.EarlyRiser"
+            }
+        ]
+    },
+    "mixins": [
+        "mixins.${mod_id}.json"
+    ],
+    "depends": {
+        "minecraft": "~${minor_mc_version}",
+        "fabricloader": ">=0.15.11"
+    }
+}

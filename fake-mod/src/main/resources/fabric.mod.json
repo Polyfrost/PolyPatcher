@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "polypatcher",
+  "name": "PolyPatcher",
+  "version": "1",
+  "description": "",
+  "authors": [
+    "Polyfrost"
+  ],
+  "contact": {
+    "homepage": "https://polyfrost.org",
+    "sources": "https://github.com/Polyfrost/OneConfig",
+    "issues": "https://inv.wtf/polyfrost"
+  },
+  "environment": "client",
+  "custom": {
+    "modmenu": {
+      "parent": "patcher"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 package club.sk1er.patcher;
 
+import club.sk1er.patcher.tweaker.TweakerHooks;
 import org.polyfrost.oneconfig.api.ui.v1.Notifications;
 import org.polyfrost.oneconfig.utils.v1.JsonUtils;
 import org.polyfrost.polyui.unit.Units;
@@ -21,7 +22,6 @@ import club.sk1er.patcher.screen.render.overlay.GlanceRenderer;
 import club.sk1er.patcher.screen.render.overlay.ImagePreview;
 import club.sk1er.patcher.screen.render.overlay.metrics.MetricsRenderer;
 import club.sk1er.patcher.screen.render.title.TitleFix;
-import club.sk1er.patcher.tweaker.PatcherTweaker;
 import club.sk1er.patcher.util.chat.ChatHandler;
 import club.sk1er.patcher.util.enhancement.EnhancementManager;
 import club.sk1er.patcher.util.enhancement.ReloadListener;
@@ -64,17 +64,19 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//#if FORGE
 @Mod(modid = "@MOD_ID@", name = "@MOD_NAME@", version = Patcher.VERSION, clientSideOnly = true)
-public class Patcher {
+//#endif
+public class Patcher
+    //#if FABRIC
+    //$$ implements net.fabricmc.api.ClientModInitializer
+    //#endif
+{
 
     @Mod.Instance("patcher")
     public static Patcher instance;
 
-    // normal versions will be "1.x.x"
-    // betas will be "1.x.x+beta-y" / "1.x.x+branch_beta-y"
-    // rcs will be 1.x.x+rc-y
-    // extra branches will be 1.x.x+branch-y
-    public static final String VERSION = "@VER@";
+    public static final String VERSION = "@MOD_VERSION@";
 
     private static final Logger logger = LogManager.getLogger("Patcher");
     private final File logsDirectory = new File(Minecraft.getMinecraft().mcDataDir + File.separator + "logs" + File.separator);
@@ -161,7 +163,7 @@ public class Patcher {
         this.detectIncompatibilities(activeModList);
         this.detectReplacements(activeModList);
 
-        long time = (System.currentTimeMillis() - PatcherTweaker.clientLoadTime);
+        long time = (System.currentTimeMillis() - TweakerHooks.clientLoadTime);
         if (PatcherConfig.startupNotification) {
             Notifications.enqueue(Notifications.Type.Info, "Minecraft Startup", "Minecraft started in " + (time / 1000L) + " seconds.");
         }

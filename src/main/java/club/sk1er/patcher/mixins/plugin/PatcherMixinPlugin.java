@@ -1,7 +1,6 @@
 package club.sk1er.patcher.mixins.plugin;
 
 import club.sk1er.patcher.tweaker.ClassTransformer;
-import club.sk1er.patcher.tweaker.transform.PatcherTransformer;
 import com.google.common.collect.ArrayListMultimap;
 import kotlin.text.StringsKt;
 import org.objectweb.asm.tree.ClassNode;
@@ -9,7 +8,6 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -21,17 +19,11 @@ public class PatcherMixinPlugin implements IMixinConfigPlugin {
     private static final ArrayListMultimap<String, String> CONFLICTING_CLASSES = ArrayListMultimap.create();
     private static boolean isEarsMod = false;
 
-    private final ClassTransformer transformer;
-
     static {
         MixinEnvironment.getDefaultEnvironment().addTransformerExclusion("com.unascribed.ears.asm.PlatformTransformerAdapter");
         CONFLICTING_CLASSES.put("GuiContainerMixin_MouseBindFixThatLabyBreaks", LABYMOD_CLASS);
         CONFLICTING_CLASSES.put("FontRendererMixin_Optimization", SMOOTHFONT_CLASS);
         CONFLICTING_CLASSES.put("MathHelperMixin_CompactLUT", OF_CONFIG_CLASS);
-    }
-
-    public PatcherMixinPlugin() {
-        this.transformer = new ClassTransformer();
     }
 
     @Override
@@ -79,12 +71,7 @@ public class PatcherMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-        Collection<PatcherTransformer> transformers = this.transformer.transformerMap.get(targetClassName);
-        if (transformers != null) {
-            for (PatcherTransformer patcherTransformer : transformers) {
-                patcherTransformer.transform(targetClass, targetClassName);
-            }
-        }
+
     }
 
     @Override

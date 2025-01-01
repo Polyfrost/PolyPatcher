@@ -1,7 +1,8 @@
 package club.sk1er.patcher.tweaker.transform;
 
+//#if FORGE
 import net.minecraft.launchwrapper.Launch;
-import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
+//#endif
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
@@ -9,6 +10,7 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.polyfrost.oneconfig.api.platform.v1.DeobfuscationRemapper;
 
 public interface PatcherTransformer {
 
@@ -34,7 +36,7 @@ public interface PatcherTransformer {
      * @return a mapped method name
      */
     default String mapMethodName(ClassNode classNode, MethodNode methodNode) {
-        return FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(classNode.name, methodNode.name, methodNode.desc);
+        return DeobfuscationRemapper.INSTANCE.mapMethodName(classNode.name, methodNode.name, methodNode.desc);
     }
 
     /**
@@ -45,7 +47,7 @@ public interface PatcherTransformer {
      * @return a mapped field name
      */
     default String mapFieldName(ClassNode classNode, FieldNode fieldNode) {
-        return FMLDeobfuscatingRemapper.INSTANCE.mapFieldName(classNode.name, fieldNode.name, fieldNode.desc);
+        return DeobfuscationRemapper.INSTANCE.mapFieldName(classNode.name, fieldNode.name, fieldNode.desc);
     }
 
     /**
@@ -55,7 +57,7 @@ public interface PatcherTransformer {
      * @return a deobfuscated name of the class
      */
     default String mapClassName(String className) {
-        return FMLDeobfuscatingRemapper.INSTANCE.map(className);
+        return DeobfuscationRemapper.INSTANCE.map(className);
     }
 
     /**
@@ -65,7 +67,7 @@ public interface PatcherTransformer {
      * @return a mapped method desc
      */
     default String mapMethodDesc(MethodNode methodNode) {
-        return FMLDeobfuscatingRemapper.INSTANCE.mapMethodDesc(methodNode.desc);
+        return DeobfuscationRemapper.INSTANCE.mapMethodDesc(methodNode.desc);
     }
 
     /**
@@ -76,7 +78,7 @@ public interface PatcherTransformer {
      */
     default String mapMethodNameFromNode(AbstractInsnNode node) {
         MethodInsnNode methodInsnNode = (MethodInsnNode) node;
-        return FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
+        return DeobfuscationRemapper.INSTANCE.mapMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
     }
 
     /**
@@ -87,12 +89,12 @@ public interface PatcherTransformer {
      */
     default String mapFieldNameFromNode(AbstractInsnNode node) {
         FieldInsnNode fieldInsnNode = (FieldInsnNode) node;
-        return FMLDeobfuscatingRemapper.INSTANCE.mapFieldName(fieldInsnNode.owner, fieldInsnNode.name, fieldInsnNode.desc);
+        return DeobfuscationRemapper.INSTANCE.mapFieldName(fieldInsnNode.owner, fieldInsnNode.name, fieldInsnNode.desc);
     }
 
     default String mapMethodDescFromNode(AbstractInsnNode node) {
         MethodInsnNode methodInsnNode = (MethodInsnNode) node;
-        return FMLDeobfuscatingRemapper.INSTANCE.mapMethodDesc(methodInsnNode.desc);
+        return DeobfuscationRemapper.INSTANCE.mapMethodDesc(methodInsnNode.desc);
     }
 
     /**
@@ -115,7 +117,11 @@ public interface PatcherTransformer {
     }
 
     default boolean isDevelopment() {
+        //#if FORGE
         Object o = Launch.blackboard.get("fml.deobfuscatedEnvironment");
         return o != null && (boolean) o;
+        //#else
+        //$$ return net.fabricmc.loader.api.FabricLoader.getInstance().isDevelopmentEnvironment();
+        //#endif
     }
 }

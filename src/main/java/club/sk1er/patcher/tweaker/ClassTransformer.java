@@ -72,15 +72,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ClassTransformer
+    implements
     //#if FORGE
-    implements IClassTransformer
+    IClassTransformer,
     //#endif
+    club.sk1er.patcher.tweaker.transform.IClassTransformer
 {
 
     public static final boolean outputBytecode = "true".equals(System.getProperty("patcher.debugBytecode", "false"));
     public static String optifineVersion = "NONE";
     private final Logger logger = LogManager.getLogger("Patcher - Class Transformer");
-    public final Multimap<String, PatcherTransformer> transformerMap = ArrayListMultimap.create();
+    private final Multimap<String, PatcherTransformer> transformerMap = ArrayListMultimap.create();
 
     public static boolean smoothFontDetected;
     public static final Set<String> supportedOptiFineVersions = new HashSet<>();
@@ -143,7 +145,7 @@ public class ClassTransformer
         if (isDevelopment()) registerTransformer(new InventoryEffectRendererTransformer());
 
         // forge classes
-        //#if MC == 1.8.9
+        //#if MC == 1.8.9 && FORGE
         registerTransformer(new ForgeHooksClientTransformer());
         registerTransformer(new GuiModListTransformer());
         registerTransformer(new ModClassLoaderTransformer());
@@ -223,10 +225,10 @@ public class ClassTransformer
 
     //#if FORGE
     @Override
-    //#endif
     public byte[] transform(String name, String transformedName, byte[] bytes) {
         return createTransformer(transformedName, bytes, transformerMap, logger);
     }
+    //#endif
 
     private void haltForOptiFine(String message) {
         try {
@@ -260,13 +262,13 @@ public class ClassTransformer
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                PatcherTweaker.invokeExit();
+                TweakerHooks.invokeExit();
             }
         });
 
         Object[] options = {openOptifine, close};
         JOptionPane.showOptionDialog(frame, message, "Launch Aborted", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
-        PatcherTweaker.invokeExit();
+        TweakerHooks.invokeExit();
     }
 
     private void fetchSupportedOptiFineVersions() {
@@ -329,7 +331,16 @@ public class ClassTransformer
     }
 
     public static boolean isDevelopment() {
+        //#if FORGE
         Object o = Launch.blackboard.get("fml.deobfuscatedEnvironment");
         return o != null && (boolean) o;
+        //#else
+        //$$ return net.fabricmc.loader.api.FabricLoader.getInstance().isDevelopmentEnvironment();
+        //#endif
+    }
+
+    @Override
+    public Multimap<String, PatcherTransformer> getTransformerMap() {
+        return transformerMap;
     }
 }

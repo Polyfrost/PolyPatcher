@@ -1,5 +1,10 @@
 package club.sk1er.patcher.tweaker.other;
 
+//#if FORGE
+import net.minecraft.launchwrapper.IClassTransformer;
+import net.minecraft.launchwrapper.Launch;
+//#endif
+
 import club.sk1er.patcher.asm.external.mods.essential.EssentialModelRendererTransformer;
 import club.sk1er.patcher.asm.external.mods.optifine.*;
 import club.sk1er.patcher.asm.external.mods.optifine.reflectionoptimizations.common.BakedQuadReflectionOptimizer;
@@ -25,8 +30,6 @@ import club.sk1er.patcher.tweaker.ClassTransformer;
 import club.sk1er.patcher.tweaker.transform.PatcherTransformer;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.launchwrapper.IClassTransformer;
-import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -34,7 +37,13 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 /**
  * Used for editing other mods (OptiFine, LevelHead, TNT Timer, etc.) after they've loaded.
  */
-public class ModClassTransformer implements IClassTransformer {
+public class ModClassTransformer
+    implements
+    //#if FORGE
+    IClassTransformer,
+    //#endif
+    club.sk1er.patcher.tweaker.transform.IClassTransformer
+{
 
     private final Logger logger = LogManager.getLogger("Patcher - Mod Class Transformer");
     private final Multimap<String, PatcherTransformer> transformerMap = ArrayListMultimap.create();
@@ -133,7 +142,16 @@ public class ModClassTransformer implements IClassTransformer {
     }
 
     public static boolean isDevelopment() {
+        //#if FORGE
         Object o = Launch.blackboard.get("fml.deobfuscatedEnvironment");
         return o != null && (boolean) o;
+        //#else
+        //$$ return net.fabricmc.loader.api.FabricLoader.getInstance().isDevelopmentEnvironment();
+        //#endif
+    }
+
+    @Override
+    public Multimap<String, PatcherTransformer> getTransformerMap() {
+        return transformerMap;
     }
 }

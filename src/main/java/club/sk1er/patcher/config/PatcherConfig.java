@@ -1,6 +1,7 @@
 package club.sk1er.patcher.config;
 
 //#if FORGE
+import club.sk1er.patcher.util.forge.EntrypointCaching;
 import net.minecraftforge.common.ForgeVersion;
 //#endif
 
@@ -1333,13 +1334,13 @@ public class PatcherConfig extends Config {
     public static boolean cacheEntrypoints = true;
 
     //todo this serializes for some reason?
-    //@Button(
-    //    title = "Reset Cache",
-    //    description = "Reset the cache of Forge mod entry points.",
-    //    category = "Experimental", subcategory = "Forge",
-    //    text = "Reset"
-    //)
-    //public static Runnable resetCache = () -> EntrypointCaching.INSTANCE.resetCache();
+    @Button(
+        title = "Reset Cache",
+        description = "Reset the cache of Forge mod entry points.",
+        category = "Experimental", subcategory = "Forge",
+        text = "Reset"
+    )
+    public static Runnable resetCache = () -> EntrypointCaching.INSTANCE.resetCache();
 
     //@Info(
     //    text = "Improved Skin Rendering can make some skins invisible. It requires a restart once toggled.",

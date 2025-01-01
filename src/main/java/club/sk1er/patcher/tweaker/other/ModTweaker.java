@@ -1,5 +1,6 @@
 package club.sk1er.patcher.tweaker.other;
 
+//#if FORGE
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
@@ -34,3 +35,4 @@ public class ModTweaker implements IFMLLoadingPlugin {
         return null;
     }
 }
+//#endif
