@@ -1,85 +1,57 @@
 @file:Suppress("UnstableApiUsage", "PropertyName")
 
 import dev.deftu.gradle.utils.GameSide
+import dev.deftu.gradle.utils.MinecraftVersion
 
 plugins {
     java
     kotlin("jvm")
-    id("dev.deftu.gradle.multiversion")
-    id("dev.deftu.gradle.tools")
-    id("dev.deftu.gradle.tools.resources")
-    id("dev.deftu.gradle.tools.bloom")
-    id("dev.deftu.gradle.tools.shadow")
-    id("dev.deftu.gradle.tools.minecraft.loom")
+    id("dev.deftu.gradle.multiversion") // Applies preprocessing for multiple versions of Minecraft and/or multiple mod loaders.
+    id("dev.deftu.gradle.tools") // Applies several configurations to things such as the Java version, project name/version, etc.
+    id("dev.deftu.gradle.tools.resources") // Applies resource processing so that we can replace tokens, such as our mod name/version, in our resources.
+    id("dev.deftu.gradle.tools.bloom") // Applies the Bloom plugin, which allows us to replace tokens in our source files, such as being able to use `@MOD_VERSION` in our source files.
+    id("dev.deftu.gradle.tools.shadow") // Applies the Shadow plugin, which allows us to shade our dependencies into our mod JAR. This is NOT recommended for Fabric mods, but we have an *additional* configuration for those!
+    id("dev.deftu.gradle.tools.ducks") // Creates a ducks source set, which allows us to use theoretical classes which may not exist at runtime (such as things which are in other mods).
+    id("dev.deftu.gradle.tools.minecraft.loom") // Applies the Loom plugin, which automagically configures Essential's Architectury Loom plugin for you.
+    id("dev.deftu.gradle.tools.minecraft.releases") // Applies the Minecraft auto-releasing plugin, which allows you to automatically release your mod to CurseForge and Modrinth.
 }
-
-val accessTransformerName = "patcher1${mcData.version.minor}_at.cfg"
-
-// Sets up the variables for when we preprocess to other Minecraft versions.
-preprocess {
-    vars.put("MODERN", if (mcData.version.minor >= 16) 1 else 0)
-}
-
-//if (project.platform.isLegacyForge) {
-//    runConfigs {
-//        "client" {
-//            property("patcher.debugBytecode", "true")
-//            property("mixin.debug.verbose", "true")
-//            property("mixin.debug.export", "true")
-//            property("mixin.dumpTargetOnFailure", "true")
-//            property("fml.coreMods.load", "club.sk1er.patcher.tweaker.PatcherTweaker")
-//            programArgs("--tweakClass", "org.polyfrost.oneconfig.internal.legacy.OneConfigTweaker")
-//            programArgs("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
-//            property("mixin.debug.export", "true")
-//            programArgs("--mixin", "mixins.${mod_id}.json")
-//        }
-//    }
-//}
-
-//if (project.platform.isForge) {
-//    forge {
-//        accessTransformer(rootProject.file("src/main/resources/$accessTransformerName"))
-//        mixinConfig("mixins.${mod_id}.json")
-//    }
-//}
 
 toolkitLoomHelper {
-    useOneConfig("1.1.0-alpha.34", "1.0.0-alpha.43", mcData, "commands", "config-impl", "events", "hud", "internal", "ui")
-    useDevAuth()
+    useOneConfig {
+        version = "1.0.0-alpha.49"
+        loaderVersion = "1.1.0-alpha.35"
 
+        usePolyMixin = true
+        polyMixinVersion = "0.8.4+build.2"
+
+        applyLoaderTweaker = true
+
+        for (module in arrayOf("commands", "config", "config-impl", "events", "internal", "ui", "utils")) {
+            +module
+        }
+    }
+
+    // Turns off the server-side run configs, as we're building a client-sided mod.
     disableRunConfigs(GameSide.SERVER)
 
+    // Defines the name of the Mixin refmap, which is used to map the Mixin classes to the obfuscated Minecraft classes.
     if (!mcData.isNeoForge) {
         useMixinRefMap(modData.id)
     }
 
-    if (mcData.isLegacyForge) {
-        useTweaker("org.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker", GameSide.CLIENT)
-        useForgeMixin(modData.id) // Configures the mixins if we are building for forge, useful for when we are dealing with cross-platform projects.
-
-        useProperty("patcher.debugBytecode", "true", GameSide.CLIENT)
-        useProperty("mixin.debug.verbose", "true", GameSide.CLIENT)
-        useProperty("mixin.debug.export", "true", GameSide.CLIENT)
-        useProperty("mixin.dumpTargetOnFailure", "true", GameSide.CLIENT)
-        useProperty("fml.coreMods.load", "club.sk1er.patcher.tweaker.PatcherTweaker", GameSide.CLIENT)
+    if (mcData.isForge) {
+        // Configures the Mixin tweaker if we are building for Forge.
+        useForgeMixin(modData.id)
     }
 }
+
+val accessTransformerName = "patcher1${mcData.version.minor}_at.cfg"
 
 if (mcData.isForge) {
     loom {
         forge {
             accessTransformer(rootProject.file("src/main/resources/$accessTransformerName"))
         }
-    }
-}
-
-// Configures the output directory for when building from the `src/resources` directory.
-sourceSets {
-    val dummy by creating
-    main {
-        dummy.compileClasspath += compileClasspath
-        compileClasspath += dummy.output
-        output.setResourcesDir(java.classesDirectory)
     }
 }
 
@@ -99,13 +71,15 @@ dependencies {
         implementation(shade("it.unimi.dsi:fastutil:8.5.13")!!)
     }
 
-    // If we are building for legacy forge, includes the launch wrapper with `shade` as we configured earlier.
-    if (mcData.isLegacyForge) {
-        compileOnly("org.polyfrost:polymixin:0.8.4+build.2")
-        //todo fix with V1
-        //modImplementation("org.polyfrost:legacy-crafty-crashes:1.0.0") {
-        //    isTransitive = false
-        //}
+    // Add Fabric Language Kotlin and (Legacy) Fabric API as dependencies (these are both optional but are particularly useful).
+    if (mcData.isFabric) {
+        if (mcData.isLegacyFabric) {
+            // 1.8.9 - 1.13
+            modImplementation("net.legacyfabric.legacy-fabric-api:legacy-fabric-api:${mcData.dependencies.legacyFabric.legacyFabricApiVersion}")
+        } else {
+            // 1.16.5+
+            modImplementation("net.fabricmc.fabric-api:fabric-api:${mcData.dependencies.fabric.fabricApiVersion}")
+        }
     }
 }
 
