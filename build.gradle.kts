@@ -50,7 +50,7 @@ val accessTransformerName = "patcher1${mcData.version.minor}_at.cfg"
 if (mcData.isForge) {
     loom {
         forge {
-            accessTransformer(rootProject.file("src/main/resources/$accessTransformerName"))
+            accessTransformer(rootProject.file("src/main/resources/META-INF/$accessTransformerName"))
         }
     }
 }
