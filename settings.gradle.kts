@@ -24,7 +24,7 @@ pluginManagement {
 
     plugins {
         kotlin("jvm") version("2.0.0")
-        id("dev.deftu.gradle.multiversion-root") version("2.17.0")
+        id("dev.deftu.gradle.multiversion-root") version("2.18.2")
     }
 }
 
@@ -35,17 +35,15 @@ val projectName: String = extra["mod.name"]?.toString()
 rootProject.name = projectName
 rootProject.buildFileName = "root.gradle.kts"
 
-include(":fake-mod")
-
 // Adds all of our build target versions to the classpath if we need to add version-specific code.
 // Update this list if you want to remove/add a version and/or mod loader.
 // The format is: version-modloader (f.ex: 1.8.9-forge, 1.17.1-fabric, etc)
-// **REMEMBER TO ALSO UPDATE THE `root.gradle.kts` FILE WITH THE NEW VERSION(S).
+// **REMEMBER TO ALSO UPDATE THE `root.gradle.kts` AND `build.gradle.kts` FILES WITH THE NEW VERSION(S).
 listOf(
     "1.8.9-forge",
     "1.8.9-fabric",
+    "1.12.2-fabric",
     "1.12.2-forge",
-    "1.12.2-fabric"
 ).forEach { version ->
     include(":$version")
     project(":$version").apply {
