@@ -1340,7 +1340,9 @@ public class PatcherConfig extends Config {
         category = "Experimental", subcategory = "Forge",
         text = "Reset"
     )
-    public static Runnable resetCache = () -> EntrypointCaching.INSTANCE.resetCache();
+    public static void resetCache() {
+        EntrypointCaching.INSTANCE.resetCache();
+    }
 
     //@Info(
     //    text = "Improved Skin Rendering can make some skins invisible. It requires a restart once toggled.",
