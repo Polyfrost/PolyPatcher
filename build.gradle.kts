@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage", "PropertyName")
 
 import dev.deftu.gradle.utils.GameSide
-import dev.deftu.gradle.utils.MinecraftVersion
+import dev.deftu.gradle.utils.version.MinecraftReleaseVersion
 
 plugins {
     java
@@ -18,7 +18,7 @@ plugins {
 
 toolkitLoomHelper {
     useOneConfig {
-        version = "1.0.0-alpha.62"
+        version = "1.0.0-alpha.76"
         loaderVersion = "1.1.0-alpha.44"
 
         usePolyMixin = true
@@ -45,7 +45,8 @@ toolkitLoomHelper {
     }
 }
 
-val accessTransformerName = "patcher1${mcData.version.minor}_at.cfg"
+val releaseVersion = mcData.version as MinecraftReleaseVersion
+val accessTransformerName = "patcher1${releaseVersion.minor}_at.cfg"
 
 if (mcData.isForge) {
     loom {
@@ -67,7 +68,7 @@ dependencies {
         isTransitive = false
     })
 
-    if (mcData.version.minor < 12) {
+    if (releaseVersion.minor < 12) {
         implementation(shade("it.unimi.dsi:fastutil:8.5.13")!!)
     }
 
