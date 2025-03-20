@@ -1,7 +1,8 @@
 package club.sk1er.patcher.mixins.features;
 
 import club.sk1er.patcher.config.PatcherConfig;
-import org.polyfrost.universal.UResolution;
+import club.sk1er.patcher.mixins.accessors.GuiIngameAccessor;
+import dev.deftu.omnicore.client.render.OmniResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
@@ -27,9 +28,9 @@ public class GuiIngameForgeMixin_TitleRendering extends GuiIngame {
     private void patcher$modifyTitle(int l, int age, float opacity, CallbackInfo ci) {
         float titleScale = 1;
         if (PatcherConfig.autoTitleScale) {
-            float width = this.fontrenderer.getStringWidth(this.displayedTitle) * 4.0F;
-            if (width > UResolution.getScaledWidth()) {
-                titleScale = (UResolution.getScaledWidth() / width);
+            float width = this.fontrenderer.getStringWidth(((GuiIngameAccessor) this).getDisplayedTitle()) * 4.0F;
+            if (width > OmniResolution.getScaledWidth()) {
+                titleScale = (OmniResolution.getScaledWidth() / width);
             }
         }
         GlStateManager.scale(titleScale, titleScale, titleScale);
@@ -38,9 +39,9 @@ public class GuiIngameForgeMixin_TitleRendering extends GuiIngame {
     private void patcher$modifySubtitle(int l, int age, float opacity, CallbackInfo ci) {
         float titleScale = 1;
         if (PatcherConfig.autoTitleScale) {
-            float width = this.fontrenderer.getStringWidth(this.displayedSubTitle) * 2.0F;
-            if (width > UResolution.getScaledWidth()) {
-                titleScale = (UResolution.getScaledWidth() / width);
+            float width = this.fontrenderer.getStringWidth(((GuiIngameAccessor) this).getDisplayedSubTitle()) * 2.0F;
+            if (width > OmniResolution.getScaledWidth()) {
+                titleScale = (OmniResolution.getScaledWidth() / width);
             }
         }
         GlStateManager.scale(titleScale, titleScale, titleScale);

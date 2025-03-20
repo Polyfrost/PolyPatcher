@@ -1,16 +1,17 @@
 package club.sk1er.patcher.util.screenshot;
 
+import dev.deftu.omnicore.client.OmniDesktop;
+import dev.deftu.textile.minecraft.MCClickEvent;
+import dev.deftu.textile.minecraft.MCSimpleMutableTextHolder;
+import dev.deftu.textile.minecraft.MCSimpleTextHolder;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import org.polyfrost.oneconfig.utils.v1.OneImage;
-import org.polyfrost.universal.UChat;
-import org.polyfrost.universal.wrappers.message.UTextComponent;
 import org.polyfrost.oneconfig.utils.v1.Multithreading;
 import org.polyfrost.oneconfig.api.commands.v1.factories.annotated.Command;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.render.ScreenshotPreview;
 import club.sk1er.patcher.util.chat.ChatUtilities;
-import org.polyfrost.universal.ChatColor;
-import org.polyfrost.universal.UDesktop;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.event.ClickEvent;
@@ -34,7 +35,7 @@ import java.util.Date;
 
 public class AsyncScreenshots implements Runnable {
 
-    public static final String prefix = ChatUtilities.translate("&e[Patcher] &r");
+    public static final MCSimpleTextHolder prefix = new MCSimpleTextHolder("[Patcher] ").withFormatting(MCTextFormat.YELLOW);
     private static BufferedImage image;
     private static File screenshot;
     private final int width, height;
@@ -106,7 +107,7 @@ public class AsyncScreenshots implements Runnable {
             chatComponent = new ChatComponentText(prefix + "Screenshot saved.");
         }
 
-        final IChatComponent favoriteComponent = new ChatComponentText(ChatColor.YELLOW.toString() + ChatColor.BOLD +
+        final IChatComponent favoriteComponent = new ChatComponentText(MCTextFormat.YELLOW.toString() + MCTextFormat.BOLD +
             (compact ? "FAV" : "FAVORITE"));
         favoriteComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$favorite"));
         favoriteComponent.getChatStyle()
@@ -115,7 +116,7 @@ public class AsyncScreenshots implements Runnable {
                     "&afavorite_screenshots &7in your Minecraft directory.\n" +
                     "&cThis cannot be done once a new screenshot is taken."))));
 
-        final IChatComponent deleteComponent = new ChatComponentText(ChatColor.RED.toString() + ChatColor.BOLD +
+        final IChatComponent deleteComponent = new ChatComponentText(MCTextFormat.RED.toString() + MCTextFormat.BOLD +
             (compact ? "DEL" : "DELETE"));
         deleteComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$delete"));
         deleteComponent.getChatStyle()
@@ -124,7 +125,7 @@ public class AsyncScreenshots implements Runnable {
                     "&cThis is not recoverable and cannot be deleted once a\n" +
                     "&cnew screenshot is taken or made favorite."))));
 
-        final IChatComponent imgurComponent = new ChatComponentText(ChatColor.GREEN.toString() + ChatColor.BOLD +
+        final IChatComponent imgurComponent = new ChatComponentText(MCTextFormat.GREEN.toString() + MCTextFormat.BOLD +
             (compact ? "UPL" : "UPLOAD"));
         imgurComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$upload"));
         imgurComponent.getChatStyle()
@@ -133,7 +134,7 @@ public class AsyncScreenshots implements Runnable {
                     "&cThis cannot be uploaded once a new screenshot\n" +
                     "&cis taken, made favorite, or deleted."))));
 
-        final IChatComponent copyComponent = new ChatComponentText(ChatColor.AQUA.toString() + ChatColor.BOLD +
+        final IChatComponent copyComponent = new ChatComponentText(MCTextFormat.AQUA.toString() + MCTextFormat.BOLD +
             (compact ? "CPY" : "COPY"));
         copyComponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$copyss"));
         copyComponent.getChatStyle()
@@ -142,7 +143,7 @@ public class AsyncScreenshots implements Runnable {
                     "&cThis cannot be copied once a new screenshot\n" +
                     "&cis taken, made favorite, or deleted."))));
 
-        final IChatComponent folderComponent = new ChatComponentText(ChatColor.BLUE.toString() + ChatColor.BOLD +
+        final IChatComponent folderComponent = new ChatComponentText(MCTextFormat.BLUE.toString() + MCTextFormat.BOLD +
             (compact ? "DIR" : "FOLDER"));
         folderComponent.getChatStyle()
             .setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, screenshotDirectory.getCanonicalPath()));
@@ -182,10 +183,10 @@ public class AsyncScreenshots implements Runnable {
         @Command
         public void main() {
             try {
-                UDesktop.open(new File("./screenshots"));
+                OmniDesktop.open(new File("./screenshots"));
             } catch (Exception e) {
-                ChatUtilities.sendMessage("Unfortunately, we were unable to open the screenshots folder. " +
-                    "Contact the support Discord at https://polyfrost.cc/discord if this issue persists.");
+                ChatUtilities.sendMessage(new MCSimpleTextHolder("Unfortunately, we were unable to open the screenshots folder. " +
+                    "Contact the support Discord at https://polyfrost.cc/discord if this issue persists.").withFormatting(MCTextFormat.RED));
             }
         }
     }
@@ -240,10 +241,14 @@ public class AsyncScreenshots implements Runnable {
                     if (url == null) {
                         ChatUtilities.sendNotification("Screenshot Manager", "Failed to upload screenshot.");
                     }
-                    IChatComponent component = new UTextComponent(prefix + ChatColor.GREEN + "Screenshot was uploaded to " + url + ".");
-                    component.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-                    UChat.chat(component);
 
+                    MCSimpleTextHolder text = new MCSimpleTextHolder("Screenshot was uploaded to " + url + ".")
+                        .withFormatting(MCTextFormat.GREEN);
+                    if (url != null) {
+                        text = text.withClickEvent(MCClickEvent.openUrl(url));
+                    }
+
+                    ChatUtilities.sendMessage(text);
                 } catch (IOException e) {
                     ChatUtilities.sendNotification("Screenshot Manager", "Failed to upload screenshot.");
                 }
@@ -270,7 +275,7 @@ public class AsyncScreenshots implements Runnable {
             Multithreading.submit(() -> Toolkit.getDefaultToolkit().getSystemClipboard().setContents(sel, null));
 
             if (message) {
-                ChatUtilities.sendMessage("&aScreenshot has been copied to your clipboard.");
+                ChatUtilities.sendMessage(new MCSimpleTextHolder("Screenshot has been copied to your clipboard.").withFormatting(MCTextFormat.GREEN));
             }
         }
     }

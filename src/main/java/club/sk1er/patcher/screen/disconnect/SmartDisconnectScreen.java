@@ -1,7 +1,7 @@
 package club.sk1er.patcher.screen.disconnect;
 
 import club.sk1er.patcher.mixins.accessors.GuiMultiplayerAccessor;
-import org.polyfrost.universal.ChatColor;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import org.lwjgl.input.Keyboard;
@@ -28,7 +28,7 @@ public class SmartDisconnectScreen extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         this.drawCenteredString(this.mc.fontRendererObj, "Would you like to disconnect, or relog?", (width >> 1), (height >> 1) - 24, -1);
-        this.drawCenteredString(this.mc.fontRendererObj, ChatColor.YELLOW + "This can be disabled in Patcher's settings.", (width >> 1), (height >> 1) - 12, -1);
+        this.drawCenteredString(this.mc.fontRendererObj, MCTextFormat.YELLOW + "This can be disabled in Patcher's settings.", (width >> 1), (height >> 1) - 12, -1);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

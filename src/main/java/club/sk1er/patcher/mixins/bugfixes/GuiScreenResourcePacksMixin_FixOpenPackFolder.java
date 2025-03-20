@@ -1,6 +1,6 @@
 package club.sk1er.patcher.mixins.bugfixes;
 
-import org.polyfrost.universal.UDesktop;
+import dev.deftu.omnicore.client.OmniDesktop;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreenResourcePacks;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +22,7 @@ public class GuiScreenResourcePacksMixin_FixOpenPackFolder {
         cancellable = true
     )
     private void patcher$fixFolderOpening(CallbackInfo ci) {
-        if (UDesktop.open(Minecraft.getMinecraft().getResourcePackRepository().getDirResourcepacks())) {
+        if (OmniDesktop.open(Minecraft.getMinecraft().getResourcePackRepository().getDirResourcepacks())) {
             ci.cancel();
         }
     }

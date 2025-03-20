@@ -1,5 +1,6 @@
 package club.sk1er.patcher.mixins.bugfixes;
 
+import dev.deftu.omnicore.client.OmniClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraftforge.client.GuiIngameForge;
@@ -22,8 +23,8 @@ public abstract class GuiIngameForgeMixin_FixProfilerSection extends GuiIngame {
         remap = false
     )
     private void patcher$fixProfilerSectionNotEnding(int width, int height, CallbackInfo ci) {
-        if (this.mc.mcProfiler.getNameOfLastSection().endsWith("chat")) {
-            this.mc.mcProfiler.endSection();
+        if (OmniClient.getInstance().mcProfiler.getNameOfLastSection().endsWith("chat")) {
+            OmniClient.getInstance().mcProfiler.endSection();
         }
     }
 }

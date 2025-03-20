@@ -4,7 +4,7 @@ import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.ItemAccessor;
 import club.sk1er.patcher.mixins.accessors.ItemStackAccessor;
 import com.google.common.collect.Multimap;
-import org.polyfrost.universal.ChatColor;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -321,7 +321,7 @@ public class GlanceRenderer {
         for (PotionEffect entry : effects) {
             int duration = entry.getDuration() / 20;
             potionBuilder
-                .append(ChatColor.BOLD)
+                .append(MCTextFormat.BOLD)
                 .append(StatCollector.translateToLocal(entry.getEffectName()))
                 .append(" ")
                 .append(entry.getAmplifier() + 1)
@@ -346,7 +346,7 @@ public class GlanceRenderer {
         //#if MC==10809
         Map<Integer, Integer> enchantmentMap = EnchantmentHelper.getEnchantments(heldItemStack);
         for (Map.Entry<Integer, Integer> entry : enchantmentMap.entrySet()) {
-            builder.append(ChatColor.BOLD).append(shortEnchantmentNames.get(entry.getKey()))
+            builder.append(MCTextFormat.BOLD).append(shortEnchantmentNames.get(entry.getKey()))
         //#else
         //$$ Map<Enchantment, Integer> enchantmentMap = EnchantmentHelper.getEnchantments(heldItemStack);
         //$$ for (Map.Entry<Enchantment, Integer> entry : enchantmentMap.entrySet()) {

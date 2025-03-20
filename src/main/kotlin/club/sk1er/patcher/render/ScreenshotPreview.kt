@@ -8,8 +8,6 @@ import org.polyfrost.elementa.components.Window
 import org.polyfrost.elementa.constraints.RelativeConstraint
 import org.polyfrost.elementa.constraints.animation.Animations
 import org.polyfrost.elementa.dsl.*
-import org.polyfrost.oneconfig.api.event.v1.invoke.impl.Subscribe
-import org.polyfrost.universal.UMatrixStack
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.util.concurrent.CompletableFuture

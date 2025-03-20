@@ -2,7 +2,7 @@ package club.sk1er.patcher.hooks;
 
 import club.sk1er.patcher.config.PatcherConfig;
 import com.google.common.collect.Queues;
-import org.polyfrost.universal.ChatColor;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -56,7 +56,7 @@ public class GuiNewChatHook {
             Gui.drawRect(0, 0, chatWidth + 4, 9, 2130706432);
             GlStateManager.enableBlend();
             GlStateManager.translate(0, 0, 50);
-            mc.fontRendererObj.drawStringWithShadow(ChatColor.GRAY + "[+" + messageQueue.size() + " pending lines]", 0, 1, -1);
+            mc.fontRendererObj.drawStringWithShadow(MCTextFormat.GRAY + "[+" + messageQueue.size() + " pending lines]", 0, 1, -1);
             GlStateManager.popMatrix();
             GlStateManager.disableAlpha();
             GlStateManager.disableBlend();

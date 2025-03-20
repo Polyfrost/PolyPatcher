@@ -1,6 +1,6 @@
 package club.sk1er.patcher.screen.quit;
 
-import org.polyfrost.universal.ChatColor;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -30,7 +30,7 @@ public class ConfirmQuitScreen extends GuiScreen {
             width / 2, (height / 2) - 24, -1
         );
         this.drawCenteredString(
-            this.mc.fontRendererObj, ChatColor.YELLOW + "This can be disabled in Patcher's settings.",
+            this.mc.fontRendererObj, MCTextFormat.YELLOW + "This can be disabled in Patcher's settings.",
             width / 2, (height / 2) - 12, -1
         );
         super.drawScreen(mouseX, mouseY, partialTicks);

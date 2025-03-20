@@ -1,6 +1,7 @@
 package club.sk1er.patcher.tweaker;
 
 //#if FORGE
+import dev.deftu.omnicore.client.OmniDesktop;
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 //#endif
@@ -44,7 +45,6 @@ import club.sk1er.patcher.tweaker.transform.PatcherTransformer;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
-import org.polyfrost.universal.UDesktop;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -248,7 +248,7 @@ public class ClassTransformer
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    UDesktop.browse(new URI("https://optifine.net/downloads/"));
+                    OmniDesktop.browse(new URI("https://optifine.net/downloads/"));
                 } catch (Exception ex) {
                     JLabel label = new JLabel();
                     label.setText("Failed to open OptiFine website.");

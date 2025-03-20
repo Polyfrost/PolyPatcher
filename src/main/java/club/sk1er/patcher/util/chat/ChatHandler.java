@@ -2,7 +2,7 @@ package club.sk1er.patcher.util.chat;
 
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.GuiNewChatAccessor;
-import org.polyfrost.universal.ChatColor;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.event.HoverEvent;
@@ -59,7 +59,7 @@ public class ChatHandler {
         if (PatcherConfig.timestamps && !message.getUnformattedText().trim().isEmpty() && type != gameInfoType) {
             String time = getCurrentTime();
             if (PatcherConfig.timestampsStyle == 0) {
-                ChatComponentIgnored component = new ChatComponentIgnored(ChatColor.GRAY + "[" + time + "] " + ChatColor.RESET);
+                ChatComponentIgnored component = new ChatComponentIgnored(MCTextFormat.GRAY + "[" + time + "] " + MCTextFormat.RESET);
                 //#if MC==10809
                 component.appendSibling(event.message);
                 event.message = component;
@@ -158,7 +158,7 @@ public class ChatHandler {
                     } else {
                         entry.messageCount++;
                         entry.lastSeenMessageMillis = currentTime;
-                        chatComponent.appendSibling(new ChatComponentIgnored(ChatColor.GRAY + " (" + decimalFormat.format(entry.messageCount) + ")"));
+                        chatComponent.appendSibling(new ChatComponentIgnored(MCTextFormat.GRAY + " (" + decimalFormat.format(entry.messageCount) + ")"));
                     }
                 }
             }

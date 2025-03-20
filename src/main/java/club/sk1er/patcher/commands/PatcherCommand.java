@@ -1,5 +1,7 @@
 package club.sk1er.patcher.commands;
 
+import dev.deftu.textile.minecraft.MCSimpleTextHolder;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import org.polyfrost.oneconfig.api.commands.v1.factories.annotated.*;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
@@ -21,7 +23,7 @@ public class PatcherCommand {
         //Patcher.instance.getPatcherConfig().openGui();
     }
 
-    @Command(value = "blacklist", description = "Tell the client that you don't want to use the 1.11+ chat length on the specified server IP.", greedy = true)
+    @Command(value = "blacklist", description = "Tell the client that you don't want to use the 1.11+ chat length on the specified server IP.")
     public void blacklist(@Parameter("ip") String ip) {
         String status = Patcher.instance.addOrRemoveBlacklist(ip) ? "&cnow" : "&ano longer";
         ChatUtilities.sendNotification(
@@ -55,11 +57,11 @@ public class PatcherCommand {
                               //(autoCompletesTo = {"help", "off", "none", "small", "normal", "large", "auto", "0", "1", "2", "3", "4", "5"})
                           String argument) {
         if (argument.equalsIgnoreCase("help")) {
-            ChatUtilities.sendMessage("             &eInventory Scale", false);
-            ChatUtilities.sendMessage("&7Usage: /inventoryscale <scaling>", false);
-            ChatUtilities.sendMessage("&7Scaling may be a number between 1-5, or", false);
-            ChatUtilities.sendMessage("&7small/normal/large/auto", false);
-            ChatUtilities.sendMessage("&7Use '/inventoryscale off' to disable scaling.", false);
+            ChatUtilities.sendMessage(new MCSimpleTextHolder("             Inventory Scale").withFormatting(MCTextFormat.YELLOW), false);
+            ChatUtilities.sendMessage(new MCSimpleTextHolder("Usage: /inventoryscale <scaling>").withFormatting(MCTextFormat.GRAY), false);
+            ChatUtilities.sendMessage(new MCSimpleTextHolder("Scaling may be a number between 1-5, or").withFormatting(MCTextFormat.GRAY), false);
+            ChatUtilities.sendMessage(new MCSimpleTextHolder("small/normal/large/auto").withFormatting(MCTextFormat.GRAY), false);
+            ChatUtilities.sendMessage(new MCSimpleTextHolder("Use '/inventoryscale off' to disable scaling.").withFormatting(MCTextFormat.GRAY), false);
             return;
         }
 
@@ -103,7 +105,7 @@ public class PatcherCommand {
         Patcher.instance.forceSaveConfig();
     }
 
-    @Command(value = "sendcoords", description = "Send your current coordinates in chat. Anything after 'sendcoords' will be put at the end of the message.", greedy = true)
+    @Command(value = "sendcoords", description = "Send your current coordinates in chat. Anything after 'sendcoords' will be put at the end of the message.")
     public void sendcoords(@Parameter("additional information") @Nullable String message) {
         EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
         player.sendChatMessage("x: " + (int) player.posX + ", y: " + (int) player.posY + ", z: " + (int) player.posZ +

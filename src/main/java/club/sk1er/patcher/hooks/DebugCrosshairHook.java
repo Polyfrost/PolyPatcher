@@ -1,6 +1,6 @@
 package club.sk1er.patcher.hooks;
 
-import org.polyfrost.universal.UResolution;
+import dev.deftu.omnicore.client.render.OmniResolution;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,12 +15,12 @@ public class DebugCrosshairHook {
 
     public static void renderDirections(float partialTicks, Minecraft mc) {
         GlStateManager.pushMatrix();
-        GlStateManager.translate((float)(UResolution.getScaledWidth() / 2), (float)(UResolution.getScaledHeight() / 2), 0);
+        GlStateManager.translate((float)(OmniResolution.getScaledWidth() / 2), (float)(OmniResolution.getScaledHeight() / 2), 0);
         Entity entity = mc.getRenderViewEntity();
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0F, 0.0F, 0.0F);
         GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks, 0.0F, 1.0F, 0.0F);
         GlStateManager.scale(-1.0F, -1.0F, -1.0F);
-        double mcScale = UResolution.getScaleFactor();
+        double mcScale = OmniResolution.getScaleFactor();
         GlStateManager.scale(1 / mcScale, 1 / mcScale, 1 / mcScale);
         GlStateManager.disableTexture2D();
         GlStateManager.depthMask(false);

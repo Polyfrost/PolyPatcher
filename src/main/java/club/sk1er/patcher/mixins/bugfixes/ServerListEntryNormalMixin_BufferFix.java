@@ -1,7 +1,7 @@
 package club.sk1er.patcher.mixins.bugfixes;
 
-import org.polyfrost.universal.ChatColor;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.multiplayer.ServerData;
@@ -82,7 +82,7 @@ public class ServerListEntryNormalMixin_BufferFix {
     public Future<?> patcher$drawEntry(ThreadPoolExecutor instance, Runnable r) {
         // Check if too many running tasks, if yes cancel & set to "spamming"
         if (patcher$runningTaskCount > patcher$serverCountCache * 2) {
-            patcher$setServerFail(ChatColor.GRAY + "Stop spamming... refresh the server list.");
+            patcher$setServerFail(MCTextFormat.GRAY + "Stop spamming... refresh the server list.");
             return patcher$threadPoolExecutor.submit(() -> {});
         }
 
@@ -97,16 +97,16 @@ public class ServerListEntryNormalMixin_BufferFix {
             try {
                 future.get(SERVER_TIMEOUT, TimeUnit.SECONDS);
             } catch (TimeoutException e1) {
-                patcher$setServerFail(ChatColor.RED + "Timed out");
+                patcher$setServerFail(MCTextFormat.RED + "Timed out");
             } catch (ExecutionException e2) {
                 if (e2.getCause() instanceof UnknownHostException)
-                    patcher$setServerFail(ChatColor.DARK_RED + "Can't resolve hostname");
+                    patcher$setServerFail(MCTextFormat.DARK_RED + "Can't resolve hostname");
                 else
-                    patcher$setServerFail(ChatColor.DARK_RED + "Can't connect to server.");
+                    patcher$setServerFail(MCTextFormat.DARK_RED + "Can't connect to server.");
 
             } catch (Exception e3) {
                 // Shouldn't happen anymore but just in case
-                patcher$setServerFail(ChatColor.DARK_RED + "Can't connect to server.");
+                patcher$setServerFail(MCTextFormat.DARK_RED + "Can't connect to server.");
             }
             patcher$runningTaskCount--;
         });

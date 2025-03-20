@@ -1,6 +1,6 @@
 package club.sk1er.patcher.mixins.bugfixes;
 
-import org.polyfrost.universal.USound;
+import dev.deftu.omnicore.client.OmniClientSound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerPlayer;
@@ -29,7 +29,7 @@ public class ContainerMixin_PlaySound {
             if (slot != null) {
                 ItemStack slotStack = slot.getStack();
                 if (slotStack != null && slotStack.getItem() instanceof ItemArmor && slotStack.getItemDamage() > slotStack.getMaxDamage() - 2) {
-                    USound.INSTANCE.playSoundStatic(new ResourceLocation("random.break"), 1, 1);
+                    OmniClientSound.play(new ResourceLocation("random.break"), 1f, 1f);
                 }
             }
         }

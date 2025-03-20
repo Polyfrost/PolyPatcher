@@ -264,7 +264,7 @@ public class Patcher
 
     private void registerCommands(Object... commands) {
         for (Object command : commands) {
-            CommandManager.registerCommand(command);
+            CommandManager.register(command);
         }
     }
 

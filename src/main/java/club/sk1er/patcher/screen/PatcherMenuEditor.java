@@ -10,7 +10,6 @@ import org.polyfrost.elementa.components.UIImage;
 import org.polyfrost.elementa.components.Window;
 import org.polyfrost.elementa.dsl.ComponentsKt;
 import org.polyfrost.elementa.dsl.UtilitiesKt;
-import org.polyfrost.universal.UMatrixStack;
 import gg.essential.api.EssentialAPI;
 import gg.essential.api.config.EssentialConfig;
 import kotlin.Unit;
@@ -185,7 +184,7 @@ public class PatcherMenuEditor {
     @SubscribeEvent
     public void renderTick(TickEvent.RenderTickEvent event) {
         if (tripped && event.phase == TickEvent.Phase.END) {
-            window.draw(UMatrixStack.Compat.INSTANCE.get());
+            // TODO: window.draw(UMatrixStack.Compat.INSTANCE.get());
         }
     }
 
