@@ -1,6 +1,7 @@
 @file:Suppress("UnstableApiUsage", "PropertyName")
 
 import dev.deftu.gradle.utils.GameSide
+import dev.deftu.gradle.utils.includeOrShade
 import dev.deftu.gradle.utils.version.MinecraftReleaseVersion
 
 plugins {
@@ -58,18 +59,15 @@ if (mcData.isForge) {
 
 // Configures the libraries/dependencies for your mod.
 dependencies {
-    modImplementation(shade("org.polyfrost:elementa-$mcData:562") {
-        isTransitive = false
-    })
+    implementation(includeOrShade("gg.essential:elementa:695")!!)
+    modImplementation(includeOrShade("org.polyfrost:universalcraft-$mcData:2.0.1")!!)
 
-    implementation(shade("com.github.ben-manes.caffeine:caffeine:2.9.3")!!)
+    implementation(includeOrShade("com.github.ben-manes.caffeine:caffeine:2.9.3")!!)
 
-    implementation(shade("com.github.videogame-hacker:Koffee:88ba1b0") {
-        isTransitive = false
-    })
+    implementation(includeOrShade("com.github.videogame-hacker:Koffee:88ba1b0")!!)
 
     if (releaseVersion.minor < 12) {
-        implementation(shade("it.unimi.dsi:fastutil:8.5.13")!!)
+        implementation(includeOrShade("it.unimi.dsi:fastutil:8.5.13")!!)
     }
 
     // Add Fabric Language Kotlin and (Legacy) Fabric API as dependencies (these are both optional but are particularly useful).

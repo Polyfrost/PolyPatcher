@@ -5,13 +5,14 @@ import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.mixins.accessors.GuiMainMenuAccessor;
 import club.sk1er.patcher.screen.disconnect.SmartDisconnectScreen;
 import club.sk1er.patcher.screen.quit.ConfirmQuitScreen;
-import org.polyfrost.elementa.ElementaVersion;
-import org.polyfrost.elementa.components.UIImage;
-import org.polyfrost.elementa.components.Window;
-import org.polyfrost.elementa.dsl.ComponentsKt;
-import org.polyfrost.elementa.dsl.UtilitiesKt;
+import gg.essential.elementa.ElementaVersion;
+import gg.essential.elementa.components.UIImage;
+import gg.essential.elementa.components.Window;
+import gg.essential.elementa.dsl.ComponentsKt;
+import gg.essential.elementa.dsl.UtilitiesKt;
 import gg.essential.api.EssentialAPI;
 import gg.essential.api.config.EssentialConfig;
+import gg.essential.universal.UMatrixStack;
 import kotlin.Unit;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -184,7 +185,7 @@ public class PatcherMenuEditor {
     @SubscribeEvent
     public void renderTick(TickEvent.RenderTickEvent event) {
         if (tripped && event.phase == TickEvent.Phase.END) {
-            // TODO: window.draw(UMatrixStack.Compat.INSTANCE.get());
+            window.draw(UMatrixStack.Compat.INSTANCE.get());
         }
     }
 

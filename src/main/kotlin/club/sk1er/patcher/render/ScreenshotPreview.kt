@@ -1,13 +1,16 @@
 package club.sk1er.patcher.render
 
 import club.sk1er.patcher.config.PatcherConfig
-import org.polyfrost.elementa.ElementaVersion
-import org.polyfrost.elementa.UIComponent
-import org.polyfrost.elementa.components.UIImage
-import org.polyfrost.elementa.components.Window
-import org.polyfrost.elementa.constraints.RelativeConstraint
-import org.polyfrost.elementa.constraints.animation.Animations
-import org.polyfrost.elementa.dsl.*
+import gg.essential.elementa.ElementaVersion
+import gg.essential.elementa.UIComponent
+import gg.essential.elementa.components.UIImage
+import gg.essential.elementa.components.Window
+import gg.essential.elementa.constraints.RelativeConstraint
+import gg.essential.elementa.constraints.animation.Animations
+import gg.essential.elementa.dsl.*
+import gg.essential.universal.UMatrixStack
+import org.polyfrost.oneconfig.api.event.v1.events.HudRenderEvent
+import org.polyfrost.oneconfig.api.event.v1.invoke.impl.Subscribe
 import java.awt.Color
 import java.awt.image.BufferedImage
 import java.util.concurrent.CompletableFuture
@@ -16,11 +19,10 @@ object ScreenshotPreview {
 
     private var currentWindow: Window? = null
 
-    // @Subscribe
-    // fun renderScreenshot(event: RenderGameOverlayEvent.Post) { // todo
-    //     if (event.type != RenderGameOverlayEvent.ElementType.TEXT) return
-    //     this.currentWindow?.draw(UMatrixStack.Compat.get())
-    // }
+     @Subscribe
+     fun renderScreenshot(event: HudRenderEvent) {
+         this.currentWindow?.draw(UMatrixStack.Compat.get())
+     }
 
     fun newCapture(image: BufferedImage) {
         this.currentWindow = Window(ElementaVersion.V2)
