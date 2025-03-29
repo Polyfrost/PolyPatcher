@@ -10,6 +10,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class GuiScreenServerListMixin_RemoveSpaces {
     @Redirect(method = "actionPerformed", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiTextField;getText()Ljava/lang/String;"))
     private String patcher$removeSpaces(GuiTextField guiTextField) {
-        return guiTextField.getText().replaceAll(" ", "");
+        return guiTextField.getText().trim();
     }
 }
