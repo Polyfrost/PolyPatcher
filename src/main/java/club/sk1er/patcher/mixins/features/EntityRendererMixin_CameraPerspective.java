@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin_CameraPerspective {
-
     @Redirect(method = "orientCamera", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;rayTraceBlocks(Lnet/minecraft/util/Vec3;Lnet/minecraft/util/Vec3;)Lnet/minecraft/util/MovingObjectPosition;"))
     private MovingObjectPosition patcher$changeBlockingType(WorldClient instance, Vec3 from, Vec3 to) {
         return PatcherConfig.betterCamera
