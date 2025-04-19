@@ -87,6 +87,7 @@ This work, "PolyPatcher", is adapted from ["Patcher"](https://sk1er.club/mods/pa
 - ~~**Remove Inverted Colors from Crosshair** - Remove the inverted color effect on the crosshair.~~ (replaced by [PolyCrosshair](https://modrinth.com/mod/crosshair))
 - **Fullbright** - Remove lighting updates, increasing visibility. (Can positively impact performance. May conflict with minimaps) *default
 - **Smart Fullbright** - Automatically Disable the Fullbright Effect when using OptiFine Shaders. (Requires Fullbright) *default
+- **Remove Damage Tilt** - Remove the screen tilt when taking damage.
 - **Disable Night Vision** *(not in original)* - Completely disables the effects of night vision.
 - **Cleaner Night Vision** *(not in original)* - Makes the night vision effect fade out instead of a flashing effect.
 - ~~**Show Own Nametag** - See your nametag in third person.~~ (replaced by [PolyNametag](https://modrinth.com/mod/polynametag))
