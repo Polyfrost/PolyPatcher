@@ -181,6 +181,13 @@ public class PatcherConfig extends Config {
     public static boolean smartFullbright = true;
 
     @Switch(
+        name = "Remove Damage Tilt",
+        description = "Remove the screen tilt effect when taking damage.",
+        category = "Miscellaneous", subcategory = "Rendering"
+    )
+    public static boolean removeDamageTilt = true;
+
+    @Switch(
         name = "Disable Night Vision",
         description = "Completely disable the effects of night vision.",
         category = "Miscellaneous", subcategory = "Overlays"

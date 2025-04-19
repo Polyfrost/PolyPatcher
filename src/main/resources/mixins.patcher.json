@@ -142,6 +142,7 @@
     "features.EntityPlayerMixin_NaturalCapes",
     "features.EntityPlayerSPMixin_NauseaEffect",
     "features.EntityRendererMixin_CameraPerspective",
+    "features.EntityRendererMixin_DamageTilt",
     "features.EntityRendererMixin_Distortion",
     "features.EntityRendererMixin_Fog",
     "features.EntityRendererMixin_NightVisionEffect",
