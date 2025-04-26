@@ -22,6 +22,7 @@ public class InvWrapperMixin_ImproveInsertion {
 
     @Inject(method = "insertItem", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/items/ItemHandlerHelper;canItemStacksStack(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"), cancellable = true)
     private void patcher$earlyExit(int slot, ItemStack stack, boolean simulate, CallbackInfoReturnable<ItemStack> cir) {
+        if (this.inv == null || this.inv.getStackInSlot(slot) == null) return;
         ItemStack stackInSlot = this.inv.getStackInSlot(slot);
         if (stackInSlot.stackSize >= Math.min(stackInSlot.getMaxStackSize(), this.inv.getInventoryStackLimit())) {
             cir.setReturnValue(stack);
