@@ -14,10 +14,9 @@ public class MathHelperMixin_CompactLUT {
     @Final
     private static float[] SIN_TABLE;
 
-    @SuppressWarnings("InstantiationOfUtilityClass")
     @Inject(method = "<clinit>", at = @At("RETURN"))
     private static void clearSinTable(CallbackInfo ci) {
-        new CompactSineLUT(); // Force class initialisation
+        CompactSineLUT.init(); // Force class initialization
         MathHelperMixin_CompactLUT.SIN_TABLE = null;
     }
 
