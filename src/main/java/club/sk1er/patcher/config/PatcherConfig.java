@@ -340,7 +340,7 @@ public class PatcherConfig extends Config {
         name = "Unfocused FPS Amount",
         description = "Change the maximum FPS when you're not tabbed into the window, saving resources.",
         category = "Miscellaneous", subcategory = "General",
-        min = 15, max = 240
+        min = 1, max = 240
     )
     public static int unfocusedFPSAmount = 60;
 
