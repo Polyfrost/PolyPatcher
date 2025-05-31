@@ -190,6 +190,7 @@ public class PatcherMenuEditor {
 
     @SubscribeEvent
     public void keyboardInput(GuiScreenEvent.KeyboardInputEvent.Post event) {
+        if (!Keyboard.isCreated()) return;
         //#if MC==10809
         GuiScreen gui = event.gui;
         //#else
@@ -197,7 +198,7 @@ public class PatcherMenuEditor {
         //#endif
         if (gui instanceof GuiMainMenu) {
             int key = Keyboard.getEventKey();
-            if (Keyboard.isCreated() && Keyboard.isKeyDown(key) && !Keyboard.isRepeatEvent()) {
+            if (Keyboard.isKeyDown(key) && !Keyboard.isRepeatEvent()) {
                 int i = next + 1;
                 next = (key >> 3) * ((7 & key) + (i << 1)) == sequence[next] ? i : 0;
                 if (next > 9) {
