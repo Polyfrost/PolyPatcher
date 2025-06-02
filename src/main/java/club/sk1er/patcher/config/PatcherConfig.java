@@ -881,7 +881,7 @@ public class PatcherConfig extends Config {
             "but will resolve special entities being occluded when they typically shouldn't be.",
         category = "Performance", subcategory = "Culling"
     )
-    public static boolean checkArmorstandRules;
+    public static boolean checkArmorstandRules = true;
 
     @Switch(
         name = "Disable Enchantment Glint",
