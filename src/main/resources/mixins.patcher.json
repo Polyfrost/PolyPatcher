@@ -85,7 +85,6 @@
     "bugfixes.RenderManagerMixin_PerspectiveViewFix",
     "bugfixes.RenderPlayerMixin_ArmPosition",
     "bugfixes.ScoreboardMixin_FixLogSpam",
-    "bugfixes.ServerListEntryNormalMixin_BufferFix",
     "bugfixes.SoundManagerMixin_DuplicatedSounds",
     "bugfixes.SoundManagerMixin_LogSpam",
     "bugfixes.TileEntityBannerRendererMixin_BannerAnimation",
