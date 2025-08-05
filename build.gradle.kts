@@ -69,6 +69,12 @@ dependencies {
     if (releaseVersion.minor < 12) {
         implementation(includeOrShade("it.unimi.dsi:fastutil:8.5.13")!!)
     }
+
+    if (mcData.isFabric) {
+        implementation(includeOrShade("com.github.Chocohead:Fabric-ASM:v2.3") {
+            isTransitive = false
+        })
+    }
 }
 
 tasks {
@@ -92,4 +98,7 @@ tasks {
         exclude("patcher18_at.cfg")
         exclude("patcher112_at.cfg")
     }
+
+
+
 }
