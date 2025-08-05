@@ -1,5 +1,5 @@
 package club.sk1er.patcher.util.forge;
-
+//#if FORGE
 import club.sk1er.patcher.config.PatcherConfig;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
@@ -218,3 +218,4 @@ public class EntrypointCaching {
         }
     }
 }
+//#endif

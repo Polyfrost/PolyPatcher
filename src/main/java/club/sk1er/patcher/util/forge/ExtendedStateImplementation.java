@@ -1,5 +1,6 @@
 package club.sk1er.patcher.util.forge;
 
+//#if FORGE
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import net.minecraft.block.Block;
@@ -99,3 +100,4 @@ public class ExtendedStateImplementation
     }
     //#endif
 }
+//#endif

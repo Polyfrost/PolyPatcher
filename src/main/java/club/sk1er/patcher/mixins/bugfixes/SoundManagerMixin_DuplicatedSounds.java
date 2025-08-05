@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import paulscode.sound.SoundSystem;
 
 import java.util.*;
 
@@ -28,7 +27,7 @@ public abstract class SoundManagerMixin_DuplicatedSounds {
         method = "pauseAllSounds",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundManager$SoundSystemStarterThread;pause(Ljava/lang/String;)V", remap = false)
     )
-    private void patcher$onlyPauseSoundIfNecessary(@Coerce SoundSystem soundSystem, String sound) {
+    private void patcher$onlyPauseSoundIfNecessary(@Coerce paulscode.sound.SoundSystem soundSystem, String sound) {
         if (this.isSoundPlaying(this.playingSounds.get(sound))) {
             soundSystem.pause(sound);
             patcher$pausedSounds.add(sound);

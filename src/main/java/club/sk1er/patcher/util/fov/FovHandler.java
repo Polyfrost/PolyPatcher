@@ -1,14 +1,12 @@
 package club.sk1er.patcher.util.fov;
 
 import club.sk1er.patcher.config.PatcherConfig;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.FOVUpdateEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,6 +21,8 @@ import java.util.Map;
  * Allow for multiplying the FOV status for certain states that drastically change FOV.
  */
 public class FovHandler {
+
+    public static final FovHandler INSTANCE = new FovHandler();
 
     /**
      * Create a constant of the speed modifier's FOV status.
@@ -44,18 +44,15 @@ public class FovHandler {
      */
     private static final Map<Integer, Float> MODIFIER_BY_TICK = new HashMap<>();
 
-    @SubscribeEvent
-    public void fovChange(FOVUpdateEvent event) {
-        if (!PatcherConfig.allowFovModifying) return;
+    public float onFovChange(EntityPlayer entity, float original) {
+        if (!PatcherConfig.allowFovModifying) return original;
 
         float base = 1.0F;
 
         //#if MC==10809
-        EntityPlayer entity = event.entity;
         ItemStack item = entity.getItemInUse();
         int useDuration = entity.getItemInUseDuration();
         //#else
-        //$$ EntityPlayer entity = event.getEntity();
         //$$ ItemStack item = entity.getActiveItemStack();
         //$$ int useDuration = entity.getItemInUseMaxCount();
         //#endif
@@ -103,24 +100,14 @@ public class FovHandler {
             base -= modifier * PatcherConfig.bowFovModifierFloat;
         }
 
-        //#if MC==10809
-        event.newfov = base;
-        //#else
-        //$$ event.setNewfov(base);
-        //#endif
+        return base;
     }
 
-    @SubscribeEvent
-    public void fovModifier(EntityViewRenderEvent.FOVModifier event) {
-        if (!PatcherConfig.removeWaterFov) return;
-        if (event.
-            //#if MC==10809
-            block
-            //#else
-            //$$ getState()
-            //#endif
-            .getMaterial() != Material.water) return;
-        event.setFOV(event.getFOV() * 70.0F / 60.0F);
+    public float onFovModifierChange(Block block, float original) {
+        if (!PatcherConfig.removeWaterFov) return original;
+        if (block
+            .getMaterial() != Material.water) return original;
+        return original * 70.0F / 60.0F;
     }
 
     // Input the current state and modifier.

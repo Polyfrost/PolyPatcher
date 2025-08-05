@@ -1,6 +1,7 @@
 package club.sk1er.patcher;
 
 import club.sk1er.patcher.tweaker.TweakerHooks;
+import org.polyfrost.oneconfig.api.event.v1.EventManager;
 import org.polyfrost.oneconfig.api.ui.v1.Notifications;
 import org.polyfrost.oneconfig.utils.v1.JsonUtils;
 import org.polyfrost.polyui.unit.Units;
@@ -34,7 +35,6 @@ import club.sk1er.patcher.util.keybind.linux.LinuxKeybindFix;
 import club.sk1er.patcher.util.screenshot.AsyncScreenshots;
 import club.sk1er.patcher.util.status.ProtocolVersionDetector;
 import club.sk1er.patcher.util.world.SavesWatcher;
-import club.sk1er.patcher.util.world.render.culling.EntityCulling;
 import club.sk1er.patcher.util.world.render.entity.EntityRendering;
 import club.sk1er.patcher.util.world.sound.SoundHandler;
 import club.sk1er.patcher.util.world.sound.audioswitcher.AudioSwitcher;
@@ -130,7 +130,7 @@ public class Patcher
         registerEvents(
             this, soundHandler, dropModifier, audioSwitcher,
             new EntityRendering(), new FovHandler(),
-            new ChatHandler(), new GlanceRenderer(), new EntityCulling(),
+            new ChatHandler(), new GlanceRenderer(),
             new ArmorStatusRenderer(), new PatcherMenuEditor(), new ImagePreview(),
             new TitleFix(), new LinuxKeybindFix(),
             new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
@@ -258,7 +258,7 @@ public class Patcher
 
     private void registerEvents(Object... events) {
         for (Object event : events) {
-            MinecraftForge.EVENT_BUS.register(event);
+            EventManager.INSTANCE.register(event);
         }
     }
 

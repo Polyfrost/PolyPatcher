@@ -47,13 +47,15 @@ toolkitLoomHelper {
 }
 
 val releaseVersion = mcData.version as MinecraftReleaseVersion
-val accessTransformerName = "patcher1${releaseVersion.minor}_at.cfg"
+val accessTransformerName = "patcher1${releaseVersion.minor}${if (mcData.isForge) "_at.cfg" else ".accesswidener"}"
 
-if (mcData.isForge) {
-    loom {
+loom {
+    if (mcData.isForge) {
         forge {
             accessTransformer(rootProject.file("src/main/resources/META-INF/$accessTransformerName"))
         }
+    } else {
+        accessWidenerPath = rootProject.file("src/main/resources/META-INF/$accessTransformerName")
     }
 }
 

@@ -5,8 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -32,7 +30,10 @@ public class GuiScreenMixin_BackgroundRendering {
             Gui.drawRect(0, 0, this.width, this.height, -1);
             GlStateManager.colorMask(true, true, true, true);
 
-            MinecraftForge.EVENT_BUS.post(new GuiScreenEvent.BackgroundDrawnEvent((GuiScreen) (Object) this));
+            //#if FORGE
+            net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(
+                new net.minecraftforge.client.event.GuiScreenEvent.BackgroundDrawnEvent((GuiScreen) (Object) this));
+            //#endif
             ci.cancel();
         }
     }
