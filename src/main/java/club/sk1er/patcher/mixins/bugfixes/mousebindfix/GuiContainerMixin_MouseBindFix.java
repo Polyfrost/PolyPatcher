@@ -45,9 +45,9 @@ public abstract class GuiContainerMixin_MouseBindFix extends GuiScreen {
         //#else
         //$$ if (this.hoveredSlot != null && this.hoveredSlot.getHasStack()) {
         //$$    if (this.mc.gameSettings.keyBindPickBlock.isActiveAndMatches(keyCode)) {
-        //$$        this.handleMouseClick(hoveredSlot, this.hoveredSlot.slotNumber, 0, ClickType.CLONE);
+        //$$        this.handleMouseClick(this.hoveredSlot, this.hoveredSlot.slotNumber, 0, ClickType.CLONE);
         //$$    } else if (this.mc.gameSettings.keyBindDrop.isActiveAndMatches(keyCode)) {
-        //$$        this.handleMouseClick(hoveredSlot, this.hoveredSlot.slotNumber, this.isCtrlKeyDown() ? 1 : 0, ClickType.THROW);
+        //$$        this.handleMouseClick(this.hoveredSlot, this.hoveredSlot.slotNumber, this.isCtrlKeyDown() ? 1 : 0, ClickType.THROW);
         //$$    }
         //$$ }
         //#endif

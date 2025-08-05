@@ -2,9 +2,9 @@ package club.sk1er.patcher.util.screenshot;
 
 import dev.deftu.omnicore.client.OmniDesktop;
 import dev.deftu.textile.minecraft.MCClickEvent;
-import dev.deftu.textile.minecraft.MCSimpleMutableTextHolder;
 import dev.deftu.textile.minecraft.MCSimpleTextHolder;
 import dev.deftu.textile.minecraft.MCTextFormat;
+import org.polyfrost.oneconfig.api.commands.v1.factories.annotated.Handler;
 import org.polyfrost.oneconfig.utils.v1.OneImage;
 import org.polyfrost.oneconfig.utils.v1.Multithreading;
 import org.polyfrost.oneconfig.api.commands.v1.factories.annotated.Command;
@@ -30,6 +30,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -180,7 +181,7 @@ public class AsyncScreenshots implements Runnable {
 
     @Command("$openfolder")
     public static class ScreenshotsFolder {
-        @Command
+        @Handler
         public void main() {
             try {
                 OmniDesktop.open(new File("./screenshots"));
@@ -195,7 +196,7 @@ public class AsyncScreenshots implements Runnable {
     public static class FavoriteScreenshot {
 
         @SuppressWarnings("ResultOfMethodCallIgnored")
-        @Command
+        @Handler
         public void main() {
             try {
                 final File favoritedScreenshots = getTimestampedPNGFileForDirectory(new File("./favorite_screenshots"));
@@ -215,7 +216,7 @@ public class AsyncScreenshots implements Runnable {
 
     @Command("$delete")
     public static class DeleteScreenshot {
-        @Command
+        @Handler
         public void main() {
             try {
                 if (screenshot.exists() && screenshot.delete()) {
@@ -232,7 +233,7 @@ public class AsyncScreenshots implements Runnable {
 
     @Command("$upload")
     public static class UploadScreenshot {
-        @Command
+        @Handler
         public void main() {
             Multithreading.submit(() -> {
                 ChatUtilities.sendNotification("Screenshot Manager", "Uploading screenshot...");
@@ -245,7 +246,7 @@ public class AsyncScreenshots implements Runnable {
                     MCSimpleTextHolder text = new MCSimpleTextHolder("Screenshot was uploaded to " + url + ".")
                         .withFormatting(MCTextFormat.GREEN);
                     if (url != null) {
-                        text = text.withClickEvent(MCClickEvent.openUrl(url));
+                        text = text.withClickEvent(new MCClickEvent.OpenUrl(URI.create(url)));
                     }
 
                     ChatUtilities.sendMessage(text);
@@ -260,7 +261,7 @@ public class AsyncScreenshots implements Runnable {
     @Command("$copyss")
     public static class CopyScreenshot {
 
-        @Command
+        @Handler
         public void main() {
             try {
                 copyScreenshot(true);
