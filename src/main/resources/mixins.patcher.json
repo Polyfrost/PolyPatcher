@@ -50,6 +50,7 @@
     "bugfixes.FontRendererMixin_ResetStyles",
     "bugfixes.GameSettingsMixin_MipmapSlider",
     "bugfixes.GuiContainerMixin_SplitRemnants",
+    "bugfixes.GuiContainerMixin_Touchscreen",
     "bugfixes.GuiGameOverMixin_ResolveButtonClick",
     "bugfixes.GuiIngameForgeMixin_FixProfilerSection",
     "bugfixes.GuiIngameForgeMixin_HotbarAlpha",
