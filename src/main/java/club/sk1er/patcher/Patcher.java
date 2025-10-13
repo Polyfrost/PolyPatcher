@@ -154,7 +154,7 @@ public class Patcher {
                 ((FontRendererExt) galacticFontRenderer).patcher$getFontRendererHook().create();
             }
         }
-        isEssential = Loader.isModLoaded("essential");
+        isEssential = Loader.isModLoaded("essential") && !Loader.isModLoaded("notsoessential");
     }
 
     @EventHandler
