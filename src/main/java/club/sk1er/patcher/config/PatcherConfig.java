@@ -245,61 +245,6 @@ public class PatcherConfig extends Config {
 
 
 
-    // fov
-
-    @Switch(
-        name = "Remove Water FOV",
-        description = "Remove FOV change when underwater.",
-        category = "Miscellaneous", subcategory = "Field of View"
-    )
-    public static boolean removeWaterFov = true;
-
-    @Switch(
-        name = "FOV Modifier",
-        description = "Allow for modifying FOV change states.",
-        category = "Miscellaneous", subcategory = "Field of View"
-    )
-    public static boolean allowFovModifying;
-
-    @Slider(
-        name = "Sprinting FOV",
-        description = "Modify your FOV when sprinting.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5F, max = 5F
-    )
-    public static float sprintingFovModifierFloat = 1;
-
-    @Slider(
-        name = "Flying FOV",
-        description = "Modify your FOV when flying.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5F, max = 5F
-    )
-    public static float flyingFovModifierFloat = 1;
-
-    @Slider(
-        name = "Bow FOV",
-        description = "Modify your FOV when pulling back a bow.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5, max = 5
-    )
-    public static float bowFovModifierFloat = 1;
-
-    @Slider(
-        name = "Speed FOV",
-        description = "Modify your FOV when having the speed effect.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5, max = 5
-    )
-    public static float speedFovModifierFloat = 1;
-
-    @Slider(
-        name = "Slowness FOV",
-        description = "Modify your FOV when having the slowness effect.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5, max = 5
-    )
-    public static float slownessFovModifierFloat = 1;
 
     @Switch(
         name = "Disable Hotbar Scrolling",
@@ -1807,6 +1752,53 @@ public class PatcherConfig extends Config {
         max = Integer.MAX_VALUE
     )
     public static int customFpsLimit = 0;
+    @Switch(
+        name = "Remove Water FOV",
+        description = "Remove FOV change when underwater.",
+        category = "Deprecated", subcategory = "Field of View"
+    )
+    public static boolean removeWaterFov = true;
+    @Switch(
+        name = "FOV Modifier",
+        description = "Allow for modifying FOV change states.",
+        category = "Deprecated", subcategory = "Field of View"
+    )
+    public static boolean allowFovModifying;
+    @Slider(
+        name = "Sprinting FOV",
+        description = "Modify your FOV when sprinting.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5F, max = 5F
+    )
+    public static float sprintingFovModifierFloat = 1;
+    @Slider(
+        name = "Flying FOV",
+        description = "Modify your FOV when flying.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5F, max = 5F
+    )
+    public static float flyingFovModifierFloat = 1;
+    @Slider(
+        name = "Bow FOV",
+        description = "Modify your FOV when pulling back a bow.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5, max = 5
+    )
+    public static float bowFovModifierFloat = 1;
+    @Slider(
+        name = "Speed FOV",
+        description = "Modify your FOV when having the speed effect.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5, max = 5
+    )
+    public static float speedFovModifierFloat = 1;
+    @Slider(
+        name = "Slowness FOV",
+        description = "Modify your FOV when having the slowness effect.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5, max = 5
+    )
+    public static float slownessFovModifierFloat = 1;
 
 
     public static boolean labyModMoment = true;
@@ -1958,6 +1950,13 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("unfocusedFPS", "SoundTweaks");
         deprecateFunc.apply("unfocusedFPSAmount", "SoundTweaks");
         deprecateFunc.apply("customFpsLimit", "SoundTweaks");
+        deprecateFunc.apply("removeWaterFov", "FovTweaks");
+        deprecateFunc.apply("allowFovModifying", "FovTweaks");
+        deprecateFunc.apply("sprintingFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("flyingFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("bowFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("speedFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("slownessFovModifierFloat", "FovTweaks");
         //</editor-fold>
 
         try {
@@ -1971,12 +1970,6 @@ public class PatcherConfig extends Config {
             addDependency("timestampsStyle", "timestamps");
             addDependency("secondsOnTimestamps", "timestamps");
             addDependency("imagePreviewWidth", "imagePreview");
-
-            Arrays.asList(
-                "slownessFovModifierFloat", "speedFovModifierFloat",
-                "bowFovModifierFloat", "sprintingFovModifierFloat",
-                "flyingFovModifierFloat"
-            ).forEach(property -> addDependency(property, "allowFovModifying"));
 
             addDependency("logOptimizerLength", "logOptimizer");
             addDependency("dynamicZoomSensitivity", "scrollToZoom");
