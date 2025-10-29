@@ -274,13 +274,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean removeGroundFoliage;
 
-    @Switch(
-        name = "Clean Projectiles",
-        description = "Show projectiles 2 ticks after they're shot to stop them from obstructing your view.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean cleanProjectiles;
-
     @Slider(
         name = "Ridden Horse Opacity (%)",
         description = "Change the opacity of the horse you're currently riding for visibility.",
@@ -288,14 +281,6 @@ public class PatcherConfig extends Config {
         min = 0F, max = 100
     )
     public static int riddenHorseOpacityI = 100;
-
-    @Slider(
-        name = "Distortion Effects (%)",
-        description = "Changes the distortion effects (e.g. Nausea and nether portal distortion).",
-        category = "Miscellaneous", subcategory = "Rendering",
-        min = 0, max = 100
-    )
-    public static int distortionEffect = 100;
 
     @Slider(
         name = "Water Fog Density (%)",
@@ -1785,6 +1770,19 @@ public class PatcherConfig extends Config {
         options = {"Always Present", "Message Hover"}
     )
     public static int timestampsStyle = 0;
+    @Switch(
+        name = "Clean Projectiles",
+        description = "Show projectiles 2 ticks after they're shot to stop them from obstructing your view.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean cleanProjectiles;
+    @Slider(
+        name = "Distortion Effects (%)",
+        description = "Changes the distortion effects (e.g. Nausea and nether portal distortion).",
+        category = "Deprecated", subcategory = "Rendering",
+        min = 0, max = 100
+    )
+    public static int distortionEffect = 100;
 
 
     public static boolean labyModMoment = true;
@@ -1800,10 +1798,6 @@ public class PatcherConfig extends Config {
 
         if (removeContainerBackgroundOld) {
             containerBackgroundOpacity = 0F;
-            modified = true;
-        }
-        if (nauseaEffectOld) {
-            distortionEffect = 0;
             modified = true;
         }
 
@@ -1957,6 +1951,8 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("secondsOnTimestamps", "ChatTweaks");
         deprecateFunc.apply("timestampsFormat", "ChatTweaks");
         deprecateFunc.apply("timestampsStyle", "ChatTweaks");
+        deprecateFunc.apply("cleanProjectiles", "LegacyTweaks");
+        deprecateFunc.apply("distortionEffect", "LegacyTweaks");
         //</editor-fold>
 
         try {
