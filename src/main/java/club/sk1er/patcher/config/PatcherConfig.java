@@ -217,32 +217,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean autoTitleScale;
 
-    // fog
-
-
-
-
-    @Switch(
-        name = "Disable Hotbar Scrolling",
-        description = "Remove the ability to scroll through your hotbar.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean disableHotbarScrolling;
-
-    @Switch(
-        name = "Invert Hotbar Scrolling",
-        description = "Change the direction of scrolling in your hotbar.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean invertHotbarScrolling;
-
-    @Switch(
-        name = "Prevent Overflow Hotbar Scrolling",
-        description = "Prevent from directly scrolling between the first and last hotbar slot.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean preventOverflowHotbarScrolling;
-
     @Switch(
         name = "Remove Ground Foliage",
         description = "Stop plants/flowers from rendering.",
@@ -1773,6 +1747,25 @@ public class PatcherConfig extends Config {
         category = "Deprecated", subcategory = "Rendering"
     )
     public static boolean betterRomanNumerals = true;
+    @Switch(
+        name = "Disable Hotbar Scrolling",
+        description = "Remove the ability to scroll through your hotbar.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean disableHotbarScrolling;
+    @Switch(
+        name = "Invert Hotbar Scrolling",
+        description = "Change the direction of scrolling in your hotbar.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean invertHotbarScrolling;
+    @Switch(
+        name = "Prevent Overflow Hotbar Scrolling",
+        description = "Prevent from directly scrolling between the first and last hotbar slot.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean preventOverflowHotbarScrolling;
+
 
 
     public static boolean labyModMoment = true;
@@ -1947,6 +1940,9 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("hideFireOverlayWithFireResistance", "OverlayTweaks");
         deprecateFunc.apply("numericalEnchants", "NumericalEnchantments");
         deprecateFunc.apply("betterRomanNumerals", "NumericalEnchantments");
+        deprecateFunc.apply("disableHotbarScrolling", "ScrollTweaks");
+        deprecateFunc.apply("invertHotbarScrolling", "ScrollTweaks");
+        deprecateFunc.apply("preventOverflowHotbarScrolling", "ScrollTweaks");
         //</editor-fold>
 
         try {
