@@ -338,20 +338,6 @@ public class PatcherConfig extends Config {
     public static boolean useVanillaMetricsRenderer = true;
 
     @Switch(
-        name = "Numerical Enchantments",
-        description = "Use readable numbers instead of Roman numerals on enchants.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean numericalEnchants;
-
-    @Switch(
-        name = "Translate Unknown Roman Numerals",
-        description = "Generate Roman numeral from enchantment and potion levels instead of using language file.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean betterRomanNumerals = true;
-
-    @Switch(
         name = "Windowed Fullscreen",
         description = "Implement Windowed Fullscreen in Minecraft, allowing you to drag your mouse outside the window.",
         category = "Miscellaneous", subcategory = "Window"
@@ -1738,33 +1724,33 @@ public class PatcherConfig extends Config {
     @Slider(
         name = "Water Fog Density (%)",
         description = "Changes the fog density in water to improve visibility.",
-        category = "Miscellaneous", subcategory = "Fog",
+        category = "Deprecated", subcategory = "Fog",
         min = 0, max = 100
     )
     public static int waterDensity = 100;
     @Switch(
         name = "Render Hand While Zoomed",
         description = "Keep your hand on screen when you zoom in.",
-        category = "Miscellaneous", subcategory = "OptiFine"
+        category = "Deprecated", subcategory = "OptiFine"
     )
     public static boolean renderHandWhenZoomed;
     @Switch(
         name = "Remove Water Overlay",
         description = "Remove the water texture overlay when underwater.",
-        category = "Miscellaneous", subcategory = "Overlays"
+        category = "Deprecated", subcategory = "Overlays"
     )
     public static boolean removeWaterOverlay;
     @Slider(
         name = "Fire Overlay Height",
         description = "Change the height of the fire overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
+        category = "Deprecated", subcategory = "Overlays",
         min = -0.5F, max = 1.5F
     )
     public static float fireOverlayHeight;
     @Slider(
         name = "Fire Overlay Opacity (%)",
         description = "Change the opacity of the fire overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
+        category = "Deprecated", subcategory = "Overlays",
         min = 0, max = 100
     )
     public static int fireOverlayOpacityI = 100;
@@ -1772,9 +1758,21 @@ public class PatcherConfig extends Config {
         name = "Hide Fire Overlay with Fire Resistance",
         description = "Hide the fire overlay when you have fire resistance active.\n" +
             "The overlay will blink 5 seconds before your fire resistance is about to run out.",
-        category = "Miscellaneous", subcategory = "Overlays"
+        category = "Deprecated", subcategory = "Overlays"
     )
     public static boolean hideFireOverlayWithFireResistance;
+    @Switch(
+        name = "Numerical Enchantments",
+        description = "Use readable numbers instead of Roman numerals on enchants.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean numericalEnchants;
+    @Switch(
+        name = "Translate Unknown Roman Numerals",
+        description = "Generate Roman numeral from enchantment and potion levels instead of using language file.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean betterRomanNumerals = true;
 
 
     public static boolean labyModMoment = true;
@@ -1947,6 +1945,8 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("fireOverlayHeight", "OverlayTweaks");
         deprecateFunc.apply("fireOverlayOpacityI", "OverlayTweaks");
         deprecateFunc.apply("hideFireOverlayWithFireResistance", "OverlayTweaks");
+        deprecateFunc.apply("numericalEnchants", "NumericalEnchantments");
+        deprecateFunc.apply("betterRomanNumerals", "NumericalEnchantments");
         //</editor-fold>
 
         try {
