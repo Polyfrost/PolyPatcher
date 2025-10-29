@@ -48,57 +48,6 @@ public class PatcherCommand {
         mc.gameSettings.saveOptions();
     }
 
-    @SubCommand(aliases = {"invscale", "inventoryscale"}, description = "Change the scale of your inventory independent of your GUI scale.")
-    public void scale(@Description(autoCompletesTo = {"help", "off", "none", "small", "normal", "large", "auto", "0", "1", "2", "3", "4", "5"}) String argument) {
-        if (argument.equalsIgnoreCase("help")) {
-            ChatUtilities.sendMessage("             &eInventory Scale", false);
-            ChatUtilities.sendMessage("&7Usage: /inventoryscale <scaling>", false);
-            ChatUtilities.sendMessage("&7Scaling may be a number between 1-5, or", false);
-            ChatUtilities.sendMessage("&7small/normal/large/auto", false);
-            ChatUtilities.sendMessage("&7Use '/inventoryscale off' to disable scaling.", false);
-            return;
-        }
-
-        if (argument.equalsIgnoreCase("off") || argument.equalsIgnoreCase("none")) {
-            ChatUtilities.sendNotification("Inventory Scale", "Disabled inventory scaling.");
-            PatcherConfig.inventoryScale = 0;
-            Patcher.instance.forceSaveConfig();
-            return;
-        }
-
-        int scaling;
-        if (argument.equalsIgnoreCase("small")) {
-            scaling = 1;
-        } else if (argument.equalsIgnoreCase("normal")) {
-            scaling = 2;
-        } else if (argument.equalsIgnoreCase("large")) {
-            scaling = 3;
-        } else if (argument.equalsIgnoreCase("auto")) {
-            scaling = 5;
-        } else {
-            try {
-                scaling = Integer.parseInt(argument);
-            } catch (Exception e) {
-                ChatUtilities.sendNotification("Inventory Scale", "Invalid scaling identifier. Use '/patcher scale help' for assistance.");
-                return;
-            }
-        }
-
-        if (scaling < 1) {
-            ChatUtilities.sendNotification("Inventory Scale", "Disabled inventory scaling.");
-            PatcherConfig.inventoryScale = 0;
-            Patcher.instance.forceSaveConfig();
-            return;
-        } else if (scaling > 5) {
-            ChatUtilities.sendNotification("Inventory Scale", "Invalid scaling. Must be between 1-5.");
-            return;
-        }
-
-        ChatUtilities.sendNotification("Inventory Scale", "Set inventory scaling to " + scaling);
-        PatcherConfig.inventoryScale = scaling;
-        Patcher.instance.forceSaveConfig();
-    }
-
     @SubCommand(description = "Send your current coordinates in chat. Anything after 'sendcoords' will be put at the end of the message.")
     public void sendcoords(@Description("additional information") @Greedy @Nullable String message) {
         EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;

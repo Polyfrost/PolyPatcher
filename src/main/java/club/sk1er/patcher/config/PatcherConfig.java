@@ -748,49 +748,6 @@ public class PatcherConfig extends Config {
 
     // SCREENS
 
-    @Switch(
-        name = "Fixed Inventory Position",
-        description = "Stop potion effects from shifting your inventory to the right.",
-        category = "Screens", subcategory = "Inventory"
-    )
-    @VigilanceName(name = "Inventory Position", category = "Screens", subcategory = "Inventory")
-    public static boolean inventoryPosition = true;
-
-    @Switch(
-        name = "Click Out of Containers",
-        description = "Click outside a container to close the menu.",
-        category = "Screens", subcategory = "Inventory"
-    )
-    public static boolean clickOutOfContainers;
-
-    @Dropdown(
-        name = "Inventory Scale",
-        description = "Change the scale of your inventory independent of your GUI scale.",
-        category = "Screens", subcategory = "Inventory",
-        options = {"Off", "1 (Small)", "2 (Normal)", "3 (Large)", "4", "5 (Auto)"}
-    )
-    public static int inventoryScale = 0;
-
-    public static int getInventoryScale() {
-        return inventoryScale == 0 ? -1 : inventoryScale;
-    }
-
-    @Slider(
-        name = "Container Background Opacity (%)",
-        description = "Change the opacity of the dark background inside a container, or remove it completely. By default, this is 81.5%.",
-        category = "Screens", subcategory = "General",
-        min = 0F, max = 100F
-    )
-    public static float containerBackgroundOpacity = (208/255F) * 100F;
-
-    @Slider(
-        name = "Container Opacity (%)",
-        description = "Change the opacity of supported containers.\nIncludes Chests & Survival Inventory.",
-        category = "Screens", subcategory = "General",
-        min = 0F, max = 100F
-    )
-    public static float containerOpacity = 100F;
-
     @Info(
         text = "Supported servers for 1.11 chat length are servers that support 1.11 or above.",
         category = "Screens", subcategory = "Chat",
@@ -1758,10 +1715,44 @@ public class PatcherConfig extends Config {
     @Slider(
         name = "Ridden Horse Opacity (%)",
         description = "Change the opacity of the horse you're currently riding for visibility.",
-        category = "Miscellaneous", subcategory = "Rendering",
+        category = "Deprecated", subcategory = "Rendering",
         min = 0F, max = 100
     )
     public static int riddenHorseOpacityI = 100;
+    @Switch(
+        name = "Fixed Inventory Position",
+        description = "Stop potion effects from shifting your inventory to the right.",
+        category = "Deprecated", subcategory = "Inventory"
+    )
+    @VigilanceName(name = "Inventory Position", category = "Screens", subcategory = "Inventory")
+    public static boolean inventoryPosition = true;
+    @Switch(
+        name = "Click Out of Containers",
+        description = "Click outside a container to close the menu.",
+        category = "Deprecated", subcategory = "Inventory"
+    )
+    public static boolean clickOutOfContainers;
+    @Dropdown(
+        name = "Inventory Scale",
+        description = "Change the scale of your inventory independent of your GUI scale.",
+        category = "Deprecated", subcategory = "Inventory",
+        options = {"Off", "1 (Small)", "2 (Normal)", "3 (Large)", "4", "5 (Auto)"}
+    )
+    public static int inventoryScale = 0;
+    @Slider(
+        name = "Container Background Opacity (%)",
+        description = "Change the opacity of the dark background inside a container, or remove it completely. By default, this is 81.5%.",
+        category = "Deprecated", subcategory = "General",
+        min = 0F, max = 100F
+    )
+    public static float containerBackgroundOpacity = (208 / 255F) * 100F;
+    @Slider(
+        name = "Container Opacity (%)",
+        description = "Change the opacity of supported containers.\nIncludes Chests & Survival Inventory.",
+        category = "Deprecated", subcategory = "General",
+        min = 0F, max = 100F
+    )
+    public static float containerOpacity = 100F;
 
 
 
@@ -1773,22 +1764,6 @@ public class PatcherConfig extends Config {
     public PatcherConfig() {
         super(new Mod("PolyPatcher", ModType.UTIL_QOL, "/patcher.svg", new VigilanceMigrator("./config/patcher.toml")), "patcher.json");
         initialize();
-
-        boolean modified = false;
-
-        if (removeContainerBackgroundOld) {
-            containerBackgroundOpacity = 0F;
-            modified = true;
-        }
-
-        if (modified) {
-            try {
-                FileUtils.writeStringToFile(ConfigUtils.getProfileFile("patcher-not-migrated.json"), FileUtils.readFileToString(ConfigUtils.getProfileFile("patcher.json"), StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                Patcher.instance.getLogger().error("Failed to copy over Patcher config before migration.", e);
-            }
-            save();
-        }
 
         Runnable reloadWorld = () -> Minecraft.getMinecraft().renderGlobal.loadRenderers();
         addListener("fullbright", reloadWorld);
@@ -1943,6 +1918,11 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("staticItems", "DroppedItemTweaks");
         deprecateFunc.apply("unstackedItems", "DroppedItemTweaks");
         deprecateFunc.apply("riddenHorseOpacityI", "MountOpacity");
+        deprecateFunc.apply("inventoryPosition", "BetterScreens");
+        deprecateFunc.apply("clickOutOfContainers", "BetterScreens");
+        deprecateFunc.apply("inventoryScale", "BetterScreens");
+        deprecateFunc.apply("containerBackgroundOpacity", "BetterScreens");
+        deprecateFunc.apply("containerOpacity", "BetterScreens");
         //</editor-fold>
 
         try {
