@@ -317,13 +317,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean instantFullscreen;
 
-    @Switch(
-        name = "Disable Lightning Bolts",
-        description = "Stop lightning bolts from appearing.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean disableLightningBolts;
-
     @Info(
         text = "Files deleted by Log Optimizer are not recoverable.",
         category = "Miscellaneous", subcategory = "General",
@@ -1753,6 +1746,12 @@ public class PatcherConfig extends Config {
         min = 0F, max = 100F
     )
     public static float containerOpacity = 100F;
+    @Switch(
+        name = "Disable Lightning Bolts",
+        description = "Stop lightning bolts from appearing.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean disableLightningBolts;
 
 
 
@@ -1923,6 +1922,7 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("inventoryScale", "BetterScreens");
         deprecateFunc.apply("containerBackgroundOpacity", "BetterScreens");
         deprecateFunc.apply("containerOpacity", "BetterScreens");
+        deprecateFunc.apply("disableLightningBolts", "RenderTweaks");
         //</editor-fold>
 
         try {
