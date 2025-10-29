@@ -426,13 +426,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean betterHideGui;
 
-    @Switch(
-        name = "Static Items",
-        description = "Stop items from bobbing up and down when dropped on the ground.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean staticItems;
-
     @Button(
         name = "Modify Every Sound",
         text = "Modify",
@@ -600,13 +593,6 @@ public class PatcherConfig extends Config {
         category = "Performance", subcategory = "General"
     )
     public static boolean disableEndPortals;
-
-    @Switch(
-        name = "Unstacked Items",
-        description = "Render stacks of items on the ground as just one instead of having up to 5 copies in one stack.",
-        category = "Performance", subcategory = "Entity Rendering"
-    )
-    public static boolean unstackedItems;
 
     @Info(
         text = "Due to the way OptiFine shaders work, we are unable to make Entity Culling compatible with them.",
@@ -1765,6 +1751,18 @@ public class PatcherConfig extends Config {
         category = "Deprecated", subcategory = "General"
     )
     public static boolean preventOverflowHotbarScrolling;
+    @Switch(
+        name = "Static Items",
+        description = "Stop items from bobbing up and down when dropped on the ground.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean staticItems;
+    @Switch(
+        name = "Unstacked Items",
+        description = "Render stacks of items on the ground as just one instead of having up to 5 copies in one stack.",
+        category = "Deprecated", subcategory = "Entity Rendering"
+    )
+    public static boolean unstackedItems;
 
 
 
@@ -1943,6 +1941,8 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("disableHotbarScrolling", "ScrollTweaks");
         deprecateFunc.apply("invertHotbarScrolling", "ScrollTweaks");
         deprecateFunc.apply("preventOverflowHotbarScrolling", "ScrollTweaks");
+        deprecateFunc.apply("staticItems", "DroppedItemTweaks");
+        deprecateFunc.apply("unstackedItems", "DroppedItemTweaks");
         //</editor-fold>
 
         try {
