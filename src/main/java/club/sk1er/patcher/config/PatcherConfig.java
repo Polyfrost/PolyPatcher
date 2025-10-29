@@ -411,16 +411,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean betterHideGui;
 
-    @Button(
-        name = "Modify Every Sound",
-        text = "Modify",
-        description = "Open a separate GUI allowing you to mute or amplify individual sounds.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    private void modifyEverySound() {
-        Patcher.instance.getPatcherSoundConfig().openGui();
-    }
-
     @Switch(
         name = "Natural Capes",
         description = "Changes some physics in capes to fix rotation bugs and look more natural.",
@@ -1753,6 +1743,15 @@ public class PatcherConfig extends Config {
     )
     public static boolean disableLightningBolts;
 
+    @Button(
+        name = "Modify Every Sound",
+        text = "Modify",
+        description = "Open a separate GUI allowing you to mute or amplify individual sounds.",
+        category = "Deprecated", subcategory = "General"
+    )
+    private void modifyEverySound() {
+    }
+
 
 
     public static boolean labyModMoment = true;
@@ -1923,6 +1922,7 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("containerBackgroundOpacity", "BetterScreens");
         deprecateFunc.apply("containerOpacity", "BetterScreens");
         deprecateFunc.apply("disableLightningBolts", "RenderTweaks");
+        deprecateFunc.apply("modifyEverySound", "SoundTweaks");
         //</editor-fold>
 
         try {
