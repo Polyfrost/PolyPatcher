@@ -224,14 +224,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean removeGroundFoliage;
 
-    @Slider(
-        name = "Ridden Horse Opacity (%)",
-        description = "Change the opacity of the horse you're currently riding for visibility.",
-        category = "Miscellaneous", subcategory = "Rendering",
-        min = 0F, max = 100
-    )
-    public static int riddenHorseOpacityI = 100;
-
     @Switch(
         name = "Hide Aura on Invisible Withers",
         description = "Don't render the aura around a wither when it is invisible.",
@@ -1763,6 +1755,13 @@ public class PatcherConfig extends Config {
         category = "Deprecated", subcategory = "Entity Rendering"
     )
     public static boolean unstackedItems;
+    @Slider(
+        name = "Ridden Horse Opacity (%)",
+        description = "Change the opacity of the horse you're currently riding for visibility.",
+        category = "Miscellaneous", subcategory = "Rendering",
+        min = 0F, max = 100
+    )
+    public static int riddenHorseOpacityI = 100;
 
 
 
@@ -1943,6 +1942,7 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("preventOverflowHotbarScrolling", "ScrollTweaks");
         deprecateFunc.apply("staticItems", "DroppedItemTweaks");
         deprecateFunc.apply("unstackedItems", "DroppedItemTweaks");
+        deprecateFunc.apply("riddenHorseOpacityI", "MountOpacity");
         //</editor-fold>
 
         try {
