@@ -203,30 +203,6 @@ public class PatcherConfig extends Config {
     public static boolean disableAchievements;
 
     @Slider(
-        name = "Fire Overlay Height",
-        description = "Change the height of the fire overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
-        min = -0.5F, max = 1.5F
-    )
-    public static float fireOverlayHeight;
-
-    @Slider(
-        name = "Fire Overlay Opacity (%)",
-        description = "Change the opacity of the fire overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
-        min = 0, max = 100
-    )
-    public static int fireOverlayOpacityI = 100;
-
-    @Switch(
-        name = "Hide Fire Overlay with Fire Resistance",
-        description = "Hide the fire overlay when you have fire resistance active.\n" +
-            "The overlay will blink 5 seconds before your fire resistance is about to run out.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean hideFireOverlayWithFireResistance;
-
-    @Slider(
         name = "Pumpkin Overlay Opacity (%)",
         description = "Change the opacity of the pumpkin overlay.",
         category = "Miscellaneous", subcategory = "Overlays",
@@ -282,14 +258,6 @@ public class PatcherConfig extends Config {
     )
     public static int riddenHorseOpacityI = 100;
 
-    @Slider(
-        name = "Water Fog Density (%)",
-        description = "Changes the fog density in water to improve visibility.",
-        category = "Miscellaneous", subcategory = "Fog",
-        min = 0, max = 100
-    )
-    public static int waterDensity = 100;
-
     @Switch(
         name = "Hide Aura on Invisible Withers",
         description = "Don't render the aura around a wither when it is invisible.",
@@ -310,13 +278,6 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "OptiFine"
     )
     public static boolean normalZoomSensitivity;
-
-    @Switch(
-        name = "Render Hand While Zoomed",
-        description = "Keep your hand on screen when you zoom in.",
-        category = "Miscellaneous", subcategory = "OptiFine"
-    )
-    public static boolean renderHandWhenZoomed;
 
     @Slider(
         name = "Zoom Sensitivity",
@@ -403,13 +364,6 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "Window"
     )
     public static boolean instantFullscreen;
-
-    @Switch(
-        name = "Remove Water Overlay",
-        description = "Remove the water texture overlay when underwater.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean removeWaterOverlay;
 
     @Switch(
         name = "Disable Lightning Bolts",
@@ -1781,6 +1735,46 @@ public class PatcherConfig extends Config {
         category = "Deprecated", subcategory = "General"
     )
     public static boolean mapBobbing;
+    @Slider(
+        name = "Water Fog Density (%)",
+        description = "Changes the fog density in water to improve visibility.",
+        category = "Miscellaneous", subcategory = "Fog",
+        min = 0, max = 100
+    )
+    public static int waterDensity = 100;
+    @Switch(
+        name = "Render Hand While Zoomed",
+        description = "Keep your hand on screen when you zoom in.",
+        category = "Miscellaneous", subcategory = "OptiFine"
+    )
+    public static boolean renderHandWhenZoomed;
+    @Switch(
+        name = "Remove Water Overlay",
+        description = "Remove the water texture overlay when underwater.",
+        category = "Miscellaneous", subcategory = "Overlays"
+    )
+    public static boolean removeWaterOverlay;
+    @Slider(
+        name = "Fire Overlay Height",
+        description = "Change the height of the fire overlay.",
+        category = "Miscellaneous", subcategory = "Overlays",
+        min = -0.5F, max = 1.5F
+    )
+    public static float fireOverlayHeight;
+    @Slider(
+        name = "Fire Overlay Opacity (%)",
+        description = "Change the opacity of the fire overlay.",
+        category = "Miscellaneous", subcategory = "Overlays",
+        min = 0, max = 100
+    )
+    public static int fireOverlayOpacityI = 100;
+    @Switch(
+        name = "Hide Fire Overlay with Fire Resistance",
+        description = "Hide the fire overlay when you have fire resistance active.\n" +
+            "The overlay will blink 5 seconds before your fire resistance is about to run out.",
+        category = "Miscellaneous", subcategory = "Overlays"
+    )
+    public static boolean hideFireOverlayWithFireResistance;
 
 
     public static boolean labyModMoment = true;
@@ -1796,12 +1790,6 @@ public class PatcherConfig extends Config {
 
         if (removeContainerBackgroundOld) {
             containerBackgroundOpacity = 0F;
-            modified = true;
-        }
-
-        if (fireOverlayOpacityOld != 1) {
-            fireOverlayOpacityI = (int) (fireOverlayOpacityOld * 100);
-            riddenHorseOpacityI = (int) (riddenHorseOpacityOld * 100);
             modified = true;
         }
 
@@ -1953,6 +1941,12 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("distortionEffect", "LegacyTweaks");
         deprecateFunc.apply("removeViewBobbing", "ShakeTweaks");
         deprecateFunc.apply("mapBobbing", "ShakeTweaks");
+        deprecateFunc.apply("waterDensity", "OverlayTweaks");
+        deprecateFunc.apply("renderHandWhenZoomed", "OverlayTweaks");
+        deprecateFunc.apply("removeWaterOverlay", "OverlayTweaks");
+        deprecateFunc.apply("fireOverlayHeight", "OverlayTweaks");
+        deprecateFunc.apply("fireOverlayOpacityI", "OverlayTweaks");
+        deprecateFunc.apply("hideFireOverlayWithFireResistance", "OverlayTweaks");
         //</editor-fold>
 
         try {
