@@ -6,6 +6,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(EntityArrow.class)
 public interface EntityArrowAccessor {
-    @Accessor("inGround")
+    @Accessor
     boolean getInGround();
 }
