@@ -31,10 +31,10 @@ public class TileEntityBannerRendererMixin_ChestDisplay {
         if (texture.isEmpty()) {
             return null;
         } else {
-            TileEntityBannerRenderer.TimedBannerTexture timedTexture = DESIGNS.get(texture);
+            TileEntityBannerRenderer.TimedBannerTexture timedTexture = this.DESIGNS.get(texture);
             if (timedTexture == null) {
-                if (DESIGNS.size() >= 256 && !this.patcher$freeCacheSlot()) {
-                    return BANNERTEXTURES;
+                if (this.DESIGNS.size() >= 256 && !this.patcher$freeCacheSlot()) {
+                    return this.BANNERTEXTURES;
                 }
 
                 List<TileEntityBanner.EnumBannerPattern> patternList = banner.getPatternList();
@@ -47,8 +47,8 @@ public class TileEntityBannerRendererMixin_ChestDisplay {
 
                 timedTexture = new TileEntityBannerRenderer.TimedBannerTexture();
                 timedTexture.bannerTexture = new ResourceLocation(texture);
-                Minecraft.getMinecraft().getTextureManager().loadTexture(timedTexture.bannerTexture, new LayeredColorMaskTexture(BANNERTEXTURES, patternPath, colorList));
-                DESIGNS.put(texture, timedTexture);
+                Minecraft.getMinecraft().getTextureManager().loadTexture(timedTexture.bannerTexture, new LayeredColorMaskTexture(this.BANNERTEXTURES, patternPath, colorList));
+                this.DESIGNS.put(texture, timedTexture);
             }
 
             timedTexture.systemTime = System.currentTimeMillis();
@@ -59,11 +59,11 @@ public class TileEntityBannerRendererMixin_ChestDisplay {
     @Unique
     private boolean patcher$freeCacheSlot() {
         long start = System.currentTimeMillis();
-        Iterator<String> iterator = DESIGNS.keySet().iterator();
+        Iterator<String> iterator = this.DESIGNS.keySet().iterator();
 
         while (iterator.hasNext()) {
             String next = iterator.next();
-            TileEntityBannerRenderer.TimedBannerTexture timedTexture = DESIGNS.get(next);
+            TileEntityBannerRenderer.TimedBannerTexture timedTexture = this.DESIGNS.get(next);
 
             if ((start - timedTexture.systemTime) > 5000L) {
                 Minecraft.getMinecraft().getTextureManager().deleteTexture(timedTexture.bannerTexture);
@@ -72,7 +72,7 @@ public class TileEntityBannerRendererMixin_ChestDisplay {
             }
         }
 
-        return DESIGNS.size() < 256;
+        return this.DESIGNS.size() < 256;
     }
     //#endif
 }

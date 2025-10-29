@@ -25,7 +25,7 @@ public abstract class GuiMultiplayerMixin_FastServerJoin {
                 int index = eventKey - Keyboard.KEY_1;
                 // if index is too high this would normally cause a crash, but ServerSelectionListMixin_ResolveCrash
                 // prevents this, and this is more convenient, so we'll just do it like this
-                GuiListExtended.IGuiListEntry entry = serverListSelector.getListEntry(index);
+                GuiListExtended.IGuiListEntry entry = this.serverListSelector.getListEntry(index);
                 if (entry instanceof ServerListEntryLanScan) return;
 
                 selectServer(index);

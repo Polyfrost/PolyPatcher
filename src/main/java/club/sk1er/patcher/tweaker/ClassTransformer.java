@@ -1,8 +1,15 @@
 package club.sk1er.patcher.tweaker;
 
-//#if MC==10809
+//#if FORGE
+import dev.deftu.omnicore.client.OmniDesktop;
+import net.minecraft.launchwrapper.IClassTransformer;
+import net.minecraft.launchwrapper.Launch;
+//#endif
+
+//#if MC == 1.8.9
 import club.sk1er.patcher.asm.external.forge.ForgeChunkManagerTransformer;
 //#endif
+
 import club.sk1er.patcher.asm.external.forge.ModelLoaderTransformer;
 import club.sk1er.patcher.asm.external.forge.loader.*;
 import club.sk1er.patcher.asm.external.forge.render.ForgeHooksClientTransformer;
@@ -38,9 +45,6 @@ import club.sk1er.patcher.tweaker.transform.PatcherTransformer;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
-import cc.polyfrost.oneconfig.libs.universal.UDesktop;
-import net.minecraft.launchwrapper.IClassTransformer;
-import net.minecraft.launchwrapper.Launch;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,7 +71,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ClassTransformer implements IClassTransformer {
+public class ClassTransformer
+    implements
+    //#if FORGE
+    IClassTransformer,
+    //#endif
+    club.sk1er.patcher.tweaker.transform.IClassTransformer
+{
 
     public static final boolean outputBytecode = "true".equals(System.getProperty("patcher.debugBytecode", "false"));
     public static String optifineVersion = "NONE";
@@ -111,7 +121,7 @@ public class ClassTransformer implements IClassTransformer {
         } catch (IOException ignored) {
         }
 
-        //#if MC==10809
+        //#if MC == 1.8.9
         registerTransformer(new GuiNewChatTransformer());
         registerTransformer(new S0EPacketSpawnObjectTransformer());
         //#endif
@@ -135,7 +145,7 @@ public class ClassTransformer implements IClassTransformer {
         if (isDevelopment()) registerTransformer(new InventoryEffectRendererTransformer());
 
         // forge classes
-        //#if MC==10809
+        //#if MC == 1.8.9 && FORGE
         registerTransformer(new ForgeHooksClientTransformer());
         registerTransformer(new GuiModListTransformer());
         registerTransformer(new ModClassLoaderTransformer());
@@ -213,10 +223,12 @@ public class ClassTransformer implements IClassTransformer {
         }
     }
 
+    //#if FORGE
     @Override
     public byte[] transform(String name, String transformedName, byte[] bytes) {
         return createTransformer(transformedName, bytes, transformerMap, logger);
     }
+    //#endif
 
     private void haltForOptiFine(String message) {
         try {
@@ -236,7 +248,7 @@ public class ClassTransformer implements IClassTransformer {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    UDesktop.browse(new URI("https://optifine.net/downloads/"));
+                    OmniDesktop.browse(new URI("https://optifine.net/downloads/"));
                 } catch (Exception ex) {
                     JLabel label = new JLabel();
                     label.setText("Failed to open OptiFine website.");
@@ -250,13 +262,13 @@ public class ClassTransformer implements IClassTransformer {
         close.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                PatcherTweaker.invokeExit();
+                TweakerHooks.invokeExit();
             }
         });
 
         Object[] options = {openOptifine, close};
         JOptionPane.showOptionDialog(frame, message, "Launch Aborted", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
-        PatcherTweaker.invokeExit();
+        TweakerHooks.invokeExit();
     }
 
     private void fetchSupportedOptiFineVersions() {
@@ -319,7 +331,16 @@ public class ClassTransformer implements IClassTransformer {
     }
 
     public static boolean isDevelopment() {
+        //#if FORGE
         Object o = Launch.blackboard.get("fml.deobfuscatedEnvironment");
         return o != null && (boolean) o;
+        //#else
+        //$$ return net.fabricmc.loader.api.FabricLoader.getInstance().isDevelopmentEnvironment();
+        //#endif
+    }
+
+    @Override
+    public Multimap<String, PatcherTransformer> getTransformerMap() {
+        return transformerMap;
     }
 }

@@ -1,10 +1,10 @@
 [
   {
-    "modid": "${id}",
-    "name": "${name}",
+    "modid": "${mod_id}",
+    "name": "${mod_name}",
     "description": "A Forge mod full of Vanilla bug fixes, Quality of Life improvements, and performance enhancements.",
-    "version": "${version}",
-    "mcversion": "${mcVersionStr}",
+    "version": "${mod_version}",
+    "mcversion": "${mc_version}",
     "url": "https://modrinth.com/mod/patcher",
     "updateUrl": "",
     "authorList": [

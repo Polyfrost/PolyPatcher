@@ -17,7 +17,7 @@ public class EntityRendererMixin_AdjustEyeHeightLighting {
 
     @ModifyArg(method = "updateRenderer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;getLightBrightness(Lnet/minecraft/util/BlockPos;)F"))
     private BlockPos patcher$accountForEyes(BlockPos par1) {
-        return new BlockPos(mc.getRenderViewEntity().getPositionEyes(1.0F));
+        return new BlockPos(this.mc.getRenderViewEntity().getPositionEyes(1.0F));
     }
     //#endif
 

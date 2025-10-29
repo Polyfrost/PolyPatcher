@@ -11,7 +11,7 @@ public abstract class GuiVideoSettingsMixin_MipmapSlider extends GuiScreen {
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
-        ((GameSettingsExt) mc.gameSettings).patcher$onSettingsGuiClosed();
+        ((GameSettingsExt) this.mc.gameSettings).patcher$onSettingsGuiClosed();
     }
     //#endif
 }

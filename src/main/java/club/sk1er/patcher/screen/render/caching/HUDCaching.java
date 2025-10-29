@@ -5,6 +5,8 @@ import club.sk1er.patcher.mixins.accessors.GuiIngameAccessor;
 import club.sk1er.patcher.mixins.accessors.GuiIngameForgeAccessor;
 import club.sk1er.patcher.tweaker.ClassTransformer;
 import club.sk1er.patcher.util.chat.ChatUtilities;
+import dev.deftu.textile.minecraft.MCSimpleTextHolder;
+import dev.deftu.textile.minecraft.MCTextFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
@@ -62,7 +64,7 @@ public class HUDCaching {
                 if (!OpenGlHelper.isFramebufferEnabled()) {
                     String statement = (!ClassTransformer.optifineVersion.equals("NONE") ?
                         "\n&cTry to disable OptiFine's Fast Render/Anti-aliasing option." : "") + "\n&7Are Framebuffers supported?: &e&l" + OpenGlHelper.framebufferSupported;
-                    ChatUtilities.sendMessage("&cFramebuffers appear to be disabled, automatically disabling HUDCaching." + statement);
+                    ChatUtilities.sendMessage(new MCSimpleTextHolder("Framebuffers appear to be disabled, automatically disabling HUDCaching." + statement).withFormatting(MCTextFormat.RED));
                     PatcherConfig.hudCaching = false;
                 } else {
                     if (lastHotbar != mc.thePlayer.inventory.currentItem) {

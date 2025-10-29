@@ -2,9 +2,9 @@ package club.sk1er.patcher.asm.external.mods.optifine;
 
 import club.sk1er.patcher.tweaker.ClassTransformer;
 import club.sk1er.patcher.tweaker.transform.PatcherTransformer;
-import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
+import org.polyfrost.oneconfig.api.platform.v1.DeobfuscationRemapper;
 
 import java.util.ListIterator;
 
@@ -59,7 +59,7 @@ public class EntityRendererTransformer implements PatcherTransformer {
                         switch (ClassTransformer.optifineVersion) {
                             case "I7": {
                                 if (next instanceof TypeInsnNode) {
-                                    if (FMLDeobfuscatingRemapper.INSTANCE.map(((TypeInsnNode) next).desc).equals("net/minecraft/client/renderer/culling/Frustum")) {
+                                    if (DeobfuscationRemapper.INSTANCE.map(((TypeInsnNode) next).desc).equals("net/minecraft/client/renderer/culling/Frustum")) {
                                         while (true) {
                                             final AbstractInsnNode insn = iterator.next();
                                             if (insn instanceof VarInsnNode) {

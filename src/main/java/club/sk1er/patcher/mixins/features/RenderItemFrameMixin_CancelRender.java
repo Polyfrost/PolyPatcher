@@ -1,7 +1,6 @@
 package club.sk1er.patcher.mixins.features;
 
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.util.world.render.culling.EntityCulling;
 import net.minecraft.client.renderer.tileentity.RenderItemFrame;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.init.Items;
@@ -29,10 +28,6 @@ public class RenderItemFrameMixin_CancelRender {
                     ci.cancel();
                 }
             }
-        }
-
-        if (EntityCulling.renderItem(entity)) {
-            ci.cancel();
         }
     }
 }

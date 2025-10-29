@@ -8,6 +8,6 @@ import org.spongepowered.asm.mixin.Mixin;
 public class GuiOptionsMixin_SaveSettings extends GuiScreen {
     @Override
     public void onGuiClosed() {
-        mc.gameSettings.saveOptions();
+        this.mc.gameSettings.saveOptions();
     }
 }

@@ -1,0 +1,15 @@
+accessWidener v2 named
+
+# GlStateManager
+accessible class com/mojang/blaze3d/platform/GlStateManager$Color4
+accessible class com/mojang/blaze3d/platform/GlStateManager$Texture2DState
+
+# ResourcePackRepository
+accessible method net/minecraft/client/resource/ResourcePackLoader$Entry <init> (Lnet/minecraft/client/resource/ResourcePackLoader;Ljava/io/File;)V
+
+# TileEntityBannerRenderer TODO
+accessible class net/minecraft/client/render/block/entity/BannerBlockEntityRenderer
+accessible method net/minecraft/client/render/block/entity/BannerBlockEntityRenderer$TextureIdHolder <init> ()V
+
+# BlockRedstoneTorch
+accessible class net/minecraft/block/RedstoneTorchBlock$TurnOffEntry

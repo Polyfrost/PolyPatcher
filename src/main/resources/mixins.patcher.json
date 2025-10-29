@@ -127,6 +127,7 @@
     "bugfixes.render.item.ItemStackMixin_HexColorTooltip",
     "bugfixes.render.item.RenderItemMixin_CullFace",
     "bugfixes.render.item.RenderItemMixin_FixGlint",
+    "features.AbstractClientPlayerMixin_FovModifier",
     "features.AbstractResourcePackMixin_DownscaleImages",
     "features.ArmorStandRendererMixin_HideNametag",
     "features.BlockRendererDispatcherMixin_RemoveFoliage",
@@ -136,6 +137,7 @@
     "features.EntityPlayerMixin_NaturalCapes",
     "features.EntityPlayerSPMixin_NauseaEffect",
     "features.EntityRendererMixin_CameraPerspective",
+    "features.EntityRendererMixin_FovModifier",
     "features.EntityRendererMixin_NightVisionEffect",
     "features.EntityRendererMixin_ParallaxFix",
     "features.FontRenderMixin_ShadowTypes",
@@ -202,7 +204,6 @@
     "performance.EntityOtherPlayerMPMixin_UselessAnimations",
     "performance.EntityPlayerMixin_DisplayNames",
     "performance.EntityRendererMixin_CancelLightmapBuild",
-    "performance.EntityRendererMixin_EntityCulling",
     "performance.EntityRendererMixin_SkipTwitchRendering",
     "performance.EnumFacingMixin_ReduceAllocations",
     "performance.FontRendererMixin_Optimization",
@@ -220,14 +221,12 @@
     "performance.NetHandlerPlayClientMixin_InstantDimensionSwapping",
     "performance.NodeProcessorMixin_MemoryLeak",
     "performance.RenderChunkMixin_OptimizeSpecialTileEntities",
-    "performance.RenderEntityItemMixin_EntityCulling",
     "performance.RenderGlobalMixin_LimitVisGraphScan",
     "performance.ResourceLocation_Deduplicate",
     "performance.ResourcePackRepositoryMixin_FasterSearching",
     "performance.SimpleReloadableResourceManager_OnlyRefreshNecessaryListeners",
     "performance.TexturedQuadMixin_BatchDraw",
     "performance.TextureManagerMixin_MemoryLeak",
-    "performance.TileEntityMobSpawnerRendererMixin_EntityCulling",
     "performance.TileEntityRendererDispatcherMixin_BatchDraw",
     "performance.TileEntityRendererDispatcherMixin_RemoveInvalidEntities",
     "performance.VisGraphMixin_LimitScan",
@@ -267,5 +266,8 @@
     "performance.network.packet.S3FPacketCustomPayloadMixin_MemoryLeak",
     "performance.optifine.MathHelperMixin_OFFastMath",
     "performance.render.item.ItemStackMixin_CacheDisplayName"
+  ],
+  "mixins": [
+    "bugfixes.MavenUpdateChecker_Lol"
   ]
 }

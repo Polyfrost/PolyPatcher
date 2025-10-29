@@ -37,7 +37,7 @@ public class RenderManagerMixin_PerspectiveViewFix {
     )
 
     private void patcher$addCorrectView(World worldIn, FontRenderer textRendererIn, Entity livingPlayerIn, Entity pointedEntityIn, GameSettings optionsIn, float partialTicks, CallbackInfo ci) {
-        playerViewX = -playerViewX;
+        this.playerViewX = -this.playerViewX;
     }
     //#endif
 

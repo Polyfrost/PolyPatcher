@@ -1,10 +1,12 @@
 package club.sk1er.patcher;
 
-import cc.polyfrost.oneconfig.libs.universal.UDesktop;
-import cc.polyfrost.oneconfig.utils.Multithreading;
-import cc.polyfrost.oneconfig.utils.NetworkUtils;
-import cc.polyfrost.oneconfig.utils.Notifications;
-import cc.polyfrost.oneconfig.utils.commands.CommandManager;
+import club.sk1er.patcher.tweaker.TweakerHooks;
+import org.polyfrost.oneconfig.api.event.v1.EventManager;
+import org.polyfrost.oneconfig.api.ui.v1.Notifications;
+import org.polyfrost.oneconfig.utils.v1.JsonUtils;
+import org.polyfrost.polyui.unit.Units;
+import org.polyfrost.oneconfig.utils.v1.Multithreading;
+import org.polyfrost.oneconfig.api.commands.v1.CommandManager;
 import club.sk1er.patcher.asm.render.screen.GuiChatTransformer;
 import club.sk1er.patcher.commands.PatcherCommand;
 import club.sk1er.patcher.config.PatcherConfig;
@@ -20,6 +22,7 @@ import club.sk1er.patcher.screen.render.overlay.GlanceRenderer;
 import club.sk1er.patcher.screen.render.overlay.metrics.MetricsRenderer;
 import club.sk1er.patcher.screen.render.title.TitleFix;
 import club.sk1er.patcher.tweaker.PatcherTweaker;
+import club.sk1er.patcher.util.chat.ChatHandler;
 import club.sk1er.patcher.util.enhancement.EnhancementManager;
 import club.sk1er.patcher.util.forge.EntrypointCaching;
 import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
@@ -29,7 +32,6 @@ import club.sk1er.patcher.util.keybind.linux.LinuxKeybindFix;
 import club.sk1er.patcher.util.screenshot.AsyncScreenshots;
 import club.sk1er.patcher.util.status.ProtocolVersionDetector;
 import club.sk1er.patcher.util.world.SavesWatcher;
-import club.sk1er.patcher.util.world.render.culling.EntityCulling;
 import club.sk1er.patcher.util.world.render.entity.EntityRendering;
 import club.sk1er.patcher.util.world.sound.audioswitcher.AudioSwitcher;
 import com.google.gson.JsonObject;
@@ -52,27 +54,26 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.io.*;
-import java.net.URI;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Mod(modid = "@ID@", name = "@NAME@", version = Patcher.VERSION, clientSideOnly = true)
-public class Patcher {
+//#if FORGE
+@Mod(modid = "@MOD_ID@", name = "@MOD_NAME@", version = Patcher.VERSION, clientSideOnly = true)
+//#endif
+public class Patcher
+    //#if FABRIC
+    //$$ implements net.fabricmc.api.ClientModInitializer
+    //#endif
+{
 
     @Mod.Instance("patcher")
     public static Patcher instance;
 
-    // normal versions will be "1.x.x"
-    // betas will be "1.x.x+beta-y" / "1.x.x+branch_beta-y"
-    // rcs will be 1.x.x+rc-y
-    // extra branches will be 1.x.x+branch-y
-    public static final String VERSION = "@VER@";
+    public static final String VERSION = "@MOD_VERSION@";
 
-    private final Logger logger = LogManager.getLogger("Patcher");
+    private static final Logger logger = LogManager.getLogger("Patcher");
     private final File logsDirectory = new File(Minecraft.getMinecraft().mcDataDir + File.separator + "logs" + File.separator);
 
     /**
@@ -115,7 +116,7 @@ public class Patcher {
 
         registerEvents(
             this, dropModifier, audioSwitcher,
-            new EntityRendering(), new GlanceRenderer(), new EntityCulling(),
+            new EntityRendering(), new GlanceRenderer(),
             new ArmorStatusRenderer(), new PatcherMenuEditor(),
             new TitleFix(), new LinuxKeybindFix(),
             new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
@@ -145,36 +146,37 @@ public class Patcher {
     @EventHandler
     public void onLoadComplete(FMLLoadCompleteEvent event) {
         List<ModContainer> activeModList = Loader.instance().getActiveModList();
-        Notifications notifications = Notifications.INSTANCE;
-        this.detectIncompatibilities(activeModList, notifications);
-        this.detectReplacements(activeModList, notifications);
+        this.detectIncompatibilities(activeModList);
+        this.detectReplacements(activeModList);
 
-        long time = (System.currentTimeMillis() - PatcherTweaker.clientLoadTime);
+        long time = (System.currentTimeMillis() - TweakerHooks.clientLoadTime);
         if (PatcherConfig.startupNotification) {
-            notifications.send("Minecraft Startup", "Minecraft started in " + (time / 1000L) + " seconds.");
+            Notifications.enqueue(Notifications.Type.Info, "Minecraft Startup", "Minecraft started in " + (time / 1000L) + " seconds.");
         }
 
         logger.info("Minecraft started in {}ms.", time);
 
         //noinspection ConstantConditions
         if (!ForgeVersion.mcVersion.equals("1.8.9") || ForgeVersion.getVersion().contains("2318")) return;
-        notifications.send("Patcher", "Outdated Forge has been detected (" + ForgeVersion.getVersion() + "). " +
-            "Click to open the Forge website to download the latest version.", 30000f, () -> {
-            String updateLink = "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html";
-            try {
-                UDesktop.browse(URI.create(updateLink));
-            } catch (Exception openException) {
-                this.logger.error("Failed to open Forge website.", openException);
-                notifications.send("Patcher", "Failed to open Forge website. Link is now copied to your clipboard.");
-                try {
-                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(updateLink), null);
-                } catch (Exception clipboardException) {
-                    // there is no hope
-                    this.logger.error("Failed to copy Forge website to clipboard.", clipboardException);
-                    notifications.send("Patcher", "Failed to copy Forge website to clipboard.");
-                }
-            }
-        });
+        Notifications.enqueue(Notifications.Type.Warning, "Patcher", "Outdated Forge has been detected (" + ForgeVersion.getVersion() + "). " +
+            "Click to open the Forge website to download the latest version.", Units.seconds(30)
+        //    , () -> {
+        //    String updateLink = "https://files.minecraftforge.net/net/minecraftforge/forge/index_1.8.9.html";
+        //    try {
+        //        UDesktop.browse(URI.create(updateLink));
+        //    } catch (Exception openException) {
+        //        this.logger.error("Failed to open Forge website.", openException);
+        //        notifications.send("Patcher", "Failed to open Forge website. Link is now copied to your clipboard.");
+        //        try {
+        //            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(updateLink), null);
+        //        } catch (Exception clipboardException) {
+        //            // there is no hope
+        //            this.logger.error("Failed to copy Forge website to clipboard.", clipboardException);
+        //            notifications.send("Patcher", "Failed to copy Forge website to clipboard.");
+        //        }
+        //    }
+        //}
+        );
     }
 
     /**
@@ -242,7 +244,7 @@ public class Patcher {
 
     private void registerEvents(Object... events) {
         for (Object event : events) {
-            MinecraftForge.EVENT_BUS.register(event);
+            EventManager.INSTANCE.register(event);
         }
     }
 
@@ -316,24 +318,30 @@ public class Patcher {
         this.forceSaveConfig();
     }
 
-    private void detectIncompatibilities(List<ModContainer> activeModList, Notifications notifications) {
+    private void detectIncompatibilities(List<ModContainer> activeModList) {
         for (ModContainer container : activeModList) {
             String modId = container.getModId();
             String baseMessage = container.getName() + " has been detected. ";
             if (PatcherConfig.entityCulling && modId.equals("enhancements")) {
-                notifications.send("Patcher", baseMessage + "Entity Culling is now disabled.");
+                Notifications.enqueue(
+                    Notifications.Type.Error,
+                    "Patcher", baseMessage + "Entity Culling is now disabled.");
                 PatcherConfig.entityCulling = false;
             }
 
             if (PatcherConfig.optimizedFontRenderer && modId.equals("smoothfont")) {
-                notifications.send("Patcher", baseMessage + "Optimized Font Renderer is now disabled.");
+                Notifications.enqueue(
+                    Notifications.Type.Error,
+                    "Patcher", baseMessage + "Optimized Font Renderer is now disabled.");
                 PatcherConfig.optimizedFontRenderer = false;
             }
         }
 
         try {
             Class.forName("net.labymod.addons.resourcepacks24.Resourcepacks24", false, getClass().getClassLoader());
-            notifications.send("Patcher", "The LabyMod addon \"Resourcepacks24\" conflicts with Patcher's resourcepack optimizations. Please remove it to make it work again.");
+            Notifications.enqueue(
+                Notifications.Type.Error,
+                "Patcher", "The LabyMod addon \"Resourcepacks24\" conflicts with Patcher's resourcepack optimizations. Please remove it to make it work again.");
         } catch (ClassNotFoundException ignored) {
 
         }
@@ -341,11 +349,11 @@ public class Patcher {
         this.forceSaveConfig();
     }
 
-    private void detectReplacements(List<ModContainer> activeModList, Notifications notifications) {
-        Multithreading.runAsync(() -> {
+    private void detectReplacements(List<ModContainer> activeModList) {
+        Multithreading.submit(() -> {
             JsonObject replacedMods;
             try { // todo: replaced an async thing but i think its fine because get() pauses the game thread anyways i think???
-                replacedMods = NetworkUtils.getJsonElement("https://static.sk1er.club/patcher/duplicate_mods.json").getAsJsonObject();
+                replacedMods = JsonUtils.parseFromUrl("https://static.sk1er.club/patcher/duplicate_mods.json").getAsJsonObject();
             } catch (Exception e) {
                 logger.error("Failed to fetch list of replaced mods at \"https://static.sk1er.club/patcher/duplicate_mods.json\".", e);
                 return;
@@ -363,10 +371,16 @@ public class Patcher {
             if (!replacements.isEmpty()) {
                 for (String replacement : replacements) {
                     if (replacement.equals("Clean View")) {
-                        notifications.send("PolyPatcher", replacement + " can be removed as it is replaced by OverflowParticles. Click here to download OverflowParticles", 6f, () -> UDesktop.browse(URI.create("https://modrinth.com/mod/overflowparticles")));
+                        Notifications.enqueue(
+                            Notifications.Type.Warning,
+                            "PolyPatcher", replacement + " can be removed as it is replaced by OverflowParticles. Click here to download OverflowParticles", Units.seconds(6)
+                            //, () -> UDesktop.browse(URI.create("https://modrinth.com/mod/overflowparticles"))
+                        );
                         continue;
                     }
-                    notifications.send("PolyPatcher", replacement + " can be removed as it is replaced by PolyPatcher.", 6f);
+                    Notifications.enqueue(
+                        Notifications.Type.Warning,
+                        "PolyPatcher", replacement + " can be removed as it is replaced by PolyPatcher.", Units.seconds(6));
                 }
             }
         });
@@ -376,7 +390,7 @@ public class Patcher {
         return patcherConfig;
     }
 
-    public Logger getLogger() {
+    public static Logger getLogger() {
         return logger;
     }
 

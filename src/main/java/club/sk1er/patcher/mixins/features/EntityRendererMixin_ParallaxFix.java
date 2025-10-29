@@ -41,7 +41,7 @@ public abstract class EntityRendererMixin_ParallaxFix {
     private void drawDebugCrosshair(float partialTicks, long nanoTime, CallbackInfo ci) {
         if (canDraw) {
             setupOverlayRendering();
-            DebugCrosshairHook.renderDirections(partialTicks, mc);
+            DebugCrosshairHook.renderDirections(partialTicks, this.mc);
         }
     }
 

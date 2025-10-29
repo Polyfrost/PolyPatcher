@@ -1,9 +1,9 @@
 package club.sk1er.patcher.util.world.sound.audioswitcher;
 
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.openal.ALC10;
 import org.lwjgl.openal.ALC11;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -1,5 +1,6 @@
 package club.sk1er.patcher.tweaker;
 
+//#if FORGE
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.MalformedJsonException;
@@ -34,11 +35,9 @@ import java.util.zip.ZipFile;
 @IFMLLoadingPlugin.MCVersion(ForgeVersion.mcVersion)
 public class PatcherTweaker implements IFMLLoadingPlugin {
 
-    public static long clientLoadTime;
-
     @SuppressWarnings("unchecked")
     public PatcherTweaker() {
-        clientLoadTime = System.currentTimeMillis();
+        TweakerHooks.clientLoadTime = System.currentTimeMillis();
         try {
             // Create a second internal tweaker, creating after OptiFine does its thing.
             FMLLaunchHandler launchHandler = ReflectionHelper.getPrivateValue(FMLLaunchHandler.class, null, "INSTANCE");
@@ -214,3 +213,4 @@ public class PatcherTweaker implements IFMLLoadingPlugin {
         }
     }
 }
+//#endif

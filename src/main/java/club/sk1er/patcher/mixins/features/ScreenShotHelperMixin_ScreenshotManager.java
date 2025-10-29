@@ -1,6 +1,6 @@
 package club.sk1er.patcher.mixins.features;
 
-import cc.polyfrost.oneconfig.utils.Multithreading;
+import org.polyfrost.oneconfig.utils.v1.Multithreading;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.config.PatcherConfig;
 import club.sk1er.patcher.hooks.ScreenshotManagerHook;
@@ -47,24 +47,24 @@ public class ScreenShotHelperMixin_ScreenshotManager {
 
             int scale = width * height;
 
-            if (pixelBuffer == null || pixelBuffer.capacity() < scale) {
-                pixelBuffer = BufferUtils.createIntBuffer(scale);
-                pixelValues = new int[scale];
+            if (ScreenShotHelperMixin_ScreenshotManager.pixelBuffer == null || ScreenShotHelperMixin_ScreenshotManager.pixelBuffer.capacity() < scale) {
+                ScreenShotHelperMixin_ScreenshotManager.pixelBuffer = BufferUtils.createIntBuffer(scale);
+                ScreenShotHelperMixin_ScreenshotManager.pixelValues = new int[scale];
             }
 
             GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
             GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-            pixelBuffer.clear();
+            ScreenShotHelperMixin_ScreenshotManager.pixelBuffer.clear();
 
             if (OpenGlHelper.isFramebufferEnabled()) {
                 GlStateManager.bindTexture(buffer.framebufferTexture);
-                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, ScreenShotHelperMixin_ScreenshotManager.pixelBuffer);
             } else {
-                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, ScreenShotHelperMixin_ScreenshotManager.pixelBuffer);
             }
 
-            pixelBuffer.get(pixelValues);
-            Multithreading.runAsync(new AsyncScreenshots(width, height, pixelValues, screenshotDirectory));
+            ScreenShotHelperMixin_ScreenshotManager.pixelBuffer.get(ScreenShotHelperMixin_ScreenshotManager.pixelValues);
+            Multithreading.submit(new AsyncScreenshots(width, height, ScreenShotHelperMixin_ScreenshotManager.pixelValues, screenshotDirectory));
 
             EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
             if (player != null && !PatcherConfig.screenshotNoFeedback) {

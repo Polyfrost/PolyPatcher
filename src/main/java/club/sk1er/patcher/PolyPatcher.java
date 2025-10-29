@@ -1,12 +1,18 @@
 package club.sk1er.patcher;
 
+//#if FORGE
 import com.google.common.eventbus.EventBus;
 import net.minecraftforge.fml.common.DummyModContainer;
 import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.ModMetadata;
+//#endif
 
-public class PolyPatcher extends DummyModContainer {
-
+public class PolyPatcher
+    //#if FORGE
+    extends DummyModContainer
+    //#endif
+{
+    //#if FORGE
     public PolyPatcher() {
         super(new ModMetadata());
         ModMetadata meta = getMetadata();
@@ -25,4 +31,5 @@ public class PolyPatcher extends DummyModContainer {
     public boolean registerBus(EventBus bus, LoadController controller) {
         return true;
     }
+    //#endif
 }

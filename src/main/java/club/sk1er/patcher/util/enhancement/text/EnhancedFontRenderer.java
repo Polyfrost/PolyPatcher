@@ -1,7 +1,7 @@
 package club.sk1er.patcher.util.enhancement.text;
 
-import cc.polyfrost.oneconfig.libs.caffeine.cache.Cache;
-import cc.polyfrost.oneconfig.libs.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import club.sk1er.patcher.util.enhancement.Enhancement;
 import club.sk1er.patcher.util.enhancement.hash.StringHash;
 import net.minecraft.client.renderer.GLAllocation;

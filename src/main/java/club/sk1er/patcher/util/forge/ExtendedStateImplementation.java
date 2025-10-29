@@ -1,5 +1,6 @@
 package club.sk1er.patcher.util.forge;
 
+//#if FORGE
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import net.minecraft.block.Block;
@@ -71,7 +72,7 @@ public class ExtendedStateImplementation
         if (clean) { // no dynamic properties, lookup normal state
             return (IExtendedBlockState) cleanState;
         }
-        return new ExtendedStateImplementation(getBlock(), getProperties(), builder.build(), propertyValueTable, this.cleanState);
+        return new ExtendedStateImplementation(getBlock(), getProperties(), builder.build(), this.propertyValueTable, this.cleanState);
     }
 
     @Override
@@ -99,3 +100,4 @@ public class ExtendedStateImplementation
     }
     //#endif
 }
+//#endif

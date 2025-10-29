@@ -20,7 +20,7 @@ public abstract class MinecraftMixin_SeparateResources {
     @Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;refreshResources()V", ordinal = 0))
     private void patcher$separateSoundReloading(Minecraft minecraft) {
         if (PatcherConfig.separateResourceLoading) {
-            mcSoundHandler.onResourceManagerReload(mcResourceManager);
+            this.mcSoundHandler.onResourceManagerReload(this.mcResourceManager);
         } else {
             refreshResources();
         }

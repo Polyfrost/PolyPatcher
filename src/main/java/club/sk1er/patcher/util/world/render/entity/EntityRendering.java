@@ -1,7 +1,6 @@
 package club.sk1er.patcher.util.world.render.entity;
 
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.util.world.render.culling.EntityCulling;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
@@ -29,7 +28,7 @@ public class EntityRendering {
         }
 
         final float entityDistance = entity.getDistanceToEntity(mc.thePlayer);
-        if (PatcherConfig.entityRenderDistanceToggle && EntityCulling.shouldPerformCulling) {
+        if (PatcherConfig.entityRenderDistanceToggle) {
             if (entityDistance > PatcherConfig.entityRenderDistance) {
                 event.setCanceled(true);
             } else if (entity instanceof IMob && entityDistance > PatcherConfig.hostileEntityRenderDistance) {
