@@ -513,20 +513,6 @@ public class PatcherConfig extends Config {
     public static boolean betterHideGui;
 
     @Switch(
-        name = "Remove Screen Bobbing",
-        description = "While using View Bobbing, only remove the view aspect but have the hand still bounce around.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean removeViewBobbing;
-
-    @Switch(
-        name = "Remove Map Bobbing",
-        description = "While using View Bobbing, remove the hand bobbing when holding a map.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean mapBobbing;
-
-    @Switch(
         name = "Static Items",
         description = "Stop items from bobbing up and down when dropped on the ground.",
         category = "Miscellaneous", subcategory = "General"
@@ -1783,6 +1769,18 @@ public class PatcherConfig extends Config {
         min = 0, max = 100
     )
     public static int distortionEffect = 100;
+    @Switch(
+        name = "Remove Screen Bobbing",
+        description = "While using View Bobbing, only remove the view aspect but have the hand still bounce around.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean removeViewBobbing;
+    @Switch(
+        name = "Remove Map Bobbing",
+        description = "While using View Bobbing, remove the hand bobbing when holding a map.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean mapBobbing;
 
 
     public static boolean labyModMoment = true;
@@ -1953,6 +1951,8 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("timestampsStyle", "ChatTweaks");
         deprecateFunc.apply("cleanProjectiles", "LegacyTweaks");
         deprecateFunc.apply("distortionEffect", "LegacyTweaks");
+        deprecateFunc.apply("removeViewBobbing", "ShakeTweaks");
+        deprecateFunc.apply("mapBobbing", "ShakeTweaks");
         //</editor-fold>
 
         try {
