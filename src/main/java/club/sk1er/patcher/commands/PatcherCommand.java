@@ -55,9 +55,4 @@ public class PatcherCommand {
             // might be an issue if they provide a long message?
             " " + ((message == null) ? "" : message));
     }
-
-    @SubCommand(description = "Open the Sound Configuration GUI.")
-    public void sounds() {
-        Patcher.instance.getPatcherSoundConfig().openGui();
-    }
 }

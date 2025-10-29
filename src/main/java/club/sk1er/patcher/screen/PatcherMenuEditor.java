@@ -145,9 +145,7 @@ public class PatcherMenuEditor {
         if (gui instanceof GuiIngameMenu && buttonId == serverList) {
             mc.displayGuiScreen(new FakeMultiplayerMenu(gui));
         } else if (gui instanceof GuiScreenOptionsSounds) {
-            if (buttonId == allSounds) {
-                Patcher.instance.getPatcherSoundConfig().openGui();
-            } else if (buttonId == refreshSounds) {
+            if (buttonId == refreshSounds) {
                 mc.getSoundHandler().onResourceManagerReload(mc.getResourceManager());
             }
         }

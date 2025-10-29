@@ -8,7 +8,6 @@ import cc.polyfrost.oneconfig.utils.commands.CommandManager;
 import club.sk1er.patcher.asm.render.screen.GuiChatTransformer;
 import club.sk1er.patcher.commands.PatcherCommand;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.config.PatcherSoundConfig;
 import club.sk1er.patcher.ducks.FontRendererExt;
 import club.sk1er.patcher.hooks.EntityRendererHook;
 import club.sk1er.patcher.hooks.MinecraftHook;
@@ -22,7 +21,6 @@ import club.sk1er.patcher.screen.render.overlay.metrics.MetricsRenderer;
 import club.sk1er.patcher.screen.render.title.TitleFix;
 import club.sk1er.patcher.tweaker.PatcherTweaker;
 import club.sk1er.patcher.util.enhancement.EnhancementManager;
-import club.sk1er.patcher.util.enhancement.ReloadListener;
 import club.sk1er.patcher.util.forge.EntrypointCaching;
 import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
 import club.sk1er.patcher.util.keybind.KeybindDropModifier;
@@ -33,12 +31,10 @@ import club.sk1er.patcher.util.status.ProtocolVersionDetector;
 import club.sk1er.patcher.util.world.SavesWatcher;
 import club.sk1er.patcher.util.world.render.culling.EntityCulling;
 import club.sk1er.patcher.util.world.render.entity.EntityRendering;
-import club.sk1er.patcher.util.world.sound.SoundHandler;
 import club.sk1er.patcher.util.world.sound.audioswitcher.AudioSwitcher;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
@@ -92,7 +88,6 @@ public class Patcher {
     private KeyBinding dropModifier, hideScreen, customDebug, clearShaders;
 
     private PatcherConfig patcherConfig;
-    private PatcherSoundConfig patcherSoundConfig;
 
     private boolean loadedGalacticFontRenderer;
 
@@ -110,12 +105,6 @@ public class Patcher {
         );
 
         patcherConfig = PatcherConfig.INSTANCE;
-        patcherSoundConfig = new PatcherSoundConfig(null, null);
-
-        SoundHandler soundHandler = new SoundHandler();
-        IReloadableResourceManager resourceManager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
-        resourceManager.registerReloadListener(soundHandler);
-        resourceManager.registerReloadListener(new ReloadListener());
 
         registerCommands(
             new PatcherCommand(),
@@ -125,7 +114,7 @@ public class Patcher {
         );
 
         registerEvents(
-            this, soundHandler, dropModifier, audioSwitcher,
+            this, dropModifier, audioSwitcher,
             new EntityRendering(), new GlanceRenderer(), new EntityCulling(),
             new ArmorStatusRenderer(), new PatcherMenuEditor(),
             new TitleFix(), new LinuxKeybindFix(),
@@ -385,10 +374,6 @@ public class Patcher {
 
     public PatcherConfig getPatcherConfig() {
         return patcherConfig;
-    }
-
-    public PatcherSoundConfig getPatcherSoundConfig() {
-        return patcherSoundConfig;
     }
 
     public Logger getLogger() {
