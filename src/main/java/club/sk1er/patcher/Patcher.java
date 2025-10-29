@@ -18,15 +18,12 @@ import club.sk1er.patcher.screen.PatcherMenuEditor;
 import club.sk1er.patcher.screen.render.caching.HUDCaching;
 import club.sk1er.patcher.screen.render.overlay.ArmorStatusRenderer;
 import club.sk1er.patcher.screen.render.overlay.GlanceRenderer;
-import club.sk1er.patcher.screen.render.overlay.ImagePreview;
 import club.sk1er.patcher.screen.render.overlay.metrics.MetricsRenderer;
 import club.sk1er.patcher.screen.render.title.TitleFix;
 import club.sk1er.patcher.tweaker.PatcherTweaker;
-import club.sk1er.patcher.util.chat.ChatHandler;
 import club.sk1er.patcher.util.enhancement.EnhancementManager;
 import club.sk1er.patcher.util.enhancement.ReloadListener;
 import club.sk1er.patcher.util.forge.EntrypointCaching;
-import club.sk1er.patcher.util.fov.FovHandler;
 import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
 import club.sk1er.patcher.util.keybind.KeybindDropModifier;
 import club.sk1er.patcher.util.keybind.MousePerspectiveKeybindHandler;
@@ -129,9 +126,8 @@ public class Patcher {
 
         registerEvents(
             this, soundHandler, dropModifier, audioSwitcher,
-            new EntityRendering(), new FovHandler(),
-            new ChatHandler(), new GlanceRenderer(), new EntityCulling(),
-            new ArmorStatusRenderer(), new PatcherMenuEditor(), new ImagePreview(),
+            new EntityRendering(), new GlanceRenderer(), new EntityCulling(),
+            new ArmorStatusRenderer(), new PatcherMenuEditor(),
             new TitleFix(), new LinuxKeybindFix(),
             new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
             MinecraftHook.INSTANCE, ScreenshotPreview.INSTANCE,
@@ -329,7 +325,6 @@ public class Patcher {
             PatcherConfig.fireOverlayHeight = 0.0F;
         }
         if (PatcherConfig.customZoomSensitivity > 1.0F) PatcherConfig.customZoomSensitivity = 1.0F;
-        if (PatcherConfig.imagePreviewWidth > 1.0F) PatcherConfig.imagePreviewWidth = 0.5F;
         if (PatcherConfig.previewScale > 1.0F) PatcherConfig.previewScale = 1.0F;
 
         this.forceSaveConfig();
@@ -342,13 +337,6 @@ public class Patcher {
             if (PatcherConfig.entityCulling && modId.equals("enhancements")) {
                 notifications.send("Patcher", baseMessage + "Entity Culling is now disabled.");
                 PatcherConfig.entityCulling = false;
-            }
-
-            if ((modId.equals("labymod") || modId.equals("enhancements")) || modId.equals("hychat")) {
-                if (PatcherConfig.compactChat) {
-                    notifications.send("Patcher", baseMessage + "Compact Chat is now disabled.");
-                    PatcherConfig.compactChat = false;
-                }
             }
 
             if (PatcherConfig.optimizedFontRenderer && modId.equals("smoothfont")) {

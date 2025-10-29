@@ -959,50 +959,6 @@ public class PatcherConfig extends Config {
     public static boolean removeChatMessageLimit = true;
 
     @Switch(
-        name = "Compact Chat",
-        description = "Clean up the chat by stacking duplicate messages.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean compactChat = true;
-
-    @Switch(
-        name = "Consecutive Compact Chat",
-        description = "Only compact messages if they're consecutive.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean consecutiveCompactChat;
-
-    @Slider(
-        name = "Compact Chat Time",
-        description = "Change the amount of time old messages take to stop being compacted. Measured in seconds.",
-        category = "Screens", subcategory = "Chat",
-        min = 1, max = 120
-    )
-    public static int compactChatTime = 60;
-
-    @Switch(
-        name = "Remove Blank Messages",
-        description = "Stop messages with no content from showing up in chat.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean removeBlankMessages;
-
-    @Switch(
-        name = "Shift Chat",
-        description = "Keep chat open while sending a message if Shift is held while pressing Enter.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean shiftChat;
-
-    @Slider(
-        name = "Chat Delay",
-        description = "Delay chat messages if they're sent within the selected timeframe after the previous message. Measured in seconds.",
-        category = "Screens", subcategory = "Chat",
-        min = 0, max = 6
-    )
-    public static int chatDelay = 0;
-
-    @Switch(
         name = "Startup Notification",
         description = "Notify how long the game took to start.",
         category = "Screens", subcategory = "General"
@@ -1045,36 +1001,6 @@ public class PatcherConfig extends Config {
     public static boolean projectileProtectionPercentage;
 
     @Switch(
-        name = "Chat Timestamps",
-        description = "Add timestamps before a message.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean timestamps;
-
-    @Switch(
-        name = "Show Seconds on Timestamps",
-        description = "Show the seconds on a timestamped message.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean secondsOnTimestamps;
-
-    @Dropdown(
-        name = "Chat Timestamps Format",
-        description = "Change the time format of Chat Timestamps.",
-        category = "Screens", subcategory = "Chat",
-        options = {"12 Hour", "24 Hour"}
-    )
-    public static int timestampsFormat = 0;
-
-    @Dropdown(
-        name = "Chat Timestamps Style",
-        description = "Choose how Chat Timestamps should appear.",
-        category = "Screens", subcategory = "Chat",
-        options = {"Always Present", "Message Hover"}
-    )
-    public static int timestampsStyle = 0;
-
-    @Switch(
         name = "Clean Main Menu",
         description = "Remove the Realms button on the main menu as it's useless on older versions.",
         category = "Screens", subcategory = "General"
@@ -1088,36 +1014,6 @@ public class PatcherConfig extends Config {
         options = {"Default", "Server List", "Remove"}
     )
     public static int openToLanReplacement = 0;
-
-    @Switch(
-        name = "Image Preview",
-        description = "Preview image links when hovering over a supported URL." +
-            "\nPress Shift to use fullscreen and Control to render in native image resolution.",
-        category = "Screens", subcategory = "Image Preview"
-    )
-    public static boolean imagePreview = true;
-
-    @Slider(
-        name = "Image Preview Width",
-        description = "The %% of screen width to be used for image preview.",
-        category = "Screens", subcategory = "Image Preview",
-        min = 0F, max = 1F
-    )
-    public static float imagePreviewWidth = 0.50F;
-
-    @Switch(
-        name = "Safe Chat Clicks",
-        description = "Show the command or link that is run/opened on click. ",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean safeChatClicks;
-
-    @Switch(
-        name = "Safe Chat Clicks History",
-        description = "Adds commands sent from clicking chat messages to the chat history.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean safeChatClicksHistory;
 
     @Switch(
         name = "Smart Disconnect",
@@ -1799,6 +1695,96 @@ public class PatcherConfig extends Config {
         min = -5, max = 5
     )
     public static float slownessFovModifierFloat = 1;
+    @Switch(
+        name = "Compact Chat",
+        description = "Clean up the chat by stacking duplicate messages.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean compactChat = true;
+    @Switch(
+        name = "Consecutive Compact Chat",
+        description = "Only compact messages if they're consecutive.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean consecutiveCompactChat;
+    @Slider(
+        name = "Compact Chat Time",
+        description = "Change the amount of time old messages take to stop being compacted. Measured in seconds.",
+        category = "Deprecated", subcategory = "Chat",
+        min = 1, max = 120
+    )
+    public static int compactChatTime = 60;
+    @Switch(
+        name = "Remove Blank Messages",
+        description = "Stop messages with no content from showing up in chat.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean removeBlankMessages;
+    @Switch(
+        name = "Shift Chat",
+        description = "Keep chat open while sending a message if Shift is held while pressing Enter.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean shiftChat;
+    @Slider(
+        name = "Chat Delay",
+        description = "Delay chat messages if they're sent within the selected timeframe after the previous message. Measured in seconds.",
+        category = "Deprecated", subcategory = "Chat",
+        min = 0, max = 6
+    )
+    public static int chatDelay = 0;
+    @Switch(
+        name = "Image Preview",
+        description = "Preview image links when hovering over a supported URL." +
+            "\nPress Shift to use fullscreen and Control to render in native image resolution.",
+        category = "Deprecated", subcategory = "Image Preview"
+    )
+    public static boolean imagePreview = true;
+    @Slider(
+        name = "Image Preview Width",
+        description = "The %% of screen width to be used for image preview.",
+        category = "Deprecated", subcategory = "Image Preview",
+        min = 0F, max = 1F
+    )
+    public static float imagePreviewWidth = 0.50F;
+    @Switch(
+        name = "Safe Chat Clicks",
+        description = "Show the command or link that is run/opened on click. ",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean safeChatClicks;
+    @Switch(
+        name = "Safe Chat Clicks History",
+        description = "Adds commands sent from clicking chat messages to the chat history.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean safeChatClicksHistory;
+    @Switch(
+        name = "Chat Timestamps",
+        description = "Add timestamps before a message.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean timestamps;
+    @Switch(
+        name = "Show Seconds on Timestamps",
+        description = "Show the seconds on a timestamped message.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean secondsOnTimestamps;
+    @Dropdown(
+        name = "Chat Timestamps Format",
+        description = "Change the time format of Chat Timestamps.",
+        category = "Deprecated", subcategory = "Chat",
+        options = {"12 Hour", "24 Hour"}
+    )
+    public static int timestampsFormat = 0;
+    @Dropdown(
+        name = "Chat Timestamps Style",
+        description = "Choose how Chat Timestamps should appear.",
+        category = "Deprecated", subcategory = "Chat",
+        options = {"Always Present", "Message Hover"}
+    )
+    public static int timestampsStyle = 0;
 
 
     public static boolean labyModMoment = true;
@@ -1957,6 +1943,20 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("bowFovModifierFloat", "FovTweaks");
         deprecateFunc.apply("speedFovModifierFloat", "FovTweaks");
         deprecateFunc.apply("slownessFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("compactChat", "ChatTweaks");
+        deprecateFunc.apply("consecutiveCompactChat", "ChatTweaks");
+        deprecateFunc.apply("compactChatTime", "ChatTweaks");
+        deprecateFunc.apply("removeBlankMessages", "ChatTweaks");
+        deprecateFunc.apply("shiftChat", "ChatTweaks");
+        deprecateFunc.apply("chatDelay", "ChatTweaks");
+        deprecateFunc.apply("imagePreview", "ChatTweaks");
+        deprecateFunc.apply("imagePreviewWidth", "ChatTweaks");
+        deprecateFunc.apply("safeChatClicks", "ChatTweaks");
+        deprecateFunc.apply("safeChatClicksHistory", "ChatTweaks");
+        deprecateFunc.apply("timestamps", "ChatTweaks");
+        deprecateFunc.apply("secondsOnTimestamps", "ChatTweaks");
+        deprecateFunc.apply("timestampsFormat", "ChatTweaks");
+        deprecateFunc.apply("timestampsStyle", "ChatTweaks");
         //</editor-fold>
 
         try {
@@ -1964,12 +1964,6 @@ public class PatcherConfig extends Config {
             addDependency("smartFullbright", "fullbright");
             addDependency("cleanerNightVision", "disableNightVision", () -> !disableNightVision);
             addDependency("instantFullscreen", "windowedFullscreen");
-            addDependency("consecutiveCompactChat", "compactChat");
-            addDependency("compactChatTime", "compactChat");
-            addDependency("timestampsFormat", "timestamps");
-            addDependency("timestampsStyle", "timestamps");
-            addDependency("secondsOnTimestamps", "timestamps");
-            addDependency("imagePreviewWidth", "imagePreview");
 
             addDependency("logOptimizerLength", "logOptimizer");
             addDependency("dynamicZoomSensitivity", "scrollToZoom");
