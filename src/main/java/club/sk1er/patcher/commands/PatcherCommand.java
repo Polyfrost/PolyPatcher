@@ -111,21 +111,4 @@ public class PatcherCommand {
     public void sounds() {
         Patcher.instance.getPatcherSoundConfig().openGui();
     }
-
-    @SubCommand(description = "Choose what to limit the game's framerate to outside of Minecraft's options. 0 will use your normal framerate.")
-    public void fps(@Description("amount") int amount) {
-        if (amount < 0) {
-            ChatUtilities.sendNotification("Custom FPS Limiter", "You cannot set your framerate to a negative number.");
-            return;
-        } else if (amount == PatcherConfig.customFpsLimit) {
-            ChatUtilities.sendNotification("Custom FPS Limiter", "Custom framerate is already set to this value.");
-            return;
-        }
-
-        PatcherConfig.customFpsLimit = amount;
-        Patcher.instance.forceSaveConfig();
-
-        String message = amount == 0 ? "Custom framerate was reset." : "Custom framerate set to " + amount + ".";
-        ChatUtilities.sendNotification("Custom FPS Limiter", message);
-    }
 }

@@ -20,6 +20,7 @@ import org.apache.commons.lang3.SystemUtils;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -320,38 +321,6 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "General"
     )
     public static boolean preventOverflowHotbarScrolling;
-
-    @Slider(
-        name = "Unfocused Sounds",
-        description = "Change the volume of sounds when you're not tabbed into the window.",
-        category = "Miscellaneous", subcategory = "General",
-        min = 0F, max = 1.0F
-    )
-    public static float unfocusedSounds = 1.0F;
-
-    @Switch(
-        name = "Unfocused FPS",
-        description = "Toggle changing your FPS to whatever Unfocused FPS is set to when not tabbed into the window.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean unfocusedFPS;
-
-    @Slider(
-        name = "Unfocused FPS Amount",
-        description = "Change the maximum FPS when you're not tabbed into the window, saving resources.",
-        category = "Miscellaneous", subcategory = "General",
-        min = 5, max = 240
-    )
-    public static int unfocusedFPSAmount = 60;
-
-    @Number(
-        name = "Custom FPS Limit",
-        description = "Change the maximum FPS to a value that Minecraft doesn't normally allow for. Setting this to 0 will go back to the value set in Minecraft.",
-        category = "Miscellaneous", subcategory = "General",
-        min = 0,
-        max = Integer.MAX_VALUE
-    )
-    public static int customFpsLimit = 0;
 
     @Switch(
         name = "Remove Ground Foliage",
@@ -1810,6 +1779,34 @@ public class PatcherConfig extends Config {
         category = "Deprecated", subcategory = "Chat"
     )
     public static boolean chatPosition = false;
+    @Slider(
+        name = "Unfocused Sounds",
+        description = "Change the volume of sounds when you're not tabbed into the window.",
+        category = "Deprecated", subcategory = "General",
+        min = 0F, max = 1.0F
+    )
+    public static float unfocusedSounds = 1.0F;
+    @Switch(
+        name = "Unfocused FPS",
+        description = "Toggle changing your FPS to whatever Unfocused FPS is set to when not tabbed into the window.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean unfocusedFPS;
+    @Slider(
+        name = "Unfocused FPS Amount",
+        description = "Change the maximum FPS when you're not tabbed into the window, saving resources.",
+        category = "Deprecated", subcategory = "General",
+        min = 5, max = 240
+    )
+    public static int unfocusedFPSAmount = 60;
+    @Number(
+        name = "Custom FPS Limit",
+        description = "Change the maximum FPS to a value that Minecraft doesn't normally allow for. Setting this to 0 will go back to the value set in Minecraft.",
+        category = "Deprecated", subcategory = "General",
+        min = 0,
+        max = Integer.MAX_VALUE
+    )
+    public static int customFpsLimit = 0;
 
 
     public static boolean labyModMoment = true;
@@ -1855,6 +1852,7 @@ public class PatcherConfig extends Config {
         Runnable reloadTextures = () -> Minecraft.getMinecraft().refreshResources();
         addListener("heldItemLighting", reloadTextures);
 
+        //<editor-fold desc="Old">
         hideIf("nauseaEffectOld", () -> true);
         hideIf("fireOverlayOpacityOld", () -> true);
         hideIf("disableTitlesOld", () -> true);
@@ -1920,41 +1918,52 @@ public class PatcherConfig extends Config {
         OldPatcherConfig.transparentChatInputField = transparentChatInputFieldOld;
         OldPatcherConfig.extendChatBackground = extendChatBackgroundOld;
         OldPatcherConfig.chatPosition = chatPositionOld;
+        //</editor-fold>
 
-        addDependency("disableTitles", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("titleScale", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("titleOpacity", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("toggleTab", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("crosshairPerspective", "Replaced by PolyCrosshair. Please install PolyCrosshair to use this feature.", () -> false);
-        addDependency("showOwnNametag", "Replaced by PolyNametag. Please install PolyNametag to use this feature.", () -> false);
-        addDependency("numberPing", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("cleanView", "Replaced by OverflowParticles. Please install OverflowParticles to use this feature.", () -> false);
-        addDependency("disableBlockBreakParticles", "Replaced by OverflowParticles. Please install OverflowParticles to use this feature.", () -> false);
-        addDependency("removeInvertFromCrosshair", "Replaced by PolyCrosshair. Please install PolyCrosshair to use this feature.", () -> false);
-        addDependency("shadowedNametagText", "Replaced by PolyNametag. Please install PolyNametag to use this feature.", () -> false);
-        addDependency("shadowedActionbarText", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("actionbarBackground", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("removeVerticalViewBobbing", "Replaced by OverflowAnimations. Please install OverflowAnimations to use this feature.", () -> false);
-        addDependency("staticParticleColor", "Replaced by OverflowParticles. Please install OverflowParticles to use this feature.", () -> false);
-        addDependency("maxParticleLimit", "Replaced by OverflowParticles. Please install OverflowParticles to use this feature.", () -> false);
-        addDependency("disableNametagBoxes", "Replaced by PolyNametag. Please install PolyNametag to use this feature.", () -> false);
-        addDependency("guiCrosshair", "Replaced by PolyCrosshair. Please install PolyCrosshair to use this feature.", () -> false);
-        addDependency("tabOpacity", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("tabPlayerCount", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("tabHeightAllow", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("tabHeight", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("fixActionbarOverlap", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> false);
-        addDependency("transparentChat", "Replaced by Chatting. Please install Chatting to use this feature.", () -> false);
-        addDependency("transparentChatOnlyWhenClosed", "Replaced by Chatting. Please install Chatting to use this feature.", () -> false);
-        addDependency("transparentChatInputField", "Replaced by Chatting. Please install Chatting to use this feature.", () -> false);
-        addDependency("extendChatBackground", "Replaced by Chatting. Please install Chatting to use this feature.", () -> false);
-        addDependency("chatPosition", "Replaced by Chatting. Please install Chatting to use this feature.", () -> false);
+        //<editor-fold desc="Deprecations">
+        BiFunction<String, String, Void> deprecateFunc = (option, mod) -> {
+            addDependency(option, "Replaced by " + mod + ". Please install " + mod + " to use this feature.", () -> false);
+            return null;
+        };
+
+        deprecateFunc.apply("disableTitles", "VanillaHUD");
+        deprecateFunc.apply("titleScale", "VanillaHUD");
+        deprecateFunc.apply("titleOpacity", "VanillaHUD");
+        deprecateFunc.apply("toggleTab", "VanillaHUD");
+        deprecateFunc.apply("crosshairPerspective", "PolyCrosshair");
+        deprecateFunc.apply("showOwnNametag", "PolyNametag");
+        deprecateFunc.apply("numberPing", "VanillaHUD");
+        deprecateFunc.apply("cleanView", "OverflowParticles");
+        deprecateFunc.apply("disableBlockBreakParticles", "OverflowParticles");
+        deprecateFunc.apply("removeInvertFromCrosshair", "PolyCrosshair");
+        deprecateFunc.apply("shadowedNametagText", "PolyNametag");
+        deprecateFunc.apply("shadowedActionbarText", "VanillaHUD");
+        deprecateFunc.apply("actionbarBackground", "VanillaHUD");
+        deprecateFunc.apply("removeVerticalViewBobbing", "OverflowAnimations");
+        deprecateFunc.apply("staticParticleColor", "OverflowParticles");
+        deprecateFunc.apply("maxParticleLimit", "OverflowParticles");
+        deprecateFunc.apply("disableNametagBoxes", "PolyNametag");
+        deprecateFunc.apply("guiCrosshair", "PolyCrosshair");
+        deprecateFunc.apply("tabOpacity", "VanillaHUD");
+        deprecateFunc.apply("tabPlayerCount", "VanillaHUD");
+        deprecateFunc.apply("tabHeightAllow", "VanillaHUD");
+        deprecateFunc.apply("tabHeight", "VanillaHUD");
+        deprecateFunc.apply("fixActionbarOverlap", "VanillaHUD");
+        deprecateFunc.apply("transparentChat", "Chatting");
+        deprecateFunc.apply("transparentChatOnlyWhenClosed", "Chatting");
+        deprecateFunc.apply("transparentChatInputField", "Chatting");
+        deprecateFunc.apply("extendChatBackground", "Chatting");
+        deprecateFunc.apply("chatPosition", "Chatting");
+        deprecateFunc.apply("unfocusedSounds", "SoundTweaks");
+        deprecateFunc.apply("unfocusedFPS", "SoundTweaks");
+        deprecateFunc.apply("unfocusedFPSAmount", "SoundTweaks");
+        deprecateFunc.apply("customFpsLimit", "SoundTweaks");
+        //</editor-fold>
 
         try {
             addDependency("cactusHitboxExclusion", "futureHitBoxes");
             addDependency("smartFullbright", "fullbright");
             addDependency("cleanerNightVision", "disableNightVision", () -> !disableNightVision);
-            addDependency("unfocusedFPSAmount", "unfocusedFPS");
             addDependency("instantFullscreen", "windowedFullscreen");
             addDependency("consecutiveCompactChat", "compactChat");
             addDependency("compactChatTime", "compactChat");

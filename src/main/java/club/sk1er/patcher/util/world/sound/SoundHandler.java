@@ -29,8 +29,6 @@ public class SoundHandler implements IResourceManagerReloadListener {
     private final boolean isWeirdASMMod; // why, why, why
 
     public SoundHandler() {
-        this.previousActive = Display.isActive();
-        handleFocusChange();
         boolean isWeirdASMMod = false;
         try {
             Class.forName("zone.rong.loliasm.api.mixins.RegistrySimpleExtender", false, getClass().getClassLoader());
@@ -59,31 +57,6 @@ public class SoundHandler implements IResourceManagerReloadListener {
             PositionedSoundAccessor result = (PositionedSoundAccessor) soundResult;
 
             result.setVolume(result.getVolumeField() * getVolumeMultiplier(soundResult.getSoundLocation()));
-        }
-    }
-
-    private boolean previousActive;
-    private float previousVolume = -1f;
-
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.START) return;
-        boolean active = Display.isActive();
-        if (active != previousActive) {
-            previousActive = active;
-            handleFocusChange();
-        }
-    }
-
-    private void handleFocusChange() {
-        if (!previousActive) {
-            SoundManager soundManager = ((SoundHandlerAccessor) Minecraft.getMinecraft().getSoundHandler()).getSndManager();
-            previousVolume = Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.MASTER);
-            if (previousVolume == -1f) return;
-            soundManager.setSoundCategoryVolume(SoundCategory.MASTER, PatcherConfig.unfocusedSounds * previousVolume);
-        } else {
-            ((SoundHandlerAccessor) Minecraft.getMinecraft().getSoundHandler()).getSndManager().setSoundCategoryVolume(SoundCategory.MASTER, previousVolume);
-            previousVolume = -1f;
         }
     }
 
