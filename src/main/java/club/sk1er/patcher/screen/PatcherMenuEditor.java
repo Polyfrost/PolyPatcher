@@ -116,24 +116,6 @@ public class PatcherMenuEditor {
     }
 
     @SubscribeEvent
-    public void preActionPerformed(GuiScreenEvent.ActionPerformedEvent.Pre event) {
-        //#if MC==10809
-        GuiScreen gui = event.gui;
-        GuiButton button = event.button;
-        //#else
-        //$$ GuiScreen gui = event.getGui();
-        //$$ GuiButton button = event.getButton();
-        //#endif
-        if (gui instanceof GuiIngameMenu && button.displayString.equals(I18n.format("menu.disconnect")) && !mc.isIntegratedServerRunning() && PatcherConfig.smartDisconnect) {
-            mc.displayGuiScreen(new SmartDisconnectScreen(gui));
-            event.setCanceled(true);
-        } else if (gui instanceof GuiMainMenu && button.displayString.equals(I18n.format("menu.quit")) && PatcherConfig.confirmQuit) {
-            mc.displayGuiScreen(new ConfirmQuitScreen(gui));
-            event.setCanceled(true);
-        }
-    }
-
-    @SubscribeEvent
     public void actionPerformed(GuiScreenEvent.ActionPerformedEvent.Post event) {
         //#if MC==10809
         int buttonId = event.button.id;
