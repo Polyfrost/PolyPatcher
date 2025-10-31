@@ -6,10 +6,11 @@ import club.sk1er.patcher.util.forge.EntrypointCaching;
 
 import org.polyfrost.oneconfig.api.config.v1.Config;
 import org.polyfrost.oneconfig.api.config.v1.Property;
-import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.tweaker.ClassTransformer;
 import net.minecraft.client.Minecraft;
+import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
+
 import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
