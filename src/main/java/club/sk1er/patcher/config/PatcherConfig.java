@@ -9,6 +9,7 @@ import org.polyfrost.oneconfig.api.config.v1.Property;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.tweaker.ClassTransformer;
 import net.minecraft.client.Minecraft;
+import org.polyfrost.oneconfig.api.config.v1.annotations.*;
 import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
 
 import java.util.Arrays;
