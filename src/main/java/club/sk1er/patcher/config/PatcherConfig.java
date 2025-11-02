@@ -152,20 +152,6 @@ public class PatcherConfig extends Config {
     public static boolean separateResourceLoading;
 
     @Switch(
-        title = "Disable Night Vision",
-        description = "Completely disable the effects of night vision.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean disableNightVision = false;
-
-    @Switch(
-        title = "Cleaner Night Vision",
-        description = "Make the night vision effect fade out instead of a flashing effect.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean cleanerNightVision = false;
-
-    @Switch(
         title = "Disable Achievements",
         description = "Remove achievement notifications.",
         category = "Miscellaneous", subcategory = "Overlays"
@@ -1738,6 +1724,18 @@ public class PatcherConfig extends Config {
         category = "Deprecated", subcategory = "Rendering"
     )
     public static boolean leftHandInFirstPerson;
+    @Switch(
+        title = "Disable Night Vision",
+        description = "Completely disable the effects of night vision.",
+        category = "Deprecated", subcategory = "Overlays"
+    )
+    public static boolean disableNightVision = false;
+    @Switch(
+        title = "Cleaner Night Vision",
+        description = "Make the night vision effect fade out instead of a flashing effect.",
+        category = "Deprecated", subcategory = "Overlays"
+    )
+    public static boolean cleanerNightVision = false;
 
 
     public static boolean labyModMoment = true;
@@ -1917,12 +1915,13 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("smartDisconnect", "ConfirmDisconnect");
         deprecateFunc.apply("confirmQuit", "ConfirmDisconnect");
         deprecateFunc.apply("leftHandInFirstPerson", "RenderTweaks");
+        deprecateFunc.apply("disableNightVision", "BetterNightVision");
+        deprecateFunc.apply("cleanerNightVision", "BetterNightVision");
         //</editor-fold>
 
         try {
             addDependency("cactusHitboxExclusion", "futureHitBoxes");
             addDependency("smartFullbright", "fullbright");
-            addDependency("cleanerNightVision", "disableNightVision", () -> disableNightVision ? Property.Display.HIDDEN : Property.Display.SHOWN);
             addDependency("instantFullscreen", "windowedFullscreen");
 
             addDependency("logOptimizerLength", "logOptimizer");
