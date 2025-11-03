@@ -158,14 +158,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean disableAchievements;
 
-    @Slider(
-        title = "Pumpkin Overlay Opacity (%)",
-        description = "Change the opacity of the pumpkin overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
-        min = 0, max = 100
-    )
-    public static int pumpkinOverlayOpacity = 100;
-
     @Switch(
         title = "Automatically Scale Title",
         description = "Automatically scale titles if the title goes over the screen.",
@@ -1736,6 +1728,13 @@ public class PatcherConfig extends Config {
         category = "Deprecated", subcategory = "Overlays"
     )
     public static boolean cleanerNightVision = false;
+    @Slider(
+        title = "Pumpkin Overlay Opacity (%)",
+        description = "Change the opacity of the pumpkin overlay.",
+        category = "Deprecated", subcategory = "Overlays",
+        min = 0, max = 100
+    )
+    public static int pumpkinOverlayOpacity = 100;
 
 
     public static boolean labyModMoment = true;
@@ -1917,6 +1916,7 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("leftHandInFirstPerson", "RenderTweaks");
         deprecateFunc.apply("disableNightVision", "BetterNightVision");
         deprecateFunc.apply("cleanerNightVision", "BetterNightVision");
+        deprecateFunc.apply("pumpkinOverlayOpacity", "OverlayTweaks");
         //</editor-fold>
 
         try {

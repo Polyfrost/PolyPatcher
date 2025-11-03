@@ -142,7 +142,6 @@
     "features.GuiChatMixin_ExtendedChatLength",
     "features.GuiContainerMixin_DropModifierKey",
     "features.GuiIngameForgeMixin_TitleRendering",
-    "features.GuiIngameMixin_PumpkinBlurRendering",
     "features.GuiModListMixin_RemoveDummyPatcherMod",
     "features.GuiMultiplayerMixin_FastServerJoin",
     "features.GuiScreenServerListMixin_FakeServerListDirectConnect",
