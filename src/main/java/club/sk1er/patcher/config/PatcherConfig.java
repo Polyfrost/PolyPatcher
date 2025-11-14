@@ -339,13 +339,6 @@ public class PatcherConfig extends Config {
     public static boolean betterHideGui;
 
     @Switch(
-        title = "Natural Capes",
-        description = "Changes some physics in capes to fix rotation bugs and look more natural.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean naturalCapes;
-
-    @Switch(
         title = "Smooth Scrolling",
         description = "Smoothly scrolls through vanilla Minecraft GUIs.",
         category = "Miscellaneous", subcategory = "Rendering"
@@ -1735,6 +1728,12 @@ public class PatcherConfig extends Config {
         min = 0, max = 100
     )
     public static int pumpkinOverlayOpacity = 100;
+    @Switch(
+        title = "Natural Capes",
+        description = "Changes some physics in capes to fix rotation bugs and look more natural.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean naturalCapes;
 
 
     public static boolean labyModMoment = true;
@@ -1917,6 +1916,7 @@ public class PatcherConfig extends Config {
         deprecateFunc.apply("disableNightVision", "BetterNightVision");
         deprecateFunc.apply("cleanerNightVision", "BetterNightVision");
         deprecateFunc.apply("pumpkinOverlayOpacity", "OverlayTweaks");
+        deprecateFunc.apply("naturalCapes", "LegacyTweaks");
         //</editor-fold>
 
         try {
