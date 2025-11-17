@@ -2,17 +2,18 @@ package club.sk1er.patcher.config;
 
 //#if FORGE
 import club.sk1er.patcher.util.forge.EntrypointCaching;
-import net.minecraftforge.common.ForgeVersion;
 //#endif
 
 import org.polyfrost.oneconfig.api.config.v1.Config;
 import org.polyfrost.oneconfig.api.config.v1.Property;
-import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
-import org.polyfrost.oneconfig.api.config.v1.annotations.*;
 import club.sk1er.patcher.Patcher;
 import club.sk1er.patcher.tweaker.ClassTransformer;
 import net.minecraft.client.Minecraft;
+import org.polyfrost.oneconfig.api.config.v1.annotations.*;
+import org.polyfrost.oneconfig.api.config.v1.annotations.Number;
+
 import java.util.Arrays;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -150,80 +151,12 @@ public class PatcherConfig extends Config {
     )
     public static boolean separateResourceLoading;
 
-    //@Info(
-    //    text = "Fullbright can positively impact performance. It may conflict with minimaps mods.",
-    //    category = "Miscellaneous", subcategory = "Rendering",
-    //    type = InfoType.WARNING,
-    //    size = 2
-    //)
-    //private static String fullbrightInfo = "";
-
-    @Switch(
-        title = "Fullbright",
-        description = "Remove lighting updates, increasing visibility.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean fullbright = true;
-
-    @Switch(
-        title = "Smart Fullbright",
-        description = "Automatically disable the Fullbright effect when using OptiFine shaders.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean smartFullbright = true;
-
-    @Switch(
-        title = "Disable Night Vision",
-        description = "Completely disable the effects of night vision.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean disableNightVision = false;
-
-    @Switch(
-        title = "Cleaner Night Vision",
-        description = "Make the night vision effect fade out instead of a flashing effect.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean cleanerNightVision = false;
-
     @Switch(
         title = "Disable Achievements",
         description = "Remove achievement notifications.",
         category = "Miscellaneous", subcategory = "Overlays"
     )
     public static boolean disableAchievements;
-
-    @Slider(
-        title = "Fire Overlay Height",
-        description = "Change the height of the fire overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
-        min = -0.5F, max = 1.5F
-    )
-    public static float fireOverlayHeight;
-
-    @Slider(
-        title = "Fire Overlay Opacity (%)",
-        description = "Change the opacity of the fire overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
-        min = 0, max = 100
-    )
-    public static int fireOverlayOpacityI = 100;
-
-    @Switch(
-        title = "Hide Fire Overlay with Fire Resistance",
-        description = "Hide the fire overlay when you have fire resistance active.\n" +
-            "The overlay will blink 5 seconds before your fire resistance is about to run out.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean hideFireOverlayWithFireResistance;
-
-    @Slider(
-        title = "Pumpkin Overlay Opacity (%)",
-        description = "Change the opacity of the pumpkin overlay.",
-        category = "Miscellaneous", subcategory = "Overlays",
-        min = 0, max = 100
-    )
-    public static int pumpkinOverlayOpacity = 100;
 
     @Switch(
         title = "Automatically Scale Title",
@@ -232,156 +165,12 @@ public class PatcherConfig extends Config {
     )
     public static boolean autoTitleScale;
 
-    // fog
-
-
-
-    // fov
-
-    @Switch(
-        title = "Remove Water FOV",
-        description = "Remove FOV change when underwater.",
-        category = "Miscellaneous", subcategory = "Field of View"
-    )
-    public static boolean removeWaterFov = true;
-
-    @Switch(
-        title = "FOV Modifier",
-        description = "Allow for modifying FOV change states.",
-        category = "Miscellaneous", subcategory = "Field of View"
-    )
-    public static boolean allowFovModifying;
-
-    @Slider(
-        title = "Sprinting FOV",
-        description = "Modify your FOV when sprinting.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5F, max = 5F
-    )
-    public static float sprintingFovModifierFloat = 1;
-
-    @Slider(
-        title = "Flying FOV",
-        description = "Modify your FOV when flying.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5F, max = 5F
-    )
-    public static float flyingFovModifierFloat = 1;
-
-    @Slider(
-        title = "Bow FOV",
-        description = "Modify your FOV when pulling back a bow.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5, max = 5
-    )
-    public static float bowFovModifierFloat = 1;
-
-    @Slider(
-        title = "Speed FOV",
-        description = "Modify your FOV when having the speed effect.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5, max = 5
-    )
-    public static float speedFovModifierFloat = 1;
-
-    @Slider(
-        title = "Slowness FOV",
-        description = "Modify your FOV when having the slowness effect.",
-        category = "Miscellaneous", subcategory = "Field of View",
-        min = -5, max = 5
-    )
-    public static float slownessFovModifierFloat = 1;
-
-    @Switch(
-        title = "Disable Hotbar Scrolling",
-        description = "Remove the ability to scroll through your hotbar.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean disableHotbarScrolling;
-
-    @Switch(
-        title = "Invert Hotbar Scrolling",
-        description = "Change the direction of scrolling in your hotbar.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean invertHotbarScrolling;
-
-    @Switch(
-        title = "Prevent Overflow Hotbar Scrolling",
-        description = "Prevent from directly scrolling between the first and last hotbar slot.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean preventOverflowHotbarScrolling;
-
-    @Slider(
-        title = "Unfocused Sounds",
-        description = "Change the volume of sounds when you're not tabbed into the window.",
-        category = "Miscellaneous", subcategory = "General",
-        min = 0F, max = 1.0F
-    )
-    public static float unfocusedSounds = 1.0F;
-
-    @Switch(
-        title = "Unfocused FPS",
-        description = "Toggle changing your FPS to whatever Unfocused FPS is set to when not tabbed into the window.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean unfocusedFPS;
-
-    @Slider(
-        title = "Unfocused FPS Amount",
-        description = "Change the maximum FPS when you're not tabbed into the window, saving resources.",
-        category = "Miscellaneous", subcategory = "General",
-        min = 15, max = 240
-    )
-    public static int unfocusedFPSAmount = 60;
-
-    @Number(
-        title = "Custom FPS Limit",
-        description = "Change the maximum FPS to a value that Minecraft doesn't normally allow for. Setting this to 0 will go back to the value set in Minecraft.",
-        category = "Miscellaneous", subcategory = "General",
-        min = 0,
-        max = Integer.MAX_VALUE
-    )
-    public static int customFpsLimit = 0;
-
     @Switch(
         title = "Remove Ground Foliage",
         description = "Stop plants/flowers from rendering.",
         category = "Miscellaneous", subcategory = "Blocks"
     )
     public static boolean removeGroundFoliage;
-
-    @Switch(
-        title = "Clean Projectiles",
-        description = "Show projectiles 2 ticks after they're shot to stop them from obstructing your view.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean cleanProjectiles;
-
-    @Slider(
-        title = "Ridden Horse Opacity (%)",
-        description = "Change the opacity of the horse you're currently riding for visibility.",
-        category = "Miscellaneous", subcategory = "Rendering",
-        min = 0F, max = 100
-    )
-    public static int riddenHorseOpacityI = 100;
-
-    @Slider(
-        title = "Distortion Effects (%)",
-        description = "Changes the distortion effects (e.g. Nausea and nether portal distortion).",
-        category = "Miscellaneous", subcategory = "Rendering",
-        min = 0, max = 100
-    )
-    public static int distortionEffect = 100;
-
-    @Slider(
-        title = "Water Fog Density (%)",
-        description = "Changes the fog density in water to improve visibility.",
-        category = "Miscellaneous", subcategory = "Fog",
-        min = 0, max = 100
-    )
-    public static int waterDensity = 100;
 
     @Switch(
         title = "Hide Aura on Invisible Withers",
@@ -403,13 +192,6 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "OptiFine"
     )
     public static boolean normalZoomSensitivity;
-
-    @Switch(
-        title = "Render Hand While Zoomed",
-        description = "Keep your hand on screen when you zoom in.",
-        category = "Miscellaneous", subcategory = "OptiFine"
-    )
-    public static boolean renderHandWhenZoomed;
 
     @Slider(
         title = "Zoom Sensitivity",
@@ -468,48 +250,6 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "OptiFine"
     )
     public static boolean useVanillaMetricsRenderer = true;
-
-    @Switch(
-        title = "Numerical Enchantments",
-        description = "Use readable numbers instead of Roman numerals on enchants.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean numericalEnchants;
-
-    @Switch(
-        title = "Translate Unknown Roman Numerals",
-        description = "Generate Roman numeral from enchantment and potion levels instead of using language file.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean betterRomanNumerals = true;
-
-    @Switch(
-        title = "Windowed Fullscreen",
-        description = "Implement Windowed Fullscreen in Minecraft, allowing you to drag your mouse outside the window.",
-        category = "Miscellaneous", subcategory = "Window"
-    )
-    public static boolean windowedFullscreen;
-
-    @Switch(
-        title = "Instant Fullscreen",
-        description = "Instant switching between fullscreen and non-fullscreen modes.",
-        category = "Miscellaneous", subcategory = "Window"
-    )
-    public static boolean instantFullscreen;
-
-    @Switch(
-        title = "Remove Water Overlay",
-        description = "Remove the water texture overlay when underwater.",
-        category = "Miscellaneous", subcategory = "Overlays"
-    )
-    public static boolean removeWaterOverlay;
-
-    @Switch(
-        title = "Disable Lightning Bolts",
-        description = "Stop lightning bolts from appearing.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean disableLightningBolts;
 
     //@Info(
     //    text = "Files deleted by Log Optimizer are not recoverable.",
@@ -585,13 +325,6 @@ public class PatcherConfig extends Config {
     public static boolean disableShadowedText;
 
     @Switch(
-        title = "Left Hand in First Person",
-        description = "Render the first-person hand on the left of the screen.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean leftHandInFirstPerson;
-
-    @Switch(
         title = "Better Camera",
         description = "Stop tall grass, plants, reeds, etc. from affecting your FOV as done in 1.14+.",
         category = "Miscellaneous", subcategory = "General"
@@ -604,45 +337,6 @@ public class PatcherConfig extends Config {
         category = "Miscellaneous", subcategory = "General"
     )
     public static boolean betterHideGui;
-
-    @Switch(
-        title = "Remove Screen Bobbing",
-        description = "While using View Bobbing, only remove the view aspect but have the hand still bounce around.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean removeViewBobbing;
-
-    @Switch(
-        title = "Remove Map Bobbing",
-        description = "While using View Bobbing, remove the hand bobbing when holding a map.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean mapBobbing;
-
-    @Switch(
-        title = "Static Items",
-        description = "Stop items from bobbing up and down when dropped on the ground.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    public static boolean staticItems;
-
-    @Button(
-        title = "Modify Every Sound",
-        text = "Modify",
-        description = "Open a separate GUI allowing you to mute or amplify individual sounds.",
-        category = "Miscellaneous", subcategory = "General"
-    )
-    private void modifyEverySound() {
-        //todo
-        //Patcher.instance.getPatcherSoundConfig().openGui();
-    }
-
-    @Switch(
-        title = "Natural Capes",
-        description = "Changes some physics in capes to fix rotation bugs and look more natural.",
-        category = "Miscellaneous", subcategory = "Rendering"
-    )
-    public static boolean naturalCapes;
 
     @Switch(
         title = "Smooth Scrolling",
@@ -795,13 +489,6 @@ public class PatcherConfig extends Config {
     )
     public static boolean disableEndPortals;
 
-    @Switch(
-        title = "Unstacked Items",
-        description = "Render stacks of items on the ground as just one instead of having up to 5 copies in one stack.",
-        category = "Performance", subcategory = "Entity Rendering"
-    )
-    public static boolean unstackedItems;
-
     //@Info(
     //    text = "Due to the way OptiFine shaders work, we are unable to make Entity Culling compatible with them.",
     //    category = "Performance", subcategory = "Culling",
@@ -874,7 +561,7 @@ public class PatcherConfig extends Config {
             "but will resolve special entities being occluded when they typically shouldn't be.",
         category = "Performance", subcategory = "Culling"
     )
-    public static boolean checkArmorstandRules;
+    public static boolean checkArmorstandRules = true;
 
     @Switch(
         title = "Disable Enchantment Glint",
@@ -964,48 +651,6 @@ public class PatcherConfig extends Config {
 
     // SCREENS
 
-    @Switch(
-        title = "Fixed Inventory Position",
-        description = "Stop potion effects from shifting your inventory to the right.",
-        category = "Screens", subcategory = "Inventory"
-    )
-    @PreviousNames("Screens.Inventory.Inventory Position")
-    public static boolean inventoryPosition = true;
-
-    @Switch(
-        title = "Click Out of Containers",
-        description = "Click outside a container to close the menu.",
-        category = "Screens", subcategory = "Inventory"
-    )
-    public static boolean clickOutOfContainers;
-
-    @Dropdown(
-        title = "Inventory Scale",
-        description = "Change the scale of your inventory independent of your GUI scale.",
-        category = "Screens", subcategory = "Inventory",
-        options = {"Off", "1 (Small)", "2 (Normal)", "3 (Large)", "4", "5 (Auto)"}
-    )
-    public static int inventoryScale = 0;
-
-    public static int getInventoryScale() {
-        return inventoryScale == 0 ? -1 : inventoryScale;
-    }
-
-    @Slider(
-        title = "Container Background Opacity (%)",
-        description = "Change the opacity of the dark background inside a container, or remove it completely. By default, this is 81.5%.",
-        category = "Screens", subcategory = "General",
-        min = 0F, max = 100F
-    )
-    public static float containerBackgroundOpacity = (208/255F) * 100F;
-
-    @Slider(
-        title = "Container Opacity (%)",
-        description = "Change the opacity of supported containers.\nIncludes Chests & Survival Inventory.",
-        category = "Screens", subcategory = "General",
-        min = 0F, max = 100F
-    )
-    public static float containerOpacity = 100F;
 
     //@Info(
     //    text = "Supported servers for 1.11 chat length are servers that support 1.11 or above.",
@@ -1036,50 +681,6 @@ public class PatcherConfig extends Config {
         category = "Screens", subcategory = "Chat"
     )
     public static boolean removeChatMessageLimit = true;
-
-    @Switch(
-        title = "Compact Chat",
-        description = "Clean up the chat by stacking duplicate messages.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean compactChat = true;
-
-    @Switch(
-        title = "Consecutive Compact Chat",
-        description = "Only compact messages if they're consecutive.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean consecutiveCompactChat;
-
-    @Slider(
-        title = "Compact Chat Time",
-        description = "Change the amount of time old messages take to stop being compacted. Measured in seconds.",
-        category = "Screens", subcategory = "Chat",
-        min = 1, max = 120
-    )
-    public static int compactChatTime = 60;
-
-    @Switch(
-        title = "Remove Blank Messages",
-        description = "Stop messages with no content from showing up in chat.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean removeBlankMessages;
-
-    @Switch(
-        title = "Shift Chat",
-        description = "Keep chat open while sending a message if Shift is held while pressing Enter.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean shiftChat;
-
-    @Slider(
-        title = "Chat Delay",
-        description = "Delay chat messages if they're sent within the selected timeframe after the previous message. Measured in seconds.",
-        category = "Screens", subcategory = "Chat",
-        min = 0, max = 6
-    )
-    public static int chatDelay = 0;
 
     @Switch(
         title = "Startup Notification",
@@ -1124,36 +725,6 @@ public class PatcherConfig extends Config {
     public static boolean projectileProtectionPercentage;
 
     @Switch(
-        title = "Chat Timestamps",
-        description = "Add timestamps before a message.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean timestamps;
-
-    @Switch(
-        title = "Show Seconds on Timestamps",
-        description = "Show the seconds on a timestamped message.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean secondsOnTimestamps;
-
-    @Dropdown(
-        title = "Chat Timestamps Format",
-        description = "Change the time format of Chat Timestamps.",
-        category = "Screens", subcategory = "Chat",
-        options = {"12 Hour", "24 Hour"}
-    )
-    public static int timestampsFormat = 0;
-
-    @Dropdown(
-        title = "Chat Timestamps Style",
-        description = "Choose how Chat Timestamps should appear.",
-        category = "Screens", subcategory = "Chat",
-        options = {"Always Present", "Message Hover"}
-    )
-    public static int timestampsStyle = 0;
-
-    @Switch(
         title = "Clean Main Menu",
         description = "Remove the Realms button on the main menu as it's useless on older versions.",
         category = "Screens", subcategory = "General"
@@ -1167,50 +738,6 @@ public class PatcherConfig extends Config {
         options = {"Default", "Server List", "Remove"}
     )
     public static int openToLanReplacement = 0;
-
-    @Switch(
-        title = "Image Preview",
-        description = "Preview image links when hovering over a supported URL." +
-            "\nPress Shift to use fullscreen and Control to render in native image resolution.",
-        category = "Screens", subcategory = "Image Preview"
-    )
-    public static boolean imagePreview = true;
-
-    @Slider(
-        title = "Image Preview Width",
-        description = "The %% of screen width to be used for image preview.",
-        category = "Screens", subcategory = "Image Preview",
-        min = 0F, max = 1F
-    )
-    public static float imagePreviewWidth = 0.50F;
-
-    @Switch(
-        title = "Safe Chat Clicks",
-        description = "Show the command or link that is run/opened on click. ",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean safeChatClicks;
-
-    @Switch(
-        title = "Safe Chat Clicks History",
-        description = "Adds commands sent from clicking chat messages to the chat history.",
-        category = "Screens", subcategory = "Chat"
-    )
-    public static boolean safeChatClicksHistory;
-
-    @Switch(
-        title = "Smart Disconnect",
-        description = "Choose between disconnecting or relogging when clicking the disconnect button.\n§eOnly works on Multiplayer servers.",
-        category = "Screens", subcategory = "General"
-    )
-    public static boolean smartDisconnect;
-
-    @Switch(
-        title = "Confirm Quit",
-        description = "Prevent closing the game through the Quit Game button without confirmation.",
-        category = "Screens", subcategory = "General"
-    )
-    public static boolean confirmQuit;
 
     // SCREENSHOTS
 
@@ -1812,6 +1339,401 @@ public class PatcherConfig extends Config {
         category = "Deprecated", subcategory = "Chat"
     )
     public static boolean chatPosition = false;
+    @Slider(
+        title = "Unfocused Sounds",
+        description = "Change the volume of sounds when you're not tabbed into the window.",
+        category = "Deprecated", subcategory = "General",
+        min = 0F, max = 1.0F
+    )
+    public static float unfocusedSounds = 1.0F;
+    @Switch(
+        title = "Unfocused FPS",
+        description = "Toggle changing your FPS to whatever Unfocused FPS is set to when not tabbed into the window.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean unfocusedFPS;
+    @Slider(
+        title = "Unfocused FPS Amount",
+        description = "Change the maximum FPS when you're not tabbed into the window, saving resources.",
+        category = "Deprecated", subcategory = "General",
+        min = 5, max = 240
+    )
+    public static int unfocusedFPSAmount = 60;
+    @Number(
+        title = "Custom FPS Limit",
+        description = "Change the maximum FPS to a value that Minecraft doesn't normally allow for. Setting this to 0 will go back to the value set in Minecraft.",
+        category = "Deprecated", subcategory = "General",
+        min = 0,
+        max = Integer.MAX_VALUE
+    )
+    public static int customFpsLimit = 0;
+    @Switch(
+        title = "Remove Water FOV",
+        description = "Remove FOV change when underwater.",
+        category = "Deprecated", subcategory = "Field of View"
+    )
+    public static boolean removeWaterFov = true;
+    @Switch(
+        title = "FOV Modifier",
+        description = "Allow for modifying FOV change states.",
+        category = "Deprecated", subcategory = "Field of View"
+    )
+    public static boolean allowFovModifying;
+    @Slider(
+        title = "Sprinting FOV",
+        description = "Modify your FOV when sprinting.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5F, max = 5F
+    )
+    public static float sprintingFovModifierFloat = 1;
+    @Slider(
+        title = "Flying FOV",
+        description = "Modify your FOV when flying.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5F, max = 5F
+    )
+    public static float flyingFovModifierFloat = 1;
+    @Slider(
+        title = "Bow FOV",
+        description = "Modify your FOV when pulling back a bow.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5, max = 5
+    )
+    public static float bowFovModifierFloat = 1;
+    @Slider(
+        title = "Speed FOV",
+        description = "Modify your FOV when having the speed effect.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5, max = 5
+    )
+    public static float speedFovModifierFloat = 1;
+    @Slider(
+        title = "Slowness FOV",
+        description = "Modify your FOV when having the slowness effect.",
+        category = "Deprecated", subcategory = "Field of View",
+        min = -5, max = 5
+    )
+    public static float slownessFovModifierFloat = 1;
+    @Switch(
+        title = "Compact Chat",
+        description = "Clean up the chat by stacking duplicate messages.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean compactChat = true;
+    @Switch(
+        title = "Consecutive Compact Chat",
+        description = "Only compact messages if they're consecutive.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean consecutiveCompactChat;
+    @Slider(
+        title = "Compact Chat Time",
+        description = "Change the amount of time old messages take to stop being compacted. Measured in seconds.",
+        category = "Deprecated", subcategory = "Chat",
+        min = 1, max = 120
+    )
+    public static int compactChatTime = 60;
+    @Switch(
+        title = "Remove Blank Messages",
+        description = "Stop messages with no content from showing up in chat.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean removeBlankMessages;
+    @Switch(
+        title = "Shift Chat",
+        description = "Keep chat open while sending a message if Shift is held while pressing Enter.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean shiftChat;
+    @Slider(
+        title = "Chat Delay",
+        description = "Delay chat messages if they're sent within the selected timeframe after the previous message. Measured in seconds.",
+        category = "Deprecated", subcategory = "Chat",
+        min = 0, max = 6
+    )
+    public static int chatDelay = 0;
+    @Switch(
+        title = "Image Preview",
+        description = "Preview image links when hovering over a supported URL." +
+            "\nPress Shift to use fullscreen and Control to render in native image resolution.",
+        category = "Deprecated", subcategory = "Image Preview"
+    )
+    public static boolean imagePreview = true;
+    @Slider(
+        title = "Image Preview Width",
+        description = "The %% of screen width to be used for image preview.",
+        category = "Deprecated", subcategory = "Image Preview",
+        min = 0F, max = 1F
+    )
+    public static float imagePreviewWidth = 0.50F;
+    @Switch(
+        title = "Safe Chat Clicks",
+        description = "Show the command or link that is run/opened on click. ",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean safeChatClicks;
+    @Switch(
+        title = "Safe Chat Clicks History",
+        description = "Adds commands sent from clicking chat messages to the chat history.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean safeChatClicksHistory;
+    @Switch(
+        title = "Chat Timestamps",
+        description = "Add timestamps before a message.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean timestamps;
+    @Switch(
+        title = "Show Seconds on Timestamps",
+        description = "Show the seconds on a timestamped message.",
+        category = "Deprecated", subcategory = "Chat"
+    )
+    public static boolean secondsOnTimestamps;
+    @Dropdown(
+        title = "Chat Timestamps Format",
+        description = "Change the time format of Chat Timestamps.",
+        category = "Deprecated", subcategory = "Chat",
+        options = {"12 Hour", "24 Hour"}
+    )
+    public static int timestampsFormat = 0;
+    @Dropdown(
+        title = "Chat Timestamps Style",
+        description = "Choose how Chat Timestamps should appear.",
+        category = "Deprecated", subcategory = "Chat",
+        options = {"Always Present", "Message Hover"}
+    )
+    public static int timestampsStyle = 0;
+    @Switch(
+        title = "Clean Projectiles",
+        description = "Show projectiles 2 ticks after they're shot to stop them from obstructing your view.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean cleanProjectiles;
+    @Slider(
+        title = "Distortion Effects (%)",
+        description = "Changes the distortion effects (e.g. Nausea and nether portal distortion).",
+        category = "Deprecated", subcategory = "Rendering",
+        min = 0, max = 100
+    )
+    public static int distortionEffect = 100;
+    @Switch(
+        title = "Remove Screen Bobbing",
+        description = "While using View Bobbing, only remove the view aspect but have the hand still bounce around.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean removeViewBobbing;
+    @Switch(
+        title = "Remove Map Bobbing",
+        description = "While using View Bobbing, remove the hand bobbing when holding a map.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean mapBobbing;
+    @Slider(
+        title = "Water Fog Density (%)",
+        description = "Changes the fog density in water to improve visibility.",
+        category = "Deprecated", subcategory = "Fog",
+        min = 0, max = 100
+    )
+    public static int waterDensity = 100;
+    @Switch(
+        title = "Render Hand While Zoomed",
+        description = "Keep your hand on screen when you zoom in.",
+        category = "Deprecated", subcategory = "OptiFine"
+    )
+    public static boolean renderHandWhenZoomed;
+    @Switch(
+        title = "Remove Water Overlay",
+        description = "Remove the water texture overlay when underwater.",
+        category = "Deprecated", subcategory = "Overlays"
+    )
+    public static boolean removeWaterOverlay;
+    @Slider(
+        title = "Fire Overlay Height",
+        description = "Change the height of the fire overlay.",
+        category = "Deprecated", subcategory = "Overlays",
+        min = -0.5F, max = 1.5F
+    )
+    public static float fireOverlayHeight;
+    @Slider(
+        title = "Fire Overlay Opacity (%)",
+        description = "Change the opacity of the fire overlay.",
+        category = "Deprecated", subcategory = "Overlays",
+        min = 0, max = 100
+    )
+    public static int fireOverlayOpacityI = 100;
+    @Switch(
+        title = "Hide Fire Overlay with Fire Resistance",
+        description = "Hide the fire overlay when you have fire resistance active.\n" +
+            "The overlay will blink 5 seconds before your fire resistance is about to run out.",
+        category = "Deprecated", subcategory = "Overlays"
+    )
+    public static boolean hideFireOverlayWithFireResistance;
+    @Switch(
+        title = "Numerical Enchantments",
+        description = "Use readable numbers instead of Roman numerals on enchants.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean numericalEnchants;
+    @Switch(
+        title = "Translate Unknown Roman Numerals",
+        description = "Generate Roman numeral from enchantment and potion levels instead of using language file.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean betterRomanNumerals = true;
+    @Switch(
+        title = "Disable Hotbar Scrolling",
+        description = "Remove the ability to scroll through your hotbar.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean disableHotbarScrolling;
+    @Switch(
+        title = "Invert Hotbar Scrolling",
+        description = "Change the direction of scrolling in your hotbar.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean invertHotbarScrolling;
+    @Switch(
+        title = "Prevent Overflow Hotbar Scrolling",
+        description = "Prevent from directly scrolling between the first and last hotbar slot.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean preventOverflowHotbarScrolling;
+    @Switch(
+        title = "Static Items",
+        description = "Stop items from bobbing up and down when dropped on the ground.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean staticItems;
+    @Switch(
+        title = "Unstacked Items",
+        description = "Render stacks of items on the ground as just one instead of having up to 5 copies in one stack.",
+        category = "Deprecated", subcategory = "Entity Rendering"
+    )
+    public static boolean unstackedItems;
+    @Slider(
+        title = "Ridden Horse Opacity (%)",
+        description = "Change the opacity of the horse you're currently riding for visibility.",
+        category = "Deprecated", subcategory = "Rendering",
+        min = 0F, max = 100
+    )
+    public static int riddenHorseOpacityI = 100;
+    @Switch(
+        title = "Fixed Inventory Position",
+        description = "Stop potion effects from shifting your inventory to the right.",
+        category = "Deprecated", subcategory = "Inventory"
+    )
+    public static boolean inventoryPosition = true;
+    @Switch(
+        title = "Click Out of Containers",
+        description = "Click outside a container to close the menu.",
+        category = "Deprecated", subcategory = "Inventory"
+    )
+    public static boolean clickOutOfContainers;
+    @Dropdown(
+        title = "Inventory Scale",
+        description = "Change the scale of your inventory independent of your GUI scale.",
+        category = "Deprecated", subcategory = "Inventory",
+        options = {"Off", "1 (Small)", "2 (Normal)", "3 (Large)", "4", "5 (Auto)"}
+    )
+    public static int inventoryScale = 0;
+    @Slider(
+        title = "Container Background Opacity (%)",
+        description = "Change the opacity of the dark background inside a container, or remove it completely. By default, this is 81.5%.",
+        category = "Deprecated", subcategory = "General",
+        min = 0F, max = 100F
+    )
+    public static float containerBackgroundOpacity = (208 / 255F) * 100F;
+    @Slider(
+        title = "Container Opacity (%)",
+        description = "Change the opacity of supported containers.\nIncludes Chests & Survival Inventory.",
+        category = "Deprecated", subcategory = "General",
+        min = 0F, max = 100F
+    )
+    public static float containerOpacity = 100F;
+    @Switch(
+        title = "Disable Lightning Bolts",
+        description = "Stop lightning bolts from appearing.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean disableLightningBolts;
+
+    @Button(
+        title = "Modify Every Sound",
+        text = "Modify",
+        description = "Open a separate GUI allowing you to mute or amplify individual sounds.",
+        category = "Deprecated", subcategory = "General"
+    )
+    private void modifyEverySound() {
+    }
+
+    @Switch(
+        title = "Fullbright",
+        description = "Remove lighting updates, increasing visibility.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean fullbright = true;
+    @Switch(
+        title = "Smart Fullbright",
+        description = "Automatically disable the Fullbright effect when using OptiFine shaders.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean smartFullbright = true;
+    @Switch(
+        title = "Windowed Fullscreen",
+        description = "Implement Windowed Fullscreen in Minecraft, allowing you to drag your mouse outside the window.",
+        category = "Deprecated", subcategory = "Window"
+    )
+    public static boolean windowedFullscreen;
+    @Switch(
+        title = "Instant Fullscreen",
+        description = "Instant switching between fullscreen and non-fullscreen modes.",
+        category = "Deprecated", subcategory = "Window"
+    )
+    public static boolean instantFullscreen;
+    @Switch(
+        title = "Smart Disconnect",
+        description = "Choose between disconnecting or relogging when clicking the disconnect button.\n§eOnly works on Multiplayer servers.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean smartDisconnect;
+    @Switch(
+        title = "Confirm Quit",
+        description = "Prevent closing the game through the Quit Game button without confirmation.",
+        category = "Deprecated", subcategory = "General"
+    )
+    public static boolean confirmQuit;
+    @Switch(
+        title = "Left Hand in First Person",
+        description = "Render the first-person hand on the left of the screen.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean leftHandInFirstPerson;
+    @Switch(
+        title = "Disable Night Vision",
+        description = "Completely disable the effects of night vision.",
+        category = "Deprecated", subcategory = "Overlays"
+    )
+    public static boolean disableNightVision = false;
+    @Switch(
+        title = "Cleaner Night Vision",
+        description = "Make the night vision effect fade out instead of a flashing effect.",
+        category = "Deprecated", subcategory = "Overlays"
+    )
+    public static boolean cleanerNightVision = false;
+    @Slider(
+        title = "Pumpkin Overlay Opacity (%)",
+        description = "Change the opacity of the pumpkin overlay.",
+        category = "Deprecated", subcategory = "Overlays",
+        min = 0, max = 100
+    )
+    public static int pumpkinOverlayOpacity = 100;
+    @Switch(
+        title = "Natural Capes",
+        description = "Changes some physics in capes to fix rotation bugs and look more natural.",
+        category = "Deprecated", subcategory = "Rendering"
+    )
+    public static boolean naturalCapes;
 
 
     public static boolean labyModMoment = true;
@@ -1823,33 +1745,6 @@ public class PatcherConfig extends Config {
         super("patcher.json", "/patcher.svg", "PolyPatcher", Category.QOL);
         //super(new Mod("PolyPatcher", ModType.UTIL_QOL, "/patcher.svg", new VigilanceMigrator("./config/patcher.toml")), "patcher.json");
 
-        boolean modified = false;
-
-        if (removeContainerBackgroundOld) {
-            containerBackgroundOpacity = 0F;
-            modified = true;
-        }
-        if (nauseaEffectOld) {
-            distortionEffect = 0;
-            modified = true;
-        }
-
-        if (fireOverlayOpacityOld != 1) {
-            fireOverlayOpacityI = (int) (fireOverlayOpacityOld * 100);
-            riddenHorseOpacityI = (int) (riddenHorseOpacityOld * 100);
-            modified = true;
-        }
-
-        //todo uhhh
-        //if (modified) {
-        //    try {
-        //        FileUtils.writeStringToFile(ConfigUtils.getProfileFile("patcher-not-migrated.json"), FileUtils.readFileToString(ConfigUtils.getProfileFile("patcher.json"), StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-        //    } catch (IOException e) {
-        //        Patcher.getLogger().error("Failed to copy over Patcher config before migration.", e);
-        //    }
-        //    save();
-        //}
-
         Runnable reloadWorld = () -> Minecraft.getMinecraft().renderGlobal.loadRenderers();
         addCallback("fullbright", reloadWorld);
         addCallback("removeGroundFoliage", reloadWorld);
@@ -1858,6 +1753,7 @@ public class PatcherConfig extends Config {
         Runnable reloadTextures = () -> Minecraft.getMinecraft().refreshResources();
         addCallback("heldItemLighting", reloadTextures);
 
+        //<editor-fold desc="Old">
         //todo lol
         //hideIf("nauseaEffectOld", () -> true);
         //hideIf("fireOverlayOpacityOld", () -> true);
@@ -1924,54 +1820,109 @@ public class PatcherConfig extends Config {
         OldPatcherConfig.transparentChatInputField = transparentChatInputFieldOld;
         OldPatcherConfig.extendChatBackground = extendChatBackgroundOld;
         OldPatcherConfig.chatPosition = chatPositionOld;
+        //</editor-fold>
 
-        addDependency("disableTitles", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("titleScale", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("titleOpacity", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("toggleTab", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("crosshairPerspective", "Replaced by PolyCrosshair. Please install PolyCrosshair to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("showOwnNametag", "Replaced by PolyNametag. Please install PolyNametag to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("numberPing", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("cleanView", "Replaced by OverflowParticles. Please install OverflowParticles to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("disableBlockBreakParticles", "Replaced by OverflowParticles. Please install OverflowParticles to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("removeInvertFromCrosshair", "Replaced by PolyCrosshair. Please install PolyCrosshair to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("shadowedNametagText", "Replaced by PolyNametag. Please install PolyNametag to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("shadowedActionbarText", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("actionbarBackground", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("removeVerticalViewBobbing", "Replaced by OverflowAnimations. Please install OverflowAnimations to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("staticParticleColor", "Replaced by OverflowParticles. Please install OverflowParticles to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("maxParticleLimit", "Replaced by OverflowParticles. Please install OverflowParticles to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("disableNametagBoxes", "Replaced by PolyNametag. Please install PolyNametag to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("guiCrosshair", "Replaced by PolyCrosshair. Please install PolyCrosshair to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("tabOpacity", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("tabPlayerCount", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("tabHeightAllow", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("tabHeight", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("fixActionbarOverlap", "Replaced by VanillaHUD. Please install VanillaHUD to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("transparentChat", "Replaced by Chatting. Please install Chatting to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("transparentChatOnlyWhenClosed", "Replaced by Chatting. Please install Chatting to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("transparentChatInputField", "Replaced by Chatting. Please install Chatting to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("extendChatBackground", "Replaced by Chatting. Please install Chatting to use this feature.", () -> Property.Display.HIDDEN);
-        addDependency("chatPosition", "Replaced by Chatting. Please install Chatting to use this feature.", () -> Property.Display.HIDDEN);
+        //<editor-fold desc="Deprecations">
+        BiFunction<String, String, Void> deprecateFunc = (option, mod) -> {
+            addDependency(option, "Replaced by " + mod + ". Please install " + mod + " to use this feature.", () -> Property.Display.HIDDEN);
+            return null;
+        };
+
+        deprecateFunc.apply("disableTitles", "VanillaHUD");
+        deprecateFunc.apply("titleScale", "VanillaHUD");
+        deprecateFunc.apply("titleOpacity", "VanillaHUD");
+        deprecateFunc.apply("toggleTab", "VanillaHUD");
+        deprecateFunc.apply("crosshairPerspective", "PolyCrosshair");
+        deprecateFunc.apply("showOwnNametag", "PolyNametag");
+        deprecateFunc.apply("numberPing", "VanillaHUD");
+        deprecateFunc.apply("cleanView", "OverflowParticles");
+        deprecateFunc.apply("disableBlockBreakParticles", "OverflowParticles");
+        deprecateFunc.apply("removeInvertFromCrosshair", "PolyCrosshair");
+        deprecateFunc.apply("shadowedNametagText", "PolyNametag");
+        deprecateFunc.apply("shadowedActionbarText", "VanillaHUD");
+        deprecateFunc.apply("actionbarBackground", "VanillaHUD");
+        deprecateFunc.apply("removeVerticalViewBobbing", "OverflowAnimations");
+        deprecateFunc.apply("staticParticleColor", "OverflowParticles");
+        deprecateFunc.apply("maxParticleLimit", "OverflowParticles");
+        deprecateFunc.apply("disableNametagBoxes", "PolyNametag");
+        deprecateFunc.apply("guiCrosshair", "PolyCrosshair");
+        deprecateFunc.apply("tabOpacity", "VanillaHUD");
+        deprecateFunc.apply("tabPlayerCount", "VanillaHUD");
+        deprecateFunc.apply("tabHeightAllow", "VanillaHUD");
+        deprecateFunc.apply("tabHeight", "VanillaHUD");
+        deprecateFunc.apply("fixActionbarOverlap", "VanillaHUD");
+        deprecateFunc.apply("transparentChat", "Chatting");
+        deprecateFunc.apply("transparentChatOnlyWhenClosed", "Chatting");
+        deprecateFunc.apply("transparentChatInputField", "Chatting");
+        deprecateFunc.apply("extendChatBackground", "Chatting");
+        deprecateFunc.apply("chatPosition", "Chatting");
+        deprecateFunc.apply("unfocusedSounds", "SoundTweaks");
+        deprecateFunc.apply("unfocusedFPS", "SoundTweaks");
+        deprecateFunc.apply("unfocusedFPSAmount", "SoundTweaks");
+        deprecateFunc.apply("customFpsLimit", "SoundTweaks");
+        deprecateFunc.apply("removeWaterFov", "FovTweaks");
+        deprecateFunc.apply("allowFovModifying", "FovTweaks");
+        deprecateFunc.apply("sprintingFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("flyingFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("bowFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("speedFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("slownessFovModifierFloat", "FovTweaks");
+        deprecateFunc.apply("compactChat", "ChatTweaks");
+        deprecateFunc.apply("consecutiveCompactChat", "ChatTweaks");
+        deprecateFunc.apply("compactChatTime", "ChatTweaks");
+        deprecateFunc.apply("removeBlankMessages", "ChatTweaks");
+        deprecateFunc.apply("shiftChat", "ChatTweaks");
+        deprecateFunc.apply("chatDelay", "ChatTweaks");
+        deprecateFunc.apply("imagePreview", "ChatTweaks");
+        deprecateFunc.apply("imagePreviewWidth", "ChatTweaks");
+        deprecateFunc.apply("safeChatClicks", "ChatTweaks");
+        deprecateFunc.apply("safeChatClicksHistory", "ChatTweaks");
+        deprecateFunc.apply("timestamps", "ChatTweaks");
+        deprecateFunc.apply("secondsOnTimestamps", "ChatTweaks");
+        deprecateFunc.apply("timestampsFormat", "ChatTweaks");
+        deprecateFunc.apply("timestampsStyle", "ChatTweaks");
+        deprecateFunc.apply("cleanProjectiles", "LegacyTweaks");
+        deprecateFunc.apply("distortionEffect", "LegacyTweaks");
+        deprecateFunc.apply("removeViewBobbing", "ShakeTweaks");
+        deprecateFunc.apply("mapBobbing", "ShakeTweaks");
+        deprecateFunc.apply("waterDensity", "OverlayTweaks");
+        deprecateFunc.apply("renderHandWhenZoomed", "OverlayTweaks");
+        deprecateFunc.apply("removeWaterOverlay", "OverlayTweaks");
+        deprecateFunc.apply("fireOverlayHeight", "OverlayTweaks");
+        deprecateFunc.apply("fireOverlayOpacityI", "OverlayTweaks");
+        deprecateFunc.apply("hideFireOverlayWithFireResistance", "OverlayTweaks");
+        deprecateFunc.apply("numericalEnchants", "NumericalEnchantments");
+        deprecateFunc.apply("betterRomanNumerals", "NumericalEnchantments");
+        deprecateFunc.apply("disableHotbarScrolling", "ScrollTweaks");
+        deprecateFunc.apply("invertHotbarScrolling", "ScrollTweaks");
+        deprecateFunc.apply("preventOverflowHotbarScrolling", "ScrollTweaks");
+        deprecateFunc.apply("staticItems", "DroppedItemTweaks");
+        deprecateFunc.apply("unstackedItems", "DroppedItemTweaks");
+        deprecateFunc.apply("riddenHorseOpacityI", "MountOpacity");
+        deprecateFunc.apply("inventoryPosition", "BetterScreens");
+        deprecateFunc.apply("clickOutOfContainers", "BetterScreens");
+        deprecateFunc.apply("inventoryScale", "BetterScreens");
+        deprecateFunc.apply("containerBackgroundOpacity", "BetterScreens");
+        deprecateFunc.apply("containerOpacity", "BetterScreens");
+        deprecateFunc.apply("disableLightningBolts", "RenderTweaks");
+        deprecateFunc.apply("modifyEverySound", "SoundTweaks");
+        deprecateFunc.apply("fullbright", "FullBright");
+        deprecateFunc.apply("smartFullbright", "FullBright");
+        deprecateFunc.apply("windowedFullscreen", "WindowedFullscreen");
+        deprecateFunc.apply("instantFullscreen", "WindowedFullscreen");
+        deprecateFunc.apply("smartDisconnect", "ConfirmDisconnect");
+        deprecateFunc.apply("confirmQuit", "ConfirmDisconnect");
+        deprecateFunc.apply("leftHandInFirstPerson", "RenderTweaks");
+        deprecateFunc.apply("disableNightVision", "BetterNightVision");
+        deprecateFunc.apply("cleanerNightVision", "BetterNightVision");
+        deprecateFunc.apply("pumpkinOverlayOpacity", "OverlayTweaks");
+        deprecateFunc.apply("naturalCapes", "LegacyTweaks");
+        //</editor-fold>
 
         try {
             addDependency("cactusHitboxExclusion", "futureHitBoxes");
             addDependency("smartFullbright", "fullbright");
-            addDependency("cleanerNightVision", "disableNightVision", () -> disableNightVision ? Property.Display.HIDDEN : Property.Display.SHOWN);
-            addDependency("unfocusedFPSAmount", "unfocusedFPS");
             addDependency("instantFullscreen", "windowedFullscreen");
-            addDependency("consecutiveCompactChat", "compactChat");
-            addDependency("compactChatTime", "compactChat");
-            addDependency("timestampsFormat", "timestamps");
-            addDependency("timestampsStyle", "timestamps");
-            addDependency("secondsOnTimestamps", "timestamps");
-            addDependency("imagePreviewWidth", "imagePreview");
-
-            Arrays.asList(
-                "slownessFovModifierFloat", "speedFovModifierFloat",
-                "bowFovModifierFloat", "sprintingFovModifierFloat",
-                "flyingFovModifierFloat"
-            ).forEach(property -> addDependency(property, "allowFovModifying"));
 
             addDependency("logOptimizerLength", "logOptimizer");
             addDependency("dynamicZoomSensitivity", "scrollToZoom");
@@ -2004,8 +1955,8 @@ public class PatcherConfig extends Config {
             //Arrays.asList(
             //    "scrollToZoom", "normalZoomSensitivity", "customZoomSensitivity", "smoothZoomAnimation",
             //    "smoothZoomAnimationWhenScrolling", "smoothZoomAlgorithm", "toggleToZoom", "normalFpsCounter",
-            //    "useVanillaMetricsRenderer", "renderHandWhenZoomed", "smartFullbright", "smartEntityCulling",
-            //    "dynamicZoomSensitivity", "customSkyFix"
+            //    "useVanillaMetricsRenderer", "renderHandWhenZoomed", "smartFullbright", "smartEntityCulling", "entityCullingInfo",
+            //    "dynamicZoomSensitivity", "customSkyFix", "customSkyFixInfo"
             //).forEach(property -> hideIf(property, noOptiFine));
 
             Supplier<Boolean> smoothFontDetected = () -> ClassTransformer.smoothFontDetected;

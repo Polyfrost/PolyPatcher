@@ -10,24 +10,18 @@ import org.polyfrost.oneconfig.api.commands.v1.CommandManager;
 import club.sk1er.patcher.asm.render.screen.GuiChatTransformer;
 import club.sk1er.patcher.commands.PatcherCommand;
 import club.sk1er.patcher.config.PatcherConfig;
-import club.sk1er.patcher.config.PatcherSoundConfig;
 import club.sk1er.patcher.ducks.FontRendererExt;
 import club.sk1er.patcher.hooks.EntityRendererHook;
-import club.sk1er.patcher.hooks.MinecraftHook;
 import club.sk1er.patcher.mixins.features.network.packet.C01PacketChatMessageMixin_ExtendedChatLength;
 import club.sk1er.patcher.render.ScreenshotPreview;
 import club.sk1er.patcher.screen.PatcherMenuEditor;
 import club.sk1er.patcher.screen.render.caching.HUDCaching;
 import club.sk1er.patcher.screen.render.overlay.ArmorStatusRenderer;
 import club.sk1er.patcher.screen.render.overlay.GlanceRenderer;
-import club.sk1er.patcher.screen.render.overlay.ImagePreview;
 import club.sk1er.patcher.screen.render.overlay.metrics.MetricsRenderer;
 import club.sk1er.patcher.screen.render.title.TitleFix;
-import club.sk1er.patcher.util.chat.ChatHandler;
 import club.sk1er.patcher.util.enhancement.EnhancementManager;
-import club.sk1er.patcher.util.enhancement.ReloadListener;
 import club.sk1er.patcher.util.forge.EntrypointCaching;
-import club.sk1er.patcher.util.fov.FovHandler;
 import club.sk1er.patcher.util.keybind.FunctionKeyChanger;
 import club.sk1er.patcher.util.keybind.KeybindDropModifier;
 import club.sk1er.patcher.util.keybind.MousePerspectiveKeybindHandler;
@@ -36,15 +30,12 @@ import club.sk1er.patcher.util.screenshot.AsyncScreenshots;
 import club.sk1er.patcher.util.status.ProtocolVersionDetector;
 import club.sk1er.patcher.util.world.SavesWatcher;
 import club.sk1er.patcher.util.world.render.entity.EntityRendering;
-import club.sk1er.patcher.util.world.sound.SoundHandler;
 import club.sk1er.patcher.util.world.sound.audioswitcher.AudioSwitcher;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.ForgeVersion;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -94,7 +85,6 @@ public class Patcher
     private KeyBinding dropModifier, hideScreen, customDebug, clearShaders;
 
     private PatcherConfig patcherConfig;
-    private PatcherSoundConfig patcherSoundConfig;
 
     private boolean loadedGalacticFontRenderer;
 
@@ -112,13 +102,6 @@ public class Patcher
         );
 
         patcherConfig = PatcherConfig.INSTANCE;
-        //todo
-        //patcherSoundConfig = new PatcherSoundConfig(null, null);
-
-        SoundHandler soundHandler = new SoundHandler();
-        IReloadableResourceManager resourceManager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
-        resourceManager.registerReloadListener(soundHandler);
-        resourceManager.registerReloadListener(new ReloadListener());
 
         registerCommands(
             new PatcherCommand(),
@@ -128,13 +111,12 @@ public class Patcher
         );
 
         registerEvents(
-            this, soundHandler, dropModifier, audioSwitcher,
-            new EntityRendering(), new FovHandler(),
-            new ChatHandler(), new GlanceRenderer(),
-            new ArmorStatusRenderer(), new PatcherMenuEditor(), new ImagePreview(),
+            this, dropModifier, audioSwitcher,
+            new EntityRendering(), new GlanceRenderer(),
+            new ArmorStatusRenderer(), new PatcherMenuEditor(),
             new TitleFix(), new LinuxKeybindFix(),
             new MetricsRenderer(), new HUDCaching(), new EntityRendererHook(),
-            MinecraftHook.INSTANCE, ScreenshotPreview.INSTANCE,
+            ScreenshotPreview.INSTANCE,
             new MousePerspectiveKeybindHandler()
         );
 
@@ -326,13 +308,8 @@ public class Patcher
     }
 
     private void fixSettings() {
-        if (PatcherConfig.fireOverlayHeight < -0.5F || PatcherConfig.fireOverlayHeight > 1.5F) {
-            PatcherConfig.fireOverlayHeight = 0.0F;
-        }
         if (PatcherConfig.customZoomSensitivity > 1.0F) PatcherConfig.customZoomSensitivity = 1.0F;
-        if (PatcherConfig.imagePreviewWidth > 1.0F) PatcherConfig.imagePreviewWidth = 0.5F;
         if (PatcherConfig.previewScale > 1.0F) PatcherConfig.previewScale = 1.0F;
-        if (PatcherConfig.unfocusedFPSAmount < 15) PatcherConfig.unfocusedFPSAmount = 15;
 
         this.forceSaveConfig();
     }
@@ -346,15 +323,6 @@ public class Patcher
                     Notifications.Type.Error,
                     "Patcher", baseMessage + "Entity Culling is now disabled.");
                 PatcherConfig.entityCulling = false;
-            }
-
-            if ((modId.equals("labymod") || modId.equals("enhancements")) || modId.equals("hychat")) {
-                if (PatcherConfig.compactChat) {
-                    Notifications.enqueue(
-                        Notifications.Type.Error,
-                        "Patcher", baseMessage + "Compact Chat is now disabled.");
-                    PatcherConfig.compactChat = false;
-                }
             }
 
             if (PatcherConfig.optimizedFontRenderer && modId.equals("smoothfont")) {
@@ -416,10 +384,6 @@ public class Patcher
 
     public PatcherConfig getPatcherConfig() {
         return patcherConfig;
-    }
-
-    public PatcherSoundConfig getPatcherSoundConfig() {
-        return patcherSoundConfig;
     }
 
     public static Logger getLogger() {
