@@ -119,6 +119,7 @@
     "bugfixes.network.ServerListMixin_ResolveNpe",
     "bugfixes.network.packet.EntityPacketsMixin_ResolveNpe",
     "bugfixes.optifine.CapeUtilsMixin_UseHTTPS",
+    "bugfixes.optifine.HttpUtilsMixin_UseHTTPS",
     "bugfixes.optifine.RegionRenderCacheMixin_FixConnectedTextures",
     "bugfixes.optifine.RenderGlobalMixin_FixSkyVBOs",
     "bugfixes.render.entity.RenderArrowMixin_AlphaFix",
