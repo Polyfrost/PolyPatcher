@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 public class HttpUtilsMixin_UseHTTPS {
     @Dynamic("OptiFine")
     @ModifyConstant(
-        method = "downloadCape", constant = @Constant(stringValue = "http://s.optifine.net")
+        method = "getPlayerItemsUrl", constant = @Constant(stringValue = "http://s.optifine.net")
     )
     private String useHTTPS(String url) {
         return "https://optifine.net";
